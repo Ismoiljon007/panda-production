@@ -1,0 +1,248 @@
+.header {
+  position: fixed;
+  z-index: 15;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 0;
+  background: rgba(18, 18, 18, 0.5);
+  box-shadow: 8px 0px 81px 0px rgba(0, 0, 0, 0.6);
+  @include media(1000px) {
+    padding: 12px 0;
+  }
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__second-nav {
+    display: flex;
+    align-items: center;
+    @include media(1280px) {
+      display: none;
+    }
+  }
+  &__search {
+    margin-right: 40px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    input {
+      background: none;
+      border: none;
+      pointer-events: none;
+    }
+    border-radius: 15px;
+    background: rgba(28, 28, 28, 0.5);
+    padding: 16px 31px;
+  }
+  &__login-btn {
+    @extend %pr-btn;
+  }
+  &-burger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: none;
+    @include media(1280px) {
+      display: block;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
+    @include media(400px) {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+.navigation {
+  @include media(1280px) {
+    display: none;
+  }
+  &__list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  &__item {
+    position: relative;
+    padding-bottom: 4px;
+    &::after {
+      transition: all 0.3s ease;
+      content: "";
+      width: 0%;
+      background: $white;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+    }
+    &:hover {
+      &::after {
+        width: 100%;
+      }
+    }
+    a {
+      @include font(400, 22px, 25px);
+      text-decoration: none;
+      color: $white;
+    }
+  }
+}
+.site-logo {
+  width: 96px;
+  img {
+    width: 100%;
+  }
+  @include media(800px) {
+    width: 73px;
+  }
+}
+
+.search {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1300px;
+  z-index: 20;
+  form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    input {
+      width: 100%;
+      padding: 12px 20px 12px 60px;
+      border-radius: 15px;
+      border: 1px solid #fff;
+      background: url(@/assets/images/svg/search.svg),#111213;
+      background-repeat: no-repeat;
+      background-position: 31px 50%;
+      color: #fff;
+      @include font(400,22px,1.2);
+      letter-spacing: -0.22px;
+    }
+    button {
+      @extend %pr-btn;
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  }
+}
+.overlay {
+  background: rgba(0, 0, 0, 0.80);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 19;
+}
+
+
+.footer {
+  &__top {
+    padding: 38px 0;
+    background: rgba(18, 18, 18, 1);
+    .container {
+      display: flex;
+      align-items: center;
+    }
+  }
+  &-apps {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    gap: 20px;
+    a {
+      text-decoration: none;
+      display: flex;
+      width: 135px;
+      img {
+        width: 100%;
+        height: 42px;
+      }
+    }
+  }
+  &-connection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 97px;
+    &__item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      @include font(400,18px,1.2);
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: -0.18px;
+      &-img {
+        width: 39px;
+        height: 39px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: rgba(36, 36, 36, 1);
+        img {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+  &-social {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 14px;
+    li {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #242424;
+      border: 1px solid transparent;
+      &:first-child {
+        svg {
+          transform: translateX(-1px);
+        }
+      }
+      a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+  &__bottom {
+    padding: 17px 0;
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    background: rgba(36, 36, 36, 1);
+  }
+  &__desc {
+    @include font(300,16px,1.2);
+    color: rgba(255, 255, 255, 0.50);
+    letter-spacing: -0.16px;
+    a {
+      color: #5B62FF;
+    }
+  }
+}

@@ -1,0 +1,72 @@
+.subscriptions {
+  padding-top: 170px;
+  &__bottom {
+    border-radius: 15px;
+    background: #121212;
+    &-wrapper {
+      padding: 70px 40px 40px 73px;
+    }
+    &-title {
+      margin-bottom: 70px;
+      @include font(500, 28px, 1.2);
+    }
+  }
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 55px;
+    list-style: none;
+    margin-bottom: 65px;
+    li {
+      @include font(400, 22px, 1.2);
+      letter-spacing: -0.66px;
+      color: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+      &:hover {
+        color: #fff !important;
+      }
+    }
+  }
+  &__tarrifs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 45px;
+    margin-bottom: 50px;
+  }
+  &__tarrif {
+    border-radius: 1px;
+    &-top {
+      border-radius: 15px;
+      background: #242424;
+      padding: 30px 40px;
+    }
+    &-title {
+      @include font(500, 28px, 1.2);
+      letter-spacing: -0.84px;
+    }
+    &-bottom {
+      padding: 20px 42px 40px 42px;
+      border-radius: 0 0 15px 15px;
+      background: rgba(24, 24, 24, 1);
+    }
+    &-desc {
+      @include font(400, 20px, 1.4);
+      margin-bottom: 30px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+    &-price {
+      @include font(500, 24px, 1.2);
+      letter-spacing: -0.72px;
+      margin-bottom: 45px;
+    }
+    &-btn {
+      @extend %pr-btn;
+    }
+  }
+}
+.subscriptions-nav-item-active {
+  color: #fff !important;
+  font-weight: 500 !important;
+}

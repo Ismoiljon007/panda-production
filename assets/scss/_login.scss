@@ -1,0 +1,152 @@
+.login {
+  height: 100vh;
+  overflow: hidden;
+  padding: 50px 50px 50px 100px;
+  position: relative;
+  @include media(880px) {
+    padding: 20px;
+  }
+  &-img {
+    position: absolute;
+    top: -140px;
+    right: -43px;
+    z-index: -2;
+    @include media(1100px) {
+      display: none;
+    }
+  }
+  &-filter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(
+      98deg,
+      #060606 7.59%,
+      #060606 34.38%,
+      rgba(6, 6, 6, 0.96) 51.25%,
+      rgba(6, 6, 6, 0.78) 74.11%,
+      rgba(6, 6, 6, 0.49) 96.28%
+    );
+  }
+  &-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    @include media(1100px) {
+      align-items: center;
+      width: 100%;
+      margin: 0;
+    }
+  }
+  &-logo {
+    width: 192px;
+    margin-bottom: auto;
+    img {
+      width: 100%;
+    }
+    @include media(880px) {
+      margin-bottom: 50px;
+    }
+  }
+  &-title {
+    @include font(700, 56px, 1.2);
+    letter-spacing: -0.56px;
+    color: #fff;
+    margin-bottom: 60px;
+    @include media(1100px) {
+      @include font(600, 40px, 1.2);
+    }
+  }
+  &-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    .password {
+      width: 100%;
+      position: relative;
+      input {
+        width: 100%;
+        padding-right: 62px;
+        background-image: url(@/assets/images/svg/pass.svg);
+        background-repeat: no-repeat;
+        background-position: 24px 50%;
+        background-size: 24px;
+      }
+      button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 35px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+    }
+    max-width: 570px;
+    @include media(1100px) {
+      align-items: center;
+      max-width: 100%;
+      margin-bottom: auto;
+    }
+    @include media(700px) {
+        flex-direction: column;
+    }
+    input {
+      width: 100%;
+      padding: 13px 24px 13px 68px;
+      border-radius: 15px;
+      border: 1px solid transparent;
+      background: rgba(28, 28, 28, 0.5);
+      @include font(500, 24px, 1.2);
+      &:placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+      color: #fff;
+    }
+    .login-input {
+      background-image: url(@/assets/images/svg/user.svg);
+      background-repeat: no-repeat;
+      background-position: 24px 50%;
+      background-size: 24px;
+    }
+    margin-bottom: 130px;
+  }
+  &-btns {
+    display: flex;
+    gap: 10px;
+    @include media(1100px) {
+      width: 100%;
+      button {
+        width: 50%;
+      }
+    }
+  }
+  .login-btn {
+    @extend %pr-btn;
+    font-weight: 500;
+  }
+  .register-btn {
+    padding: 13px 42px;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    @include font(500, 20px, 1.2);
+    color: #fff;
+    background: #111;
+  }
+  &-google-sign {
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: inline-flex;
+    text-decoration: underline;
+    @include font(500, 18px, 1.2);
+    letter-spacing: -0.18px;
+    color: rgba(255, 255, 255, 0.43);
+    gap: 10px;
+  }
+}
