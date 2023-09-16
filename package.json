@@ -17,8 +17,13 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
+    "@videojs-player/vue": "^1.0.0",
     "nuxt-swiper": "^1.2.0",
     "video.js": "^8.5.2",
+    "videojs-contrib-quality-levels": "^4.0.0",
+    "videojs-hls-quality-selector": "^1.1.4",
+    "videojs-hotkeys": "^0.2.28",
+    "videojs-seek-buttons": "4.0.3",
     "vue3-google-login": "^2.0.20"
   }
 }

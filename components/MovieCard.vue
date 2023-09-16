@@ -9,7 +9,7 @@
                     </g>
                 </svg>
             </button>
-            <NuxtLink to="/movie">
+            <NuxtLink :to="`/watch/${1}`">
                 <img class="img" src="@/assets/images/png/movie-card.png" alt="">
                 <button class="movie-card__play">
                     <img src="@/assets/images/svg/play.svg" alt="">
@@ -23,7 +23,7 @@
         </div>
 
         <div class="movie-card__text-wrapper">
-            <NuxtLink class="movie-card__title" to="/movie">Ofitser 55</NuxtLink>
+            <NuxtLink class="movie-card__title" :to="`/watch/${1}`">Ofitser 55</NuxtLink>
             <div class="movie-card__cat">
                 <NuxtLink to="/">2023</NuxtLink>
                 <span>/</span>

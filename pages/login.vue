@@ -8,16 +8,7 @@
             </NuxtLink>
             <h2 class="login-title">Kirish</h2>
             <form action="#" class="login-form">
-                <input placeholder="Login" class="login-input" type="text">
-                <div class="password">
-                    <input placeholder="Parol" type="password" ref="password">
-                    <button type="button" v-if="password_view" @click="view">
-                        <img src="@/assets/images/svg/eye-crossed.svg" alt="">
-                    </button>
-                    <button type="button" v-if="!password_view" @click="view">
-                        <img src="@/assets/images/svg/eye.svg" alt="">
-                    </button>
-                </div>
+                <input type="text">
                 <div class="login-btns">
                     <button class="login-btn" type="submit">Kirish</button>
                     <button class="register-btn" type="button">Ro’yhatdan o’tish</button>

@@ -3,12 +3,12 @@
         <div class="hero">
             <Swiper :autoplay="{ delay: 4000, disableOnInteraction: false, }" :speed="800" :modules="[SwiperAutoplay]"
                 class="hero__swiper">
-                <SwiperSlide v-for="item in 3" :key="item" class="hero__slide">
-                    <img src="@/assets/images/jpg/hero-img.jpg" alt="hero img" class="hero__img">
+                <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
+                    <img :src="store.baseUrl + item?.thumbnail_image_url" alt="hero img" class="hero__img">
                     <div class="container">
                         <div class="hero__slide-text-wrapper">
-                            <h4 class="hero__slide-subtitle">2023 / Komediya</h4>
-                            <h2 class="hero__slide-title">Mening sevgilim ayg’oqchi</h2>
+                            <h4 class="hero__slide-subtitle">{{ item?.release_year }} / {{ item?.genre?.name }}</h4>
+                            <h2 class="hero__slide-title">{{ item?.content_title }}</h2>
                             <p class="hero__slide-desc">Lorem Ipsum has been the industry's standard dummy text ever since
                                 the
                                 1500s, when an unknown printer took a galley of type and scrambled it to
@@ -23,6 +23,7 @@
         <div class="add">
             <img src="@/assets/images/jpg/add.jpg" alt="">
         </div>
+        <!-- <pre>{{ home?.data }}</pre> -->
         <div class="uzbek-movies">
             <div class="container">
                 <div class="uzbek-movies__header">
@@ -42,7 +43,7 @@
                             spaceBetween: 15
                         },
                     }" class="uzbek-movies__swiper">
-                    <SwiperSlide v-for="item in 12" :key="item" class="uzbek-movies__slide">
+                    <SwiperSlide v-for="item in 10" :key="item" class="uzbek-movies__slide">
                         <movie-card />
                     </SwiperSlide>
                 </Swiper>
@@ -102,8 +103,9 @@
 </template>
 
 <script setup>
-onMounted(() => {
-})
+import { useStore } from '~~/store/store';
+const store = useStore()
+const banners = await $fetch(store.baseUrl + "/banners/")
 </script>
 
 <style lang="scss" scoped></style>
