@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="movie-video">
                     <video-player poster="" ref="player" controls class="video" aspectRatio="16:9"
-                        :src="details?.data?.main_content_url" :volume="0.6" :plugins="{
+                        :src="details?.data?.main_content_url" :poster="details?.data?.thumbnail_image" :volume="0.6" :plugins="{
                             hotkeys: {
                                 volumeStep: 0.1,
                                 seekStep: 10,
