@@ -78,7 +78,6 @@ const store = useStore()
 store.loader = true
 const { id } = useRoute().params
 const { data: details } = await useAsyncData('movie', async () => await $fetch(store.baseUrl + '/movies/' + id))
-console.log(details.value);
 onMounted(() => {
     const player = document.querySelector('.video')
     player.hlsQualitySelector
@@ -90,7 +89,6 @@ function getCategoriesMovie() {
             movies.value.push(data.data.movies)
         })
     })
-    console.log(movies.value);
 }
 getCategoriesMovie()
 store.loader = false
