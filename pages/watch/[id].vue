@@ -3,7 +3,7 @@
         <div class="movie">
             <div class="container">
                 <div class="movie-video">
-                    <video-player :poster="details?.data.thumbnail_image" ref="player" controls class="video" aspectRatio="16:9" 
+                    <video-player :poster="details?.data.thumbnail_image" ref="player" controls class="video" 
                         :src="details?.data?.main_content_url"  :volume="0.6" :plugins="{
                             hotkeys: {
                                 volumeStep: 0.1,
@@ -105,6 +105,7 @@ store.loader = false
 
 .movie-video {
     position: relative;
+   
 }
 .vjs-poster img {
     width: 100% !important;
@@ -120,7 +121,6 @@ store.loader = false
     width: 100%;
     height: 730px !important;
 }
-
 .for {
     position: absolute;
     top: 50%;
