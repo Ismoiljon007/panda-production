@@ -9,8 +9,8 @@
                     </g>
                 </svg>
             </button>
-            <NuxtLink :to="`/watch/${1}`">
-                <img class="img" src="@/assets/images/png/movie-card.png" alt="">
+            <NuxtLink :to="`/watch/${movie?.id}`">
+                <img class="img" :src="movie?.thumbnail_image" alt="">
                 <button class="movie-card__play">
                     <img src="@/assets/images/svg/play.svg" alt="">
                 </button>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="movie-card__text-wrapper">
-            <NuxtLink class="movie-card__title" :to="`/watch/${1}`">Ofitser 55</NuxtLink>
+            <NuxtLink class="movie-card__title" :to="`/watch/${1}`">{{ movie?.title }}</NuxtLink>
             <div class="movie-card__cat">
                 <NuxtLink to="/">2023</NuxtLink>
                 <span>/</span>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-
+const { movie } = defineProps(['movie'])
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,13 +1,15 @@
 .hero {
-  &__img {
-    position: absolute;
+  &__video {
+    position: absolute !important;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     z-index: -2;
-    object-fit: cover;
-    object-position: center;
+    video {
+      // object-fit: cover !important;
+      object-position: top !important;
+    }
   }
   &__slide {
     position: relative;

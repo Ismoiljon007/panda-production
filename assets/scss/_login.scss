@@ -43,7 +43,6 @@
   }
   &-logo {
     width: 192px;
-    margin-bottom: auto;
     img {
       width: 100%;
     }
@@ -52,6 +51,7 @@
     }
   }
   &-title {
+    margin-top: auto;
     @include font(700, 56px, 1.2);
     letter-spacing: -0.56px;
     color: #fff;
@@ -72,11 +72,11 @@
       margin-bottom: auto;
     }
     @include media(700px) {
-        flex-direction: column;
+      flex-direction: column;
     }
     input {
       width: 100%;
-      padding: 13px 24px 13px 68px;
+      padding: 10px 24px 10px 68px;
       border-radius: 15px;
       border: 1px solid transparent;
       background: rgba(28, 28, 28, 0.5);
@@ -85,10 +85,35 @@
         color: rgba(255, 255, 255, 0.3);
       }
       color: #fff;
-      background-image: url(@/assets/images/svg/tel.svg);
       background-repeat: no-repeat;
       background-position: 24px 50%;
       background-size: 24px;
+    }
+    .password-input {
+      position: relative;
+      button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 35px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      input {
+        padding-right: 65px;
+        background-image: url(@/assets/images/svg/pass.svg) !important;
+      }
+    }
+    .login-input {
+      background-image: url(@/assets/images/svg/user.svg) !important;
     }
     margin-bottom: 130px;
   }
@@ -116,6 +141,7 @@
     background: #111;
   }
   &-google-sign {
+    margin-bottom: auto;
     border: none;
     background: none;
     cursor: pointer;

@@ -3,9 +3,8 @@
         <div class="movie">
             <div class="container">
                 <div class="movie-video">
-                    <video-player ref="player" controls class="video" aspectRatio="16:9"
-                        src="https://playbackservice.inminternational.uz/videos/46438ea6-334c-47ac-9e6b-09759efa34fa/master.m3u8"
-                        :volume="0.6" :plugins="{
+                    <video-player poster="" ref="player" controls class="video" aspectRatio="16:9"
+                        :src="details?.data?.main_content_url" :volume="0.6" :plugins="{
                             hotkeys: {
                                 volumeStep: 0.1,
                                 seekStep: 10,
@@ -15,18 +14,14 @@
                         }
                             " />
                 </div>
-                <h2 class="movie__title">Mening sevgilim ayg’oqchi</h2>
+                <h2 class="movie__title">{{ details?.data?.title }}</h2>
                 <div class="movie__info">
                     <div class="movie__info-list">
-                        <li>Sanasi: <span>2023</span></li>
-                        <li>Janr: <span>Komediya, Romantika</span></li>
-                        <li>Davomiyligi: <span>01:51:00</span></li>
+                        <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
+                        <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
+                        <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
                     </div>
-                    <p class="movie__info-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia ante
-                        quam. Integer in ante leo. Donec felis nisl, semper at fermentum at, tristique quis nisi. In
-                        malesuada convallis metus, ac maximus orci molestie ut.Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit. Sed lacinia ante quam. Integer in ante leo. Donec felis nisl, semper at fermentum
-                        at, tristique quis nisi. In malesuada convallis metus, ac maximus orci molestie ut.</p>
+                    <p class="movie__info-desc">{{ details?.data?.description }}</p>
                 </div>
                 <div class="movie__adds">
                     <img src="@/assets/images/png/reklama.png" alt="">
@@ -63,8 +58,8 @@
                 </div>
                 <Swiper :modules="[SwiperNavigation]" :navigation="{ nextEl: '.movie__rigth', prevEl: '.movie__left' }"
                     :slides-per-view="'auto'" :space-between="30" class="movie__swiper">
-                    <SwiperSlide v-for="item in 12" :key="item" class="movie__slide">
-                        <movie-card />
+                    <SwiperSlide v-for="item in movies[0]" :key="item" class="movie__slide">
+                        <movie-card :movie="item"/>
                     </SwiperSlide>
                 </Swiper>
             </div>
@@ -73,17 +68,33 @@
 </template>
 
 <script setup>
+import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import "videojs-hotkeys";
 import 'videojs-seek-buttons'
 import "videojs-contrib-quality-levels"
 import "videojs-hls-quality-selector";
-// videojs.registerPlugin("hlsQualitySelector", hlsQualitySelector);
-
+const store = useStore()
+store.loader = true
+const { id } = useRoute().params
+const { data: details } = await useAsyncData('movie', async () => await $fetch(store.baseUrl + '/movies/' + id))
+console.log(details.value);
 onMounted(() => {
     const player = document.querySelector('.video')
     player.hlsQualitySelector
 })
+const movies = ref([])
+function getCategoriesMovie() {
+    store.categories.data.categories.forEach(el => {
+        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`).then(data => {
+            movies.value.push(data.data.movies)
+        })
+    })
+    console.log(movies.value);
+}
+getCategoriesMovie()
+store.loader = false
+
 </script>
 
 <style lang="scss">

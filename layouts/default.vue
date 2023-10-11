@@ -6,14 +6,8 @@
             </NuxtLink>
             <nav class="navigation">
                 <ul class="navigation__list">
-                    <li class="navigation__item">
-                        <NuxtLink to="/category">O‘zbek kinolar</NuxtLink>
-                    </li>
-                    <li class="navigation__item">
-                        <NuxtLink to="/category">Kinolar</NuxtLink>
-                    </li>
-                    <li class="navigation__item">
-                        <NuxtLink to="/category">Seriallar</NuxtLink>
+                    <li class="navigation__item" v-for="item in store.categories?.data?.categories" :key="item">
+                        <NuxtLink :to="`/categorie/${item.id}`">{{ item?.name }}</NuxtLink>
                     </li>
                 </ul>
             </nav>
@@ -22,7 +16,41 @@
                     <input type="text">
                     <img src="@/assets/images/svg/search.svg" alt="">
                 </div>
-                <NuxtLink to="/login" class="header__login-btn">Kirish</NuxtLink>
+                <NuxtLink to="/login" v-if="!token" class="header__login-btn">Kirish</NuxtLink>
+                <button class="header__profile" v-else @click="profile = !profile">
+                    <span style="pointer-events: none;">R</span>
+                    <Transition name="fade">
+                        <div class="profile-modal" v-if="profile">
+                            <div class="profile-modal__top">
+                                <span>90 123 45 85</span>
+                                <span>|</span>
+                                <span>ID: 125552</span>
+                            </div>
+                            <NuxtLink to="/profile" class="profile-modal__item"><img src="@/assets/images/svg/user.svg"
+                                    alt=""> Akkaunt
+                            </NuxtLink>
+                            <NuxtLink to="/subscriptions" class="profile-modal__item"><img
+                                    src="@/assets/images/svg/subs.svg" alt=""> Obunalar
+                            </NuxtLink>
+                            <NuxtLink to="/" class="profile-modal__item"><img src="@/assets/images/svg/pay.svg" alt="">
+                                To’lovlar
+                            </NuxtLink>
+                            <NuxtLink to="/saved" class="profile-modal__item"><img src="@/assets/images/svg/bookmark.svg"
+                                    alt="">
+                                Tanlanganlar</NuxtLink>
+                            <NuxtLink to="/history" class="profile-modal__item"><img src="@/assets/images/svg/history.svg"
+                                    alt=""> Tarix
+                            </NuxtLink>
+                            <NuxtLink to="/active-sessions" class="profile-modal__item"><img
+                                    src="@/assets/images/svg/active-seans.svg" alt=""> Faol
+                                sessiyalar</NuxtLink>
+                            <button @click="logout()" class="logout">
+                                <img src="@/assets/images/svg/fi-rr-sign-out.svg" alt="">
+                                chiqish
+                            </button>
+                        </div>
+                    </Transition>
+                </button>
             </div>
             <button class="header-burger">
                 <img src="@/assets/images/svg/burger.svg" alt="">
@@ -151,9 +179,42 @@
 import { useStore } from '~~/store/store';
 const store = useStore()
 const search_open = ref(false)
-onMounted(()=> {
-    
+const token = ref(false)
+if (typeof window !== 'undefined') {
+    if (localStorage.getItem('access__token')) {
+        token.value = true
+    } else {
+        token.value = false
+    }
+}
+function logout() {
+    localStorage.clear()
+    token.value = false
+}
+const profile = ref(false)
+
+onMounted(() => {
+    window.addEventListener('click', (e) => {
+        console.log(e.target);
+        if (!e.target.classList.contains('header__profile')) {
+            if (profile.value) {
+                profile.value = false
+            }
+        }
+    })
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.2s ease;
+    transform: translateY(0);
+
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
+}</style>

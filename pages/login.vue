@@ -7,8 +7,15 @@
                 <img src="@/assets/images/svg/logo.svg" alt="site logo">
             </NuxtLink>
             <h2 class="login-title">Kirish</h2>
-            <form action="#" class="login-form">
-                <input type="text">
+            <form action="#" @submit.prevent="login()" class="login-form">
+                <input v-model="username" placeholder="Login" type="text" class="login-input">
+                <div class="password-input">
+                    <input placeholder="Parol" v-model="pass" ref="password" type="password">
+                    <button type="button" @click="view()" v-if="!password_view"><img src="@/assets/images/svg/eye.svg"
+                            alt=""></button>
+                    <button type="button" @click="view()" v-if="password_view"><img
+                            src="@/assets/images/svg/eye-crossed.svg" alt=""></button>
+                </div>
                 <div class="login-btns">
                     <button class="login-btn" type="submit">Kirish</button>
                     <button class="register-btn" type="button">Ro’yhatdan o’tish</button>
@@ -25,23 +32,48 @@
 
 <script setup>
 import { googleTokenLogin } from 'vue3-google-login'
+import { useStore } from '~~/store/store';
 definePageMeta({
     layout: "without",
 });
+const router = useRouter()
+const store = useStore()
+store.loader = true
 const password_view = ref(false)
-const googleLogin = () => {
-  googleTokenLogin().then(async (response) => {
-    const res = await $fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: {
-        Authorization: `Bearer ${response?.access_token}`,
-      },
-    })
-    console.log(res.email);
-  })
-}
+
 const password = ref()
+const username = ref()
+const pass = ref()
+const googleLogin = () => {
+    googleTokenLogin().then(async (response) => {
+        const res = await $fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: {
+                Authorization: `Bearer ${response?.access_token}`,
+            },
+        })
+        console.log(res.email);
+    })
+}
+const login = async () => {
+    $fetch('https://authservice.inminternational.uz/auth/login', {
+        method: 'POST',
+        body: {
+            username: username.value,
+            password: pass.value
+        }
+    }).then(data => {
+        if (data) {
+            localStorage.setItem('access__token', data?.data?.access_token)
+        }
+        if(data.status == "success") {
+            router.push('/')
+        }
+    }).catch(error => {
+        console.log(error.data);
+    })
+}
 function view() {
-    if(password.value.type == 'password') {
+    if (password.value.type == 'password') {
         password.value.type = "text"
         password_view.value = true
     } else {
@@ -49,6 +81,7 @@ function view() {
         password_view.value = false
     }
 }
+store.loader = false
 </script>
 
 <style lang="scss" scoped></style>
