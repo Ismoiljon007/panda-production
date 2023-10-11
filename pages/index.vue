@@ -15,7 +15,7 @@
                                 the
                                 1500s, when an unknown printer took a galley of type and scrambled it to
                                 make a type specimen book.</p>
-                            <NuxtLink class="hero__slide-btn" :to="`/watch/${item.id}`"><img src="@/assets/images/svg/play.svg" alt=""> Ko’rish
+                            <NuxtLink class="hero__slide-btn" :to="`/watch/${item.object_id}`"><img src="@/assets/images/svg/play.svg" alt=""> Ko’rish
                             </NuxtLink>
                         </div>
                     </div>
