@@ -4,9 +4,8 @@
             <Swiper :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800" :modules="[SwiperAutoplay]"
                 class="hero__swiper">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
-                    <video-player loop :poster="item?.thumbnail_image_url" ref="player" muted controls :autoplay="true" class="hero__video"
-                        aspectRatio="16:9"
-                        :src="item?.trailer_url"/>
+                    <video-player loop :poster="item?.thumbnail_image_url" ref="player" muted controls :autoplay="true"
+                        class="hero__video" aspectRatio="16:9" :src="item?.trailer_url" />
                     <div class="container">
                         <div class="hero__slide-text-wrapper">
                             <h4 class="hero__slide-subtitle">{{ item?.release_year }} / {{ item?.genre?.name }}</h4>
@@ -15,7 +14,8 @@
                                 the
                                 1500s, when an unknown printer took a galley of type and scrambled it to
                                 make a type specimen book.</p>
-                            <NuxtLink class="hero__slide-btn" :to="`/watch/${item.object_id}`"><img src="@/assets/images/svg/play.svg" alt=""> Ko’rish
+                            <NuxtLink class="hero__slide-btn" :to="`/watch/${item.object_id}`"><img
+                                    src="@/assets/images/svg/play.svg" alt=""> Ko’rish
                             </NuxtLink>
                         </div>
                     </div>
@@ -25,8 +25,7 @@
         <div class="add">
             <img src="@/assets/images/jpg/add.jpg" alt="">
         </div>
-        <!-- <pre>{{ home?.data }}</pre> -->
-        <div class="uzbek-movies" v-for="(elem,index) in store.categories.data.categories" :key="elem.id">
+        <div class="uzbek-movies" v-for="(elem) in store.categories.data.categories" :key="elem.id">
             <div class="container">
                 <div class="uzbek-movies__header">
                     <h2 class="uzbek-movies__title">{{ elem?.name }}</h2>
@@ -45,8 +44,8 @@
                             spaceBetween: 15
                         },
                     }" class="uzbek-movies__swiper">
-                    <SwiperSlide v-for="item in movies[index]" :key="item" class="uzbek-movies__slide">
-                        <movie-card :movie="item"/>
+                    <SwiperSlide v-for="item in movies[elem.id]" :key="item" class="uzbek-movies__slide">
+                        <movie-card :movie="item" />
                     </SwiperSlide>
                 </Swiper>
             </div>
@@ -108,15 +107,21 @@ import { useStore } from '~~/store/store';
 const store = useStore()
 store.loader = true
 const banners = await $fetch(store.baseUrl + "/banners/")
-console.log(banners);
-const movies = ref([])
-function getCategoriesMovie() {
-    store.categories.data.categories.forEach(el => {
-        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`).then(data => {
-            movies.value.push(data.data.movies)
-        })
-    })
-    console.log(movies.value);
+
+const movies = ref({})
+async function getCategoriesMovie() {
+    try {
+        const fetchPromises = store.categories.data.categories.map(async (el) => {
+            const data = await $fetch(store.baseUrl + `/category/${el.id}/content/`);
+            movies.value[el.id] = data.data.movies;
+        });
+
+        await Promise.all(fetchPromises);
+
+        console.log(movies.value);
+    } catch (error) {
+        console.error("Failed to fetch category movies", error);
+    }
 }
 getCategoriesMovie()
 store.loader = false

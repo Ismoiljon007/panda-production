@@ -208,6 +208,13 @@ main {
     @include media(600px) {
       font-size: 16px;
     }
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
   &__cat {
     display: flex;
