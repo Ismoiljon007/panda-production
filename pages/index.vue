@@ -15,7 +15,7 @@
                                 the
                                 1500s, when an unknown printer took a galley of type and scrambled it to
                                 make a type specimen book.</p>
-                            <NuxtLink class="hero__slide-btn" to="/"><img src="@/assets/images/svg/play.svg" alt=""> Ko’rish
+                            <NuxtLink class="hero__slide-btn" :to="`/watch/${item.id}`"><img src="@/assets/images/svg/play.svg" alt=""> Ko’rish
                             </NuxtLink>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
             <img src="@/assets/images/jpg/add.jpg" alt="">
         </div>
         <!-- <pre>{{ home?.data }}</pre> -->
-        <div class="uzbek-movies" v-for="elem in store.categories.data.categories" :key="elem.id">
+        <div class="uzbek-movies" v-for="(elem,index) in store.categories.data.categories" :key="elem.id">
             <div class="container">
                 <div class="uzbek-movies__header">
                     <h2 class="uzbek-movies__title">{{ elem?.name }}</h2>
@@ -45,7 +45,7 @@
                             spaceBetween: 15
                         },
                     }" class="uzbek-movies__swiper">
-                    <SwiperSlide v-for="item in movies[elem.id - 1]" :key="item" class="uzbek-movies__slide">
+                    <SwiperSlide v-for="item in movies[index]" :key="item" class="uzbek-movies__slide">
                         <movie-card :movie="item"/>
                     </SwiperSlide>
                 </Swiper>
