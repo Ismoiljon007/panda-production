@@ -4,7 +4,7 @@
             <Swiper :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800" :modules="[SwiperAutoplay]"
                 class="hero__swiper">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
-                    <video-player loop :poster="store.baseUrl + item?.thumbnail_image_url" ref="player" muted controls :autoplay="true" class="hero__video"
+                    <video-player loop :poster="item?.thumbnail_image_url" ref="player" muted controls :autoplay="true" class="hero__video"
                         aspectRatio="16:9"
                         :src="item?.trailer_url"/>
                     <div class="container">
@@ -108,6 +108,7 @@ import { useStore } from '~~/store/store';
 const store = useStore()
 store.loader = true
 const banners = await $fetch(store.baseUrl + "/banners/")
+console.log(banners);
 const movies = ref([])
 function getCategoriesMovie() {
     store.categories.data.categories.forEach(el => {

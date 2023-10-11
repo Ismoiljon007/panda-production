@@ -195,7 +195,6 @@ const profile = ref(false)
 
 onMounted(() => {
     window.addEventListener('click', (e) => {
-        console.log(e.target);
         if (!e.target.classList.contains('header__profile')) {
             if (profile.value) {
                 profile.value = false
