@@ -115,10 +115,7 @@ async function getCategoriesMovie() {
             const data = await $fetch(store.baseUrl + `/category/${el.id}/content/`);
             movies.value[el.id] = data.data.movies;
         });
-
         await Promise.all(fetchPromises);
-
-        console.log(movies.value);
     } catch (error) {
         console.error("Failed to fetch category movies", error);
     }
