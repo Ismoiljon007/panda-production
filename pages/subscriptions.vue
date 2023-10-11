@@ -39,7 +39,9 @@
 </template>
 
 <script setup>
-
+import {useStore} from '~~/store/store'
+const store = useStore()
+store.loader = false
 </script>
 
 <style lang="scss" scoped></style>

@@ -155,6 +155,7 @@ main {
     display: flex;
     flex-direction: column;
     img {
+      height: 320px;
       object-fit: cover;
       border-radius: 10px;
     }
