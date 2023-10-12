@@ -3,8 +3,8 @@
         <div class="movie">
             <div class="container">
                 <div class="movie-video">
-                    <video-player :poster="details?.data.thumbnail_image" ref="player" controls class="video" 
-                        :src="details?.data?.main_content_url"  :volume="0.6" :plugins="{
+                    <video-player :poster="details?.data.thumbnail_image" ref="player" controls class="video"
+                        :src="details?.data?.main_content_url" :volume="0.6" :plugins="{
                             hotkeys: {
                                 volumeStep: 0.1,
                                 seekStep: 10,
@@ -59,7 +59,7 @@
                 <Swiper :modules="[SwiperNavigation]" :navigation="{ nextEl: '.movie__rigth', prevEl: '.movie__left' }"
                     :slides-per-view="'auto'" :space-between="30" class="movie__swiper">
                     <SwiperSlide v-for="item in movies[0]" :key="item" class="movie__slide">
-                        <movie-card :movie="item"/>
+                        <movie-card :movie="item" />
                     </SwiperSlide>
                 </Swiper>
             </div>
@@ -68,30 +68,44 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
-import "videojs-hotkeys";
-import 'videojs-seek-buttons'
-import "videojs-contrib-quality-levels"
-import "videojs-hls-quality-selector";
-const store = useStore()
-store.loader = true
-const { id } = useRoute().params
-const { data: details } = await useAsyncData('movie', async () => await $fetch(store.baseUrl + '/movies/' + id))
-onMounted(() => {
-    const player = document.querySelector('.video')
-    player.hlsQualitySelector
-})
-const movies = ref([])
-function getCategoriesMovie() {
-    store.categories.data.categories.forEach(el => {
-        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`).then(data => {
-            movies.value.push(data.data.movies)
-        })
-    })
+import 'videojs-hotkeys';
+
+const store = useStore();
+const { id } = useRoute().params;
+
+const details = ref(null);
+const movies = ref([]);
+
+async function fetchData() {
+    store.loader = true;
+    try {
+        const detailData = await $fetch(store.baseUrl + '/movies/' + id + '/');
+        details.value = detailData;
+        await getCategoriesMovie();
+    } catch (error) {
+        console.error("Failed to fetch data", error);
+    } finally {
+        store.loader = false;
+    }
 }
-getCategoriesMovie()
-store.loader = false
+
+async function getCategoriesMovie() {
+    const fetchPromises = store.categories.data.categories.map(el =>
+        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`)
+    );
+    const results = await Promise.all(fetchPromises);
+    results.forEach((data, index) => {
+        movies.value[index] = data.data.movies;
+    });
+}
+
+onMounted(() => {
+    fetchData();
+});
 
 </script>
 
@@ -105,12 +119,14 @@ store.loader = false
 
 .movie-video {
     position: relative;
-   
+
 }
+
 .vjs-poster img {
     width: 100% !important;
     object-fit: cover;
 }
+
 .prev-video {
     position: absolute;
     top: 50%;
@@ -121,6 +137,7 @@ store.loader = false
     width: 100%;
     height: 730px !important;
 }
+
 .for {
     position: absolute;
     top: 50%;
@@ -161,5 +178,4 @@ store.loader = false
 
 .vjs-fullscreen-control {
     order: 5 !important;
-}
-</style>
+}</style>
