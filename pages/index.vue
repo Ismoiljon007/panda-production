@@ -159,8 +159,6 @@ watchEffect((e) => {
     if(e.onload) {
         onSlideChange()
     }
-    // if(document) {
-    // }
 })
 async function getCategoriesMovie() {
     try {
