@@ -7,16 +7,17 @@
                         <div class="select">
                             <h4 class="select__subtitle">Janr</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="genre = !genre"
+                                <div class="select__btn"
+                                    @click="genre = !genre, country = false, quality = false, yearFrom = false, yearTo = false"
                                     :style="genre !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
-                                    Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
+                                    {{ genreName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="genre">
-                                        <li class="select__item">Jangari</li>
-                                        <li class="select__item">Fantastik</li>
-                                        <li class="select__item">Dramma</li>
-                                        <li class="select__item">Komediya</li>
-                                        <li class="select__item">Ujas kino</li>
+                                        <li class="select__item" @click="selectGenre($event)">Jangari</li>
+                                        <li class="select__item" @click="selectGenre($event)">Fantastik</li>
+                                        <li class="select__item" @click="selectGenre($event)">Dramma</li>
+                                        <li class="select__item" @click="selectGenre($event)">Komediya</li>
+                                        <li class="select__item" @click="selectGenre($event)">Ujas kino</li>
                                     </ul>
                                 </Transition>
                             </div>
@@ -24,16 +25,17 @@
                         <div class="select">
                             <h4 class="select__subtitle">Mamlakat</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="country = !country"
+                                <div class="select__btn"
+                                    @click="country = !country, genre = false, quality = false, yearFrom = false, yearTo = false"
                                     :style="country !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
-                                    Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
+                                    {{ countryName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="country">
-                                        <li class="select__item">Jangari</li>
-                                        <li class="select__item">Fantastik</li>
-                                        <li class="select__item">Dramma</li>
-                                        <li class="select__item">Komediya</li>
-                                        <li class="select__item">Ujas kino</li>
+                                        <li class="select__item" @click="selectCountry($event)">Jangari</li>
+                                        <li class="select__item" @click="selectCountry($event)">Fantastik</li>
+                                        <li class="select__item" @click="selectCountry($event)">Dramma</li>
+                                        <li class="select__item" @click="selectCountry($event)">Komediya</li>
+                                        <li class="select__item" @click="selectCountry($event)">Ujas kino</li>
                                     </ul>
                                 </Transition>
                             </div>
@@ -41,16 +43,17 @@
                         <div class="select">
                             <h4 class="select__subtitle">Sifat</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="quality = !quality"
+                                <div class="select__btn"
+                                    @click="quality = !quality, genre = false, country = false, yearFrom = false, yearTo = false"
                                     :style="quality !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
-                                    Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
+                                    {{ qualityName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="quality">
-                                        <li class="select__item">Jangari</li>
-                                        <li class="select__item">Fantastik</li>
-                                        <li class="select__item">Dramma</li>
-                                        <li class="select__item">Komediya</li>
-                                        <li class="select__item">Ujas kino</li>
+                                        <li class="select__item" @click="selectQuality($event)">Jangari</li>
+                                        <li class="select__item" @click="selectQuality($event)">Fantastik</li>
+                                        <li class="select__item" @click="selectQuality($event)">Dramma</li>
+                                        <li class="select__item" @click="selectQuality($event)">Komediya</li>
+                                        <li class="select__item" @click="selectQuality($event)">Ujas kino</li>
                                     </ul>
                                 </Transition>
                             </div>
@@ -58,16 +61,17 @@
                         <div class="select">
                             <h4 class="select__subtitle">Yil( dan )</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="yearFrom = !yearFrom"
+                                <div class="select__btn"
+                                    @click="yearFrom = !yearFrom, genre = false, country = false, quality = false, yearTo = false"
                                     :style="yearFrom !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
-                                    Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
+                                    {{ yearFromName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="yearFrom">
-                                        <li class="select__item">Jangari</li>
-                                        <li class="select__item">Fantastik</li>
-                                        <li class="select__item">Dramma</li>
-                                        <li class="select__item">Komediya</li>
-                                        <li class="select__item">Ujas kino</li>
+                                        <li class="select__item" @click="selectYearFrom($event)">Jangari</li>
+                                        <li class="select__item" @click="selectYearFrom($event)">Fantastik</li>
+                                        <li class="select__item" @click="selectYearFrom($event)">Dramma</li>
+                                        <li class="select__item" @click="selectYearFrom($event)">Komediya</li>
+                                        <li class="select__item" @click="selectYearFrom($event)">Ujas kino</li>
                                     </ul>
                                 </Transition>
                             </div>
@@ -75,16 +79,17 @@
                         <div class="select">
                             <h4 class="select__subtitle">Yil( gacha )</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="yearTo = !yearTo"
+                                <div class="select__btn"
+                                    @click="yearTo = !yearTo, genre = false, country = false, quality = false, yearFrom = false"
                                     :style="yearTo !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
-                                    Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
+                                    {{ yearToName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="yearTo">
-                                        <li class="select__item">Jangari</li>
-                                        <li class="select__item">Fantastik</li>
-                                        <li class="select__item">Dramma</li>
-                                        <li class="select__item">Komediya</li>
-                                        <li class="select__item">Ujas kino</li>
+                                        <li class="select__item" @click="selectYearTo($event)">Jangari</li>
+                                        <li class="select__item" @click="selectYearTo($event)">Fantastik</li>
+                                        <li class="select__item" @click="selectYearTo($event)">Dramma</li>
+                                        <li class="select__item" @click="selectYearTo($event)">Komediya</li>
+                                        <li class="select__item" @click="selectYearTo($event)">Ujas kino</li>
                                     </ul>
                                 </Transition>
                             </div>
@@ -105,7 +110,7 @@
                         </div>
                     </div>
                     <div class="category__items">
-                        <movie-card v-for="item in categorieMovies" :movie="item" :key="item"/>
+                        <movie-card v-for="item in categorieMovies" :movie="item" :key="item" />
                     </div>
                 </div>
             </div>
@@ -114,10 +119,10 @@
 </template>
 
 <script setup>
-import {useStore} from '~~/store/store'
+import { useStore } from '~~/store/store'
 const store = useStore()
 store.loader = true
-const {id} = useRoute().params
+const { id } = useRoute().params
 const genre = ref(false)
 const country = ref(false)
 const quality = ref(false)
@@ -134,12 +139,45 @@ function getCategorieMovie() {
         categorieMovies.value = data.data.movies
     })
     store.categories?.data?.categories.forEach(el => {
-        if(el.id == id) {
+        if (el.id == id) {
             categorieName.value = el.name
         }
     })
 }
 getCategorieMovie()
+
+const genreName = ref("Barchasi")
+function selectGenre(e) {
+    genreName.value = e.target.textContent
+    genre.value = false
+}
+
+const countryName = ref("Uzbekistan")
+function selectCountry(e) {
+    countryName.value = e.target.textContent
+    country.value = false
+}
+
+const qualityName = ref("Full HD")
+function selectQuality(e) {
+    qualityName.value = e.target.textContent
+    quality.value = false
+}
+
+const yearFromName = ref("Barchasi")
+function selectYearFrom(e) {
+    yearFromName.value = e.target.textContent
+    yearFrom.value = false
+}
+
+const yearToName = ref("Barchasi")
+function selectYearTo(e) {
+    yearToName.value = e.target.textContent
+    yearTo.value = false
+}
+
+
+
 onMounted(() => {
     const element = document.querySelector(".pagination ul");
 

@@ -1,5 +1,5 @@
 .category {
-  padding-top: 150px;
+  padding: 150px 0 100px;
   &__selects {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -37,8 +37,10 @@
     justify-content: center;
     grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
     .movie-card {
+      height: 100%;
       &__img {
         width: 100%;
+        height: 100%;
         .img {
           width: 100%;
           height: 100%;
@@ -47,7 +49,6 @@
       }
     }
     @include media(550px) {
-      grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
       gap: 15px;
     }
     gap: 40px 30px;

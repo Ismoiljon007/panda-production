@@ -7,7 +7,8 @@
                         <div class="select">
                             <h4 class="select__subtitle">Janr</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="genre = !genre"
+                                <div class="select__btn"
+                                    @click="genre = !genre, country = false, quality = false, yearFrom = false, yearTo = false"
                                     :style="genre !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
                                     Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
@@ -24,7 +25,8 @@
                         <div class="select">
                             <h4 class="select__subtitle">Mamlakat</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="country = !country"
+                                <div class="select__btn"
+                                    @click="country = !country, genre = false, quality = false, yearFrom = false, yearTo = false"
                                     :style="country !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
                                     Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
@@ -41,7 +43,8 @@
                         <div class="select">
                             <h4 class="select__subtitle">Sifat</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="quality = !quality"
+                                <div class="select__btn"
+                                    @click="quality = !quality, genre = false, country = false, yearFrom = false, yearTo = false"
                                     :style="quality !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
                                     Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
@@ -58,7 +61,8 @@
                         <div class="select">
                             <h4 class="select__subtitle">Yil( dan )</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="yearFrom = !yearFrom"
+                                <div class="select__btn"
+                                    @click="yearFrom = !yearFrom, genre = false, country = false, quality = false, yearTo = false"
                                     :style="yearFrom !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
                                     Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
@@ -75,7 +79,8 @@
                         <div class="select">
                             <h4 class="select__subtitle">Yil( gacha )</h4>
                             <div class="select__wrapper">
-                                <div class="select__btn" @click="yearTo = !yearTo"
+                                <div class="select__btn"
+                                    @click="yearTo = !yearTo, genre = false, country = false, quality = false, yearFrom = false"
                                     :style="yearTo !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
                                     Barchasi <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
@@ -105,7 +110,7 @@
                         </div>
                     </div>
                     <div class="category__items">
-                        <movie-card v-for="item in 50" :key="item"/>
+                        <movie-card v-for="item in 50" :key="item" />
                     </div>
                 </div>
             </div>

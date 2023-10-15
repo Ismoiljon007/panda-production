@@ -12,7 +12,11 @@
             <NuxtLink :to="`/watch/${movie?.id}`">
                 <img class="img" :src="movie?.thumbnail_image" alt="">
                 <button class="movie-card__play">
-                    <img src="@/assets/images/svg/play.svg" alt="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="19" viewBox="0 0 16 19" fill="none">
+                        <path
+                            d="M14.5 6.90192C16.5 8.05663 16.5 10.9434 14.5 12.0981L4.75 17.7272C2.75 18.8819 0.250001 17.4386 0.250001 15.1292L0.250002 3.87084C0.250002 1.56143 2.75 0.118058 4.75 1.27276L14.5 6.90192Z"
+                            fill="black" />
+                    </svg>
                 </button>
             </NuxtLink>
         </div>
