@@ -52,7 +52,7 @@
                     </Transition>
                 </button>
             </div>
-            <button class="header-burger" @click="menu = true" >
+            <button class="header-burger" @click="menu = true">
                 <img src="@/assets/images/svg/burger.svg" alt="" style="pointer-events: none;">
             </button>
         </div>
@@ -225,7 +225,8 @@ function logout() {
 const profile = ref(false)
 const userInfo = ref(null)
 async function getUserInfo() {
-    if (typeof window !== 'undefined') {
+    store.loader = true;
+    try {
         const data = await $fetch("https://userservice.inminternational.uz/users", {
             method: 'GET',
             headers: {
@@ -233,7 +234,12 @@ async function getUserInfo() {
             }
         })
         userInfo.value = data.data
+    } catch (error) {
+        console.error("Failed to fetch data", error);
+    } finally {
+        store.loader = false;
     }
+
 }
 await getUserInfo()
 

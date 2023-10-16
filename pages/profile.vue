@@ -13,18 +13,18 @@
                                 {{ userInfo?.data?.username.split("")[0] }}
                             </div>
                             <form @submit.prevent="" class="profile__info-list">
-                                    <div class="profile__info-list-item">
-                                        <label for="name">Ism:</label> <input :disabled="update" id="name" type="text"
-                                            v-model="name">
-                                    </div>
-                                    <div class="profile__info-list-item">
-                                        <label for="login">Login:</label> <input :disabled="update" id="login" type="text"
-                                            v-model="login">
-                                    </div>
-                                    <div class="profile__info-list-item">
-                                        <label for="tel">tel:</label> <input :disabled="update" id="tel" type="text"
-                                            v-model="tel">
-                                    </div>
+                                <div class="profile__info-list-item">
+                                    <label for="name">Ism:</label> <input :disabled="update" id="name" type="text"
+                                        v-model="name">
+                                </div>
+                                <div class="profile__info-list-item">
+                                    <label for="login">Login:</label> <input :disabled="update" id="login" type="text"
+                                        v-model="login">
+                                </div>
+                                <div class="profile__info-list-item">
+                                    <label for="tel">tel:</label> <input :disabled="update" id="tel" type="text"
+                                        v-model="tel">
+                                </div>
                             </form>
                         </div>
                         <div class="profile__footer">
@@ -51,7 +51,8 @@ const tel = ref()
 
 
 async function getUserInfo() {
-    if (typeof window !== 'undefined') {
+    store.loader = true;
+    try {
         const data = await $fetch("https://userservice.inminternational.uz/users", {
             method: 'GET',
             headers: {
@@ -62,10 +63,13 @@ async function getUserInfo() {
         name.value = data?.data?.name ? data?.data?.name : ''
         login.value = data?.data?.username ? data?.data?.username : ''
         tel.value = data?.data?.phone_number ? data?.data?.phone_number : ''
+    } catch (error) {
+        console.error("Failed to fetch data", error);
+    } finally {
+        store.loader = false;
     }
 }
 await getUserInfo()
-store.loader = false
 </script>
 
 <style lang="scss" scoped></style>
