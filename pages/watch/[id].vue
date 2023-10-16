@@ -31,21 +31,22 @@
                     <button><img src="@/assets/images/svg/navigation.svg" alt=""> Jo‘natish</button>
                 </form>
                 <ul class="movie__comments">
-                    <li class="movie__comments-item" v-for="item in 1" :key="item">
+                    <li class="movie__comments-item comment-item" v-for="item in 1" :key="item">
                         <div class="movie__comments-item-wrapper">
                             <div class="movie__comments-item-img">
                                 A
                             </div>
                             <div class="movie__comments-item-text-wr">
                                 <h4 class="movie__comments-item-name">Alisher Valisherov</h4>
-                                <p class="movie__comments-item-desc">Kinga gap yo mazza qilib ko’radigan kino ekan, ketgazgan
+                                <p class="movie__comments-item-desc">Kinga gap yo mazza qilib ko’radigan kino ekan,
+                                    ketgazgan
                                     vaqitimga achinmadim</p>
                                 <div class="movie__comments-item-btns">
                                     <button>
                                         <img src="@/assets/images/svg/heart.svg" alt="">
                                         <span>Yoqdi(30)</span>
                                     </button>
-                                    <button>
+                                    <button @click="com = !com">
                                         <img src="@/assets/images/svg/send.svg" alt="">
                                         <span>Javob qaytarish</span>
                                     </button>
@@ -69,7 +70,7 @@
                                                 <img src="@/assets/images/svg/heart.svg" alt="">
                                                 <span>Yoqdi(30)</span>
                                             </button>
-                                            <button>
+                                            <button @click="com = !com">
                                                 <img src="@/assets/images/svg/send.svg" alt="">
                                                 <span>Javob qaytarish</span>
                                             </button>
@@ -78,8 +79,13 @@
                                 </div>
 
                             </li>
-                            <div class="movie__comments-reply">
-                                    <div class="movie__comments-reply__img">IB</div>
+                            <div class="movie__comments-reply" v-if="com">
+                                <div class="movie__comments-item-img">IB</div>
+                                <div class="movie__comments-text-wrapper">
+                                    <h4 class="movie__comments-title">Jenifer Lopilloq</h4>
+                                    <textarea class="movie__comments-write"></textarea>
+                                    <button><img src="@/assets/images/svg/navigation.svg" alt=""> Jo‘natish</button>
+                                </div>
                             </div>
                         </ul>
                     </li>
@@ -89,7 +95,14 @@
                     <button class="movie__rigth"><img src="@/assets/images/svg/right.svg" alt=""></button>
                 </div>
                 <Swiper :modules="[SwiperNavigation]" :navigation="{ nextEl: '.movie__rigth', prevEl: '.movie__left' }"
-                    :slides-per-view="'auto'" :space-between="30" class="movie__swiper">
+                    :slides-per-view="'auto'" :space-between="30" class="movie__swiper" :breakpoints="{
+                        '650': {
+                            spaceBetween: 30
+                        },
+                        '0': {
+                            spaceBetween: 10
+                        },
+                    }">
                     <SwiperSlide v-for="item in movies[0]" :key="item" class="movie__slide">
                         <movie-card :movie="item" />
                     </SwiperSlide>
@@ -134,7 +147,7 @@ async function getCategoriesMovie() {
         movies.value[index] = data.data.movies;
     });
 }
-
+const com = ref(false)
 onMounted(() => {
     fetchData();
 });
@@ -151,7 +164,6 @@ onMounted(() => {
 
 .movie-video {
     position: relative;
-
 }
 
 .vjs-poster {
@@ -172,6 +184,23 @@ onMounted(() => {
 .video {
     width: 100%;
     height: 730px !important;
+
+    @media (max-width: 1425px) {
+        height: 600px !important;
+    }
+
+    @media (max-width: 1060px) {
+        height: 460px !important;
+    }
+
+    @media (max-width: 1060px) {
+        height: 460px !important;
+    }
+
+    @media (max-width: 760px) {
+        height: 370px !important;
+    }
+
 }
 
 .for {
@@ -214,5 +243,4 @@ onMounted(() => {
 
 .vjs-fullscreen-control {
     order: 5 !important;
-}
-</style>
+}</style>

@@ -1,5 +1,5 @@
 .movie {
-  padding-top: 130px;
+  padding-top: 30px;
   &-video {
     margin-bottom: 60px;
   }
@@ -11,6 +11,15 @@
     &::first-letter {
       text-transform: uppercase;
     }
+    @include media(900px) {
+      font-size: 38px;
+    }
+    @include media(600px) {
+      font-size: 28px;
+    }
+    @include media(450px) {
+      font-size: 20px;
+    }
   }
   &__info {
     margin-bottom: 55px;
@@ -21,6 +30,9 @@
     &-list {
       width: 100%;
       max-width: 334px;
+      @include media(880px) {
+        max-width: 100%;
+      }
       list-style: none;
       display: flex;
       flex-direction: column;
@@ -45,6 +57,10 @@
       max-width: 990px;
       @include font(500, 20, 1.5);
       letter-spacing: -0.6px;
+    }
+    @include media(880px) {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
   &__adds {
@@ -94,27 +110,82 @@
       align-items: flex-start;
       gap: 5px;
       @extend %pr-btn;
-      padding: 15px 40px;
+      // padding: 15px 40px;
     }
   }
   &__comments {
     overflow: hidden;
     position: relative;
     margin-bottom: 20px;
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -90px;
-      left: 0;
+    // &::after {
+    //   content: "";
+    //   position: absolute;
+    //   bottom: -90px;
+    //   left: 0;
+    //   width: 100%;
+    //   height: 216px;
+    //   z-index: 4;
+    //   background: linear-gradient(
+    //     180deg,
+    //     rgba(0, 0, 0, 0) 0%,
+    //     #060606 70.83%,
+    //     #060606 100%
+    //   );
+    // }
+    .movie__comments-text-wrapper {
       width: 100%;
-      height: 216px;
-      z-index: 4;
-      background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0) 0%,
-        #060606 70.83%,
-        #060606 100%
-      );
+    }
+    &-title {
+      @include font(500, 18px, 1.2);
+      letter-spacing: -0.6px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 12px;
+      @include media(600px) {
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+    }
+    &-reply {
+      display: flex;
+      width: 100%;
+      max-width: 859px;
+      gap: 30px;
+      @include media(600px) {
+        gap: 10px;
+      }
+      textarea {
+        width: 100%;
+        height: 140px;
+        resize: none;
+        border-radius: 15px;
+        background: rgba(28, 28, 28, 0.5);
+        border: none;
+        color: #fff;
+        @include media(600px) {
+          height: 80px;
+        }
+        @include font(400, 20, 1.2);
+        letter-spacing: -0.2px;
+        padding: 20px 20px 0 20px;
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.5);
+        }
+        margin-bottom: 20px;
+        &::-webkit-scrollbar {
+          width: 3px;
+          background: $bg-color;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #fff;
+        }
+      }
+      button {
+        display: flex;
+        align-items: flex-start;
+        gap: 5px;
+        @extend %pr-btn;
+        // padding: 15px 40px;
+      }
     }
     display: flex;
     flex-direction: column;
@@ -124,6 +195,9 @@
       &-wrapper {
         display: flex;
         gap: 30px;
+        @include media(600px) {
+          gap: 10px;
+        }
       }
       ul {
         margin-left: 125px;
@@ -132,8 +206,15 @@
         display: flex;
         flex-direction: column;
         gap: 30px;
+        @include media(700px) {
+          margin-left: 50px;
+        }
+        @include media(473px) {
+          margin-left: 20px;
+        }
       }
       &-img {
+        flex-shrink: 0;
         width: 60px;
         height: 60px;
         border-radius: 50%;
@@ -143,18 +224,31 @@
         background: rgba(129, 72, 20, 1);
         @include font(500, 32px, 1.2);
         letter-spacing: -1.5px;
+        @include media(600px) {
+          font-size: 20px;
+          width: 42px;
+          height: 42px;
+        }
       }
       &-name {
         @include font(500, 18px, 1.2);
         letter-spacing: -0.6px;
         color: rgba(255, 255, 255, 0.4);
         margin-bottom: 10px;
+        @include media(600px) {
+          font-size: 12px;
+          margin-bottom: 5px;
+        }
       }
       &-desc {
         @include font(500, 20px, 1.2);
         letter-spacing: -0.72px;
         color: #fff;
         margin-bottom: 20px;
+        @include media(600px) {
+          font-size: 14px;
+          margin-bottom: 10px;
+        }
       }
       &-btns {
         display: flex;
@@ -170,12 +264,36 @@
           @include font(400, 20px, 1.2);
           letter-spacing: -0.6px;
           color: rgba(77, 77, 77, 1);
+          @include media(600px) {
+            font-size: 14px;
+            img {
+              width: 14px;
+              height: 14px;
+            }
+          }
         }
       }
     }
   }
   &__slide {
     width: 220px !important;
+    height: auto !important;
+    @include media(650px) {
+      width: 156px !important;
+      .movie-card {
+        &__img {
+          height: 238px;
+        }
+      }
+    }
+    @include media(550px) {
+      width: 126px;
+      .movie-card {
+        &__img {
+          height: 160px;
+        }
+      }
+    }
   }
   &__navigations {
     width: 100%;

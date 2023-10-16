@@ -1,5 +1,5 @@
 <template>
-    <header class="header" :class="{'header-fixed': scrolledNav}">
+    <header class="header" :class="{ 'header-fixed': scrolledNav }">
         <div class="container">
             <NuxtLink class="site-logo" to="/">
                 <img src="@/assets/images/svg/logo.svg" alt="site logo">
@@ -52,11 +52,41 @@
                     </Transition>
                 </button>
             </div>
-            <button class="header-burger">
-                <img src="@/assets/images/svg/burger.svg" alt="">
+            <button class="header-burger" @click="menu = true" >
+                <img src="@/assets/images/svg/burger.svg" alt="" style="pointer-events: none;">
             </button>
         </div>
     </header>
+    <transition name="menu">
+        <div class="menu" v-if="menu">
+            <div class="menu-top">
+                <button class="menu-close" @click="menu = false">
+                    <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="" width="20" height="20">
+                        <g fill="none" fill-rule="evenodd">
+                            <path d="M0 0h20v20H0z"></path>
+                            <path
+                                d="M10 8.872l5.639-5.638a.797.797 0 011.127 1.127L11.128 10l5.638 5.639a.797.797 0 11-1.127 1.127L10 11.128l-5.639 5.638a.797.797 0 11-1.127-1.127L8.872 10 3.234 4.361A.797.797 0 014.36 3.234L10 8.872z"
+                                fill="rgba(255, 255, 255, 0.70)" fill-rule="nonzero"></path>
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <NuxtLink class="menu-user" to="/profile">
+                <div class="menu-img">
+                    BI
+                </div>
+                <div class="menu-text-wrapper">
+                    <h3 class="menu-name">90 123 45 85</h3>
+                    <h4 class="menu-id">ID: 125552</h4>
+                </div>
+            </NuxtLink>
+            <ul class="menu-list">
+                <li class="menu-item" v-for="item in store.categories?.data?.categories" :key="item">
+                    <NuxtLink :to="`/categorie/${item.id}`">{{ item?.name }}</NuxtLink>
+                </li>
+            </ul>
+        </div>
+    </transition>
     <div class="search" v-if="store.search_open">
         <form action="#" @submit.prevent="">
             <input type="text">
@@ -180,6 +210,7 @@ import { useStore } from '~~/store/store';
 const store = useStore()
 const search_open = ref(false)
 const token = ref(false)
+const menu = ref(false)
 if (typeof window !== 'undefined') {
     if (localStorage.getItem('access__token')) {
         token.value = true
@@ -211,6 +242,11 @@ onMounted(() => {
                 profile.value = false
             }
         }
+        if (!e.target.classList.contains('header-burger')) {
+            if (menu.value) {
+                menu.value = false
+            }
+        }
     })
     window.addEventListener("scroll", updateScroll);
 
@@ -229,5 +265,18 @@ onMounted(() => {
 .fade-leave-to {
     opacity: 0;
     transform: translateY(-20px);
+}
+
+.menu-enter-active,
+.menu-leave-active {
+    transition: all 0.2s ease;
+    transform: translateX(0);
+
+}
+
+.menu-enter-from,
+.menu-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
 }
 </style>

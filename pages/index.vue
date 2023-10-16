@@ -70,7 +70,7 @@
                             spaceBetween: 30
                         },
                         '0': {
-                            spaceBetween: 15
+                            spaceBetween: 10
                         },
                     }" class="movies__swiper">
                     <SwiperSlide v-for="item in movies[elem.id]" :key="item" class="movies__slide">
@@ -130,6 +130,12 @@ store.loader = false
 </script>
 
 <style lang="scss">
+.vjs-big-play-button {
+    display: none !important;
+}
+.video-js .vjs-big-play-button {
+    display: none !important;
+}
 .video-js .vjs-control-bar {
     background: transparent !important;
 }
