@@ -1,8 +1,8 @@
 <template>
     <main>
         <div class="hero">
-            <Swiper :autoplay="{ delay: 10000, disableOnInteraction: false, }" :slides-per-view="'1'" :speed="800" :modules="[SwiperAutoplay]"
-                class="hero__swiper" @slide-change="onSlideChange">
+            <Swiper :slides-per-view="'1'" :speed="800" :modules="[SwiperAutoplay]" class="hero__swiper"
+                @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
                     <video-player loop :poster="item?.thumbnail_image_url" muted controls :autoplay="true"
                         class="hero__video" aspectRatio="16:9" :src="item?.trailer_url" />
@@ -90,7 +90,6 @@ store.loader = true
 const banners = await $fetch(store.baseUrl + "/banners/")
 const muted = ref(true)
 const movies = ref({})
-
 function soundFunc() {
     muted.value = !muted.value
     document.querySelectorAll('.hero__video').forEach((elem, i) => {
@@ -103,9 +102,12 @@ function soundFunc() {
 }
 
 function onSlideChange() {
-    muted.value = true
     document.querySelectorAll('.hero__video').forEach((elem, i) => {
-        elem.childNodes[0].muted = true
+        if (elem.parentElement.classList.contains('swiper-slide-active')) {
+            elem.childNodes[0].muted = muted.value
+        } else {
+            elem.childNodes[0].muted = true
+        }
     })
 }
 
@@ -134,9 +136,11 @@ store.loader = false
 .vjs-big-play-button {
     display: none !important;
 }
+
 .video-js .vjs-big-play-button {
     display: none !important;
 }
+
 .video-js .vjs-control-bar {
     background: transparent !important;
 }

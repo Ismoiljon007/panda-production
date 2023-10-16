@@ -1,8 +1,11 @@
 .header {
   width: 100%;
   padding: 20px 0;
-  background: $bg-color;
+  background: rgba(18, 18, 18, 0.5);
   z-index: 12;
+  position: fixed;
+  top: 0;
+  left: 0;
   box-shadow: 8px 0px 81px 0px rgba(0, 0, 0, 0.6);
   @include media(1000px) {
     padding: 12px 0;
@@ -374,10 +377,7 @@
 }
 
 .header-fixed {
-  position: fixed;
-  z-index: 15;
-  top: 0;
-  left: 0;
+  background: $bg-color;
   animation: animationheader 0.5s ease;
 }
 
