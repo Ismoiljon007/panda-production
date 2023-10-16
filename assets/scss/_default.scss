@@ -383,18 +383,17 @@
   top: 0;
   right: 0;
   width: 280px;
-  height: 400px;
   z-index: 16;
-  border-radius: 0 0 0 15px;
-  background: #242424;
+  height: 100%;
+  background: rgba($color: $bg-color, $alpha: 0.9);
+  backdrop-filter: blur(16.5px);
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.3);
-  padding: 0 15px 20px 15px;
   display: flex;
   flex-direction: column;
   &-top {
-    padding: 20px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-    margin-bottom: 15px;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(217, 217, 217, 0.2);
+
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
@@ -410,7 +409,12 @@
     gap: 10px;
     text-decoration: none;
     color: #fff;
-    margin-bottom: auto;
+    padding: 15px 15px 15px 43px;
+    border-bottom: 1px solid rgba(217, 217, 217, 0.2);
+    transition: all 0.3s ease;
+    &:hover {
+      background: rgba($color: #fff, $alpha: 0.3);
+    }
   }
   &-img {
     width: 40px;
@@ -426,19 +430,28 @@
     border-radius: 50%;
   }
   &-name {
-    @include font(400, 16px, 1.2);
-    margin-bottom: 5px;
+    @include font(400, 14px, 1.2);
+    margin-bottom: 2px;
   }
   &-id {
-    @include font(400, 16px, 1.2);
+    @include font(400, 12px, 1.2);
   }
   &-list {
-    margin-bottom: auto;
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    li {
+      width: 100%;
+    }
     a {
+      transition: all 0.3s ease;
+      &:hover {
+        background: rgba($color: #fff, $alpha: 0.3);
+      }
+      display: inline-block;
+      width: 100%;
+      padding: 15px 15px 15px 43px;
+      border-bottom: 1px solid rgba(217, 217, 217, 0.2);
       text-decoration: none;
       color: #fff;
       @include font(400, 16px, 1.2);
