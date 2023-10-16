@@ -44,7 +44,7 @@
           font-size: 14px !important;
           font-weight: 500 !important;
           line-height: 1.2;
-      }
+        }
       }
     }
   }
@@ -55,11 +55,53 @@
     display: grid;
     justify-content: center;
     grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+    @include media(762px) {
+      grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr));
+    }
+    @include media(456px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @include media(1230px) {
+      gap: 20px;
+    }
     gap: 40px 30px;
     margin-bottom: 60px;
     .movie-card {
-      width: 220px;
-      margin: 0 auto;
+      height: 100%;
+      &__img {
+        @include media(1760px) {
+          height: 380px;
+        }
+        @include media(1810px) {
+          height: 330px;
+        }
+        @include media(692px) {
+          height: 300px;
+        }
+        @include media(660px) {
+          height: 280px;
+        }
+        @include media(620px) {
+          height: 340px;
+        }
+        @include media(516px) {
+          height: 300px;
+        }
+        @include media(462px) {
+          height: 270px;
+        }
+        @include media(457px) {
+          height: 250px;
+        }
+        @include media(420px) {
+          height: 220px;
+        }
+      }
+      .img {
+        width: 100%;
+        object-fit: cover;
+      }
     }
     @include media(550px) {
       gap: 15px;

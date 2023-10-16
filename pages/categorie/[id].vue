@@ -219,10 +219,12 @@ store.loader = false
     font-weight: 500 !important;
     border: none !important;
     background: none;
-
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
     &:hover {
         background: #2B2B2B !important;
     }
 }
-
 </style>
