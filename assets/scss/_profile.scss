@@ -30,7 +30,8 @@
         background: #424242;
       }
       @include media(1050px) {
-        padding: 20px 50px;
+        padding: 14px 28px;
+        font-size: 18px;
       }
       @include media(800px) {
         padding: 18px 30px;
