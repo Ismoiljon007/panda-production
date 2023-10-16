@@ -238,6 +238,9 @@
     .container {
       display: flex;
       align-items: center;
+      @include media(1080px) {
+        justify-content: space-between;
+      }
       @include media(800px) {
         flex-direction: column;
       }
@@ -249,6 +252,9 @@
     @include media(1200px) {
       flex-direction: column;
       align-items: flex-start;
+    }
+    @include media(1080px) {
+      margin: 0;
     }
     margin-right: auto;
     @include media(800px) {
@@ -276,6 +282,9 @@
     flex-direction: column;
     gap: 10px;
     margin-right: 97px;
+    @include media(1080px) {
+      margin: 0;
+    }
     @include media(800px) {
       align-items: center;
       margin: 0 0 20px 0;
@@ -319,6 +328,9 @@
     align-items: center;
     list-style: none;
     gap: 14px;
+    @include media(1080px) {
+      margin: 0;
+    }
     li {
       width: 36px;
       height: 36px;

@@ -72,12 +72,12 @@
                 </button>
             </div>
             <NuxtLink class="menu-user" to="/profile">
-                <div class="menu-img">
-                    BI
+                <div class="menu-img" style="text-transform: uppercase;">
+                    {{ userInfo?.username.split("")[0] }}
                 </div>
                 <div class="menu-text-wrapper">
-                    <h3 class="menu-name">90 123 45 85</h3>
-                    <h4 class="menu-id">ID: 125552</h4>
+                    <h3 class="menu-name">{{ userInfo?.username }}</h3>
+                    <h4 class="menu-id">ID: {{ userInfo?.id }}</h4>
                 </div>
             </NuxtLink>
             <ul class="menu-list">
@@ -223,6 +223,19 @@ function logout() {
     token.value = false
 }
 const profile = ref(false)
+const userInfo = ref(null)
+async function getUserInfo() {
+    if (typeof window !== 'undefined') {
+        const data = await $fetch("https://userservice.inminternational.uz/users", {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        })
+        userInfo.value = data.data
+    }
+}
+await getUserInfo()
 
 
 const scrolledNav = ref(false)

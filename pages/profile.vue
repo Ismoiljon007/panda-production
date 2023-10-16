@@ -9,8 +9,8 @@
                     <div class="profile__bottom-wrapper">
                         <h3 class="profile__bottom-title">Foydalanuvchi haqida ma’lumot</h3>
                         <div class="profile__info">
-                            <div class="profile__img">
-                                B
+                            <div class="profile__img" style="text-transform: uppercase;">
+                                {{ userInfo?.data?.username.split("")[0] }}
                             </div>
                             <form @submit.prevent="" class="profile__info-list">
                                     <div class="profile__info-list-item">
@@ -28,7 +28,7 @@
                             </form>
                         </div>
                         <div class="profile__footer">
-                            <h4 class="profile__id">ID: <span>255 274</span></h4>
+                            <h4 class="profile__id">ID: <span>{{ userInfo?.data?.id }}</span></h4>
                             <h4 class="profile__balance">Balans: <span>150 000</span> so’m</h4>
                         </div>
                     </div>
@@ -62,7 +62,6 @@ async function getUserInfo() {
         name.value = data?.data?.name ? data?.data?.name : ''
         login.value = data?.data?.username ? data?.data?.username : ''
         tel.value = data?.data?.phone_number ? data?.data?.phone_number : ''
-        console.log(data);
     }
 }
 await getUserInfo()

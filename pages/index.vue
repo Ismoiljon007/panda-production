@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="hero">
-            <Swiper :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800" :modules="[SwiperAutoplay]"
+            <Swiper :autoplay="{ delay: 10000, disableOnInteraction: false, }" :slides-per-view="'1'" :speed="800" :modules="[SwiperAutoplay]"
                 class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
                     <video-player loop :poster="item?.thumbnail_image_url" muted controls :autoplay="true"
@@ -127,6 +127,7 @@ async function getCategoriesMovie() {
 }
 getCategoriesMovie()
 store.loader = false
+
 </script>
 
 <style lang="scss">
