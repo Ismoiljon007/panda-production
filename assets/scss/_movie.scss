@@ -288,10 +288,10 @@
       }
     }
     @include media(550px) {
-      width: 126px;
+      width: 126px !important;
       .movie-card {
         &__img {
-          height: 230px;
+          height: 180px;
         }
       }
     }
