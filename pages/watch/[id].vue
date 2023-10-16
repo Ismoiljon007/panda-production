@@ -31,25 +31,57 @@
                     <button><img src="@/assets/images/svg/navigation.svg" alt=""> Jo‘natish</button>
                 </form>
                 <ul class="movie__comments">
-                    <li class="movie__comments-item" v-for="item in 5" :key="item">
-                        <div class="movie__comments-item-img">
-                            A
-                        </div>
-                        <div class="movie__comments-item-text-wr">
-                            <h4 class="movie__comments-item-name">Alisher Valisherov</h4>
-                            <p class="movie__comments-item-desc">Kinga gap yo mazza qilib ko’radigan kino ekan, ketgazgan
-                                vaqitimga achinmadim</p>
-                            <div class="movie__comments-item-btns">
-                                <button>
-                                    <img src="@/assets/images/svg/heart.svg" alt="">
-                                    <span>Yoqdi(30)</span>
-                                </button>
-                                <button>
-                                    <img src="@/assets/images/svg/send.svg" alt="">
-                                    <span>Javob qaytarish</span>
-                                </button>
+                    <li class="movie__comments-item" v-for="item in 1" :key="item">
+                        <div class="movie__comments-item-wrapper">
+                            <div class="movie__comments-item-img">
+                                A
+                            </div>
+                            <div class="movie__comments-item-text-wr">
+                                <h4 class="movie__comments-item-name">Alisher Valisherov</h4>
+                                <p class="movie__comments-item-desc">Kinga gap yo mazza qilib ko’radigan kino ekan, ketgazgan
+                                    vaqitimga achinmadim</p>
+                                <div class="movie__comments-item-btns">
+                                    <button>
+                                        <img src="@/assets/images/svg/heart.svg" alt="">
+                                        <span>Yoqdi(30)</span>
+                                    </button>
+                                    <button>
+                                        <img src="@/assets/images/svg/send.svg" alt="">
+                                        <span>Javob qaytarish</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+
+                        <ul class="movie__comments-item__inner">
+                            <li class="movie__comments-item" v-for="item in 1" :key="item">
+                                <div class="movie__comments-item-wrapper">
+                                    <div class="movie__comments-item-img">
+                                        A
+                                    </div>
+                                    <div class="movie__comments-item-text-wr">
+                                        <h4 class="movie__comments-item-name">Alisher Valisherov</h4>
+                                        <p class="movie__comments-item-desc">Kinga gap yo mazza qilib ko’radigan kino ekan,
+                                            ketgazgan
+                                            vaqitimga achinmadim</p>
+                                        <div class="movie__comments-item-btns">
+                                            <button>
+                                                <img src="@/assets/images/svg/heart.svg" alt="">
+                                                <span>Yoqdi(30)</span>
+                                            </button>
+                                            <button>
+                                                <img src="@/assets/images/svg/send.svg" alt="">
+                                                <span>Javob qaytarish</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </li>
+                            <div class="movie__comments-reply">
+                                    <div class="movie__comments-reply__img">IB</div>
+                            </div>
+                        </ul>
                     </li>
                 </ul>
                 <div class="movie__navigations">
@@ -122,10 +154,14 @@ onMounted(() => {
 
 }
 
-.vjs-poster img {
-    width: 100% !important;
-    object-fit: cover;
+.vjs-poster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #060606;
 }
+
+.vjs-poster img {}
 
 .prev-video {
     position: absolute;
@@ -178,4 +214,5 @@ onMounted(() => {
 
 .vjs-fullscreen-control {
     order: 5 !important;
-}</style>
+}
+</style>

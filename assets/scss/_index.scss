@@ -276,10 +276,10 @@
   }
   &__slide {
     width: 220px !important;
+    height: auto !important;
     @include media(650px) {
       width: 156px !important;
       .movie-card {
-        height: 310px;
         &__img {
           height: 238px;
         }

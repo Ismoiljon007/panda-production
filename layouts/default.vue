@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header class="header" :class="{'header-fixed': scrolledNav}">
         <div class="container">
             <NuxtLink class="site-logo" to="/">
                 <img src="@/assets/images/svg/logo.svg" alt="site logo">
@@ -193,6 +193,17 @@ function logout() {
 }
 const profile = ref(false)
 
+
+const scrolledNav = ref(false)
+const updateScroll = () => {
+    const scrollposition = window.scrollY;
+    if (scrollposition > 800) {
+        scrolledNav.value = true;
+        return;
+    }
+    scrolledNav.value = false;
+};
+
 onMounted(() => {
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {
@@ -201,6 +212,8 @@ onMounted(() => {
             }
         }
     })
+    window.addEventListener("scroll", updateScroll);
+
 })
 </script>
 
@@ -216,4 +229,5 @@ onMounted(() => {
 .fade-leave-to {
     opacity: 0;
     transform: translateY(-20px);
-}</style>
+}
+</style>

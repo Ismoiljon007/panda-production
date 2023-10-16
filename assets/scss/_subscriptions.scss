@@ -5,6 +5,13 @@
     background: #121212;
     &-wrapper {
       padding: 70px 40px 40px 73px;
+      @include media(935px) {
+        padding: 30px;
+      }
+      @include media(700px) {
+        padding: 20px 0;
+        background: $bg-color;
+      }
     }
     &-title {
       margin-bottom: 70px;
@@ -17,13 +24,29 @@
     gap: 55px;
     list-style: none;
     margin-bottom: 65px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    @include media(790px) {
+      gap: 20px;
+    }
+    &::-webkit-scrollbar {
+      height: 4px;
+      background: #242424;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #fff;
+    }
     li {
+      white-space: nowrap;
       @include font(400, 22px, 1.2);
       letter-spacing: -0.66px;
       color: rgba(255, 255, 255, 0.4);
       cursor: pointer;
       user-select: none;
       transition: all 0.3s ease;
+      @include media(790px) {
+        font-size: 16px;
+      }
       &:hover {
         color: #fff !important;
       }
@@ -31,7 +54,7 @@
   }
   &__tarrifs {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(min(460px, 100%), 1fr));
     gap: 45px;
     margin-bottom: 50px;
   }
@@ -41,25 +64,51 @@
       border-radius: 15px;
       background: #242424;
       padding: 30px 40px;
+      @include media(790px) {
+        padding: 20px;
+      }
     }
     &-title {
       @include font(500, 28px, 1.2);
       letter-spacing: -0.84px;
+      @include media(790px) {
+        font-size: 22px;
+      }
+      @include media(500px) {
+        font-size: 18px;
+      }
     }
     &-bottom {
       padding: 20px 42px 40px 42px;
       border-radius: 0 0 15px 15px;
       background: rgba(24, 24, 24, 1);
+      @include media(790px) {
+        padding: 20px;
+      }
     }
     &-desc {
       @include font(400, 20px, 1.4);
       margin-bottom: 30px;
       color: rgba(255, 255, 255, 0.4);
+      @include media(790px) {
+        font-size: 17px;
+        margin-bottom: 20px;
+      }
+      @include media(500px) {
+        font-size: 14px;
+      }
     }
     &-price {
       @include font(500, 24px, 1.2);
       letter-spacing: -0.72px;
       margin-bottom: 45px;
+      @include media(790px) {
+        margin-bottom: 30px;
+        font-size: 20px;
+      }
+      @include media(500px) {
+        font-size: 18px;
+      }
     }
     &-btn {
       @extend %pr-btn;

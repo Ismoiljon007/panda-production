@@ -106,7 +106,8 @@
                     <div class="category__main-top">
                         <h2 class="category__title">O’zbek kinolar</h2>
                         <div class="pagination">
-                            <ul></ul>
+                            <vue-awesome-paginate :total-items="20" :items-per-page="1" :max-pages-shown="3"
+                                v-model="currentPage" :on-click="onClickHandler" />
                         </div>
                     </div>
                     <div class="category__items">
@@ -119,84 +120,21 @@
 </template>
 
 <script setup>
-
+import { useStore } from '~~/store/store';
+const store = useStore()
+store.loader = false
 const genre = ref(false)
 const country = ref(false)
 const quality = ref(false)
 const yearFrom = ref(false)
 const yearTo = ref(false)
 
-let page = ref(10);
-let totalPages = 20;
+const onClickHandler = (page) => {
+    console.log(page);
+};
 
-onMounted(() => {
-    const element = document.querySelector(".pagination ul");
+const currentPage = ref(1);
 
-    //calling function with passing parameters and adding inside element which is ul tag
-    element.innerHTML = createPagination(totalPages, page.value);
-    function createPagination(totalPages, page) {
-        let liTag = '';
-        let active;
-        let beforePage = page - 1;
-        let afterPage = page + 1;
-        if (page > 1) { //show the next button if the page value is greater than 1
-            liTag += `<li class="btn prev" onclick="createPagination(totalPages, ${page - 1})"><span><i class="fas fa-angle-left"></i></span></li>`;
-        } else {
-            liTag += `<li class="btn prev"><span><i class="fas fa-angle-left"></i></span></li>`;
-        }
-
-        if (page > 2) { //if page value is less than 2 then add 1 after the previous button
-            liTag += `<li class="first numb" onclick="createPagination(totalPages, 1)"><span>1</span></li>`;
-            if (page > 3) { //if page value is greater than 3 then add this (...) after the first li or page
-                liTag += `<li class="dots"><span>...</span></li>`;
-            }
-        }
-
-        // how many pages or li show before the current li
-        if (page == totalPages) {
-            beforePage = beforePage - 2;
-        } else if (page == totalPages - 1) {
-            beforePage = beforePage - 1;
-        }
-        // how many pages or li show after the current li
-        if (page == 1) {
-            afterPage = afterPage + 2;
-        } else if (page == 2) {
-            afterPage = afterPage + 1;
-        }
-
-        for (var plength = beforePage; plength <= afterPage; plength++) {
-            if (plength > totalPages) { //if plength is greater than totalPage length then continue
-                continue;
-            }
-            if (plength == 0) { //if plength is 0 than add +1 in plength value
-                plength = plength + 1;
-            }
-            if (page == plength) { //if page is equal to plength than assign active string in the active variable
-                active = "active";
-            } else { //else leave empty to the active variable
-                active = "";
-            }
-            liTag += `<li class="numb ${active}" onclick="createPagination(totalPages, ${plength})"><span>${plength}</span></li>`;
-        }
-
-        if (page < totalPages - 1) { //if page value is less than totalPage value by -1 then show the last li or page
-            if (page < totalPages - 2) { //if page value is less than totalPage value by -2 then add this (...) before the last li or page
-                liTag += `<li class="dots"><span>...</span></li>`;
-            }
-            liTag += `<li class="last numb" onclick="createPagination(totalPages, ${totalPages})"><span>${totalPages}</span></li>`;
-        }
-
-        if (page < totalPages) { //show the next button if the page value is less than totalPage(20)
-            liTag += `<li class="btn next" onclick="createPagination(totalPages, ${page + 1})"><span><i class="fas fa-angle-right"></i></span></li>`;
-        } else {
-            liTag += `<li class="btn next"><span><i class="fas fa-angle-right"></i></span></li>`;
-        }
-        element.innerHTML = liTag; //add li tag inside ul tag
-        return liTag; //reurn the li tag
-    }
-    // selecting required element
-})
 </script>
 
 <style lang="scss">
@@ -213,57 +151,32 @@ onMounted(() => {
 }
 
 
-
-
-.pagination ul {
-    width: 100%;
+.pagination-container {
     display: flex;
-    flex-wrap: wrap;
+    column-gap: 10px;
 }
 
-.pagination ul li {
-    color: #adadad;
-    list-style: none;
-    line-height: 45px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
+.paginate-buttons {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
     cursor: pointer;
-    user-select: none;
-    transition: all 0.3s ease;
+    background-color: rgb(242, 242, 242);
+    border: 1px solid rgb(217, 217, 217);
+    color: black;
 }
 
-.pagination ul li.numb {
-    list-style: none;
-    height: 45px;
-    width: 45px;
-    margin: 0 3px;
-    line-height: 45px;
-    border-radius: 50%;
+.paginate-buttons:hover {
+    background-color: #d8d8d8;
 }
 
-.pagination ul li.numb.first {
-    margin: 0px 3px 0 -5px;
+.active-page {
+    background-color: #3498db;
+    border: 1px solid #3498db;
+    color: white;
 }
 
-.pagination ul li.numb.last {
-    margin: 0px -5px 0 3px;
-}
-
-.pagination ul li.dots {
-    font-size: 22px;
-    cursor: default;
-}
-
-.pagination ul li.btn {
-    padding: 0 20px;
-    border-radius: 50px;
-}
-
-.pagination li.active,
-.pagination ul li.numb:hover,
-.pagination ul li:first-child:hover,
-.pagination ul li:last-child:hover {
-    background: #2B2B2B;
+.active-page:hover {
+    background-color: #2988c8;
 }
 </style>

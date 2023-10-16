@@ -50,20 +50,22 @@
             </Swiper>
         </div>
         <div class="add">
-            <img src="@/assets/images/jpg/add.jpg" alt="">
+            <img src="@/assets/images/png/reklama.png" alt="">
         </div>
-        <div class="movies" v-for="(elem,i) in store.categories.data.categories" :key="elem.id">
+        <div class="movies" v-for="(elem, i) in store.categories.data.categories" :key="elem.id">
             <div class="container">
                 <div class="movies__header">
                     <h2 class="movies__title">{{ elem?.name }}</h2>
                     <div class="movies__navigations">
-                        <button :class="`movies__left movies__left-${i}`"><img src="@/assets/images/svg/left.svg" alt=""></button>
-                        <button :class="`movies__rigth movies__rigth-${i}`"><img src="@/assets/images/svg/right.svg" alt=""></button>
+                        <button :class="`movies__left movies__left-${i}`"><img src="@/assets/images/svg/left.svg"
+                                alt=""></button>
+                        <button :class="`movies__rigth movies__rigth-${i}`"><img src="@/assets/images/svg/right.svg"
+                                alt=""></button>
                     </div>
                 </div>
                 <Swiper :modules="[SwiperNavigation]"
-                    :navigation="{ nextEl: `.movies__rigth-${i}`, prevEl: `.movies__left-${i}` }"
-                    :slides-per-view="'auto'" :space-between="30" :breakpoints="{
+                    :navigation="{ nextEl: `.movies__rigth-${i}`, prevEl: `.movies__left-${i}` }" :slides-per-view="'auto'"
+                    :space-between="30" :breakpoints="{
                         '650': {
                             spaceBetween: 30
                         },
@@ -108,7 +110,7 @@ function onSlideChange() {
 }
 
 watchEffect((e) => {
-    if(e.onload) {
+    if (e.onload) {
         onSlideChange()
     }
 })

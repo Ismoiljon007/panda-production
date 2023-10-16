@@ -1,5 +1,5 @@
 .category {
-  padding: 150px 0 100px;
+  padding: 60px 0 100px;
   &__selects {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -11,6 +11,14 @@
       display: flex;
       align-items: flex-end;
       gap: 63px;
+      @include media(1600px) {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 30px;
+      }
+    }
+    @include media(1200px) {
+      display: none;
     }
     margin-bottom: 110px;
   }
@@ -27,6 +35,17 @@
       align-items: center;
       margin-bottom: 30px;
       justify-content: space-between;
+      @include media(735px) {
+        flex-direction: column;
+        gap: 20px;
+        .paginate-buttons {
+          width: 30px !important;
+          height: 30px !important;
+          font-size: 14px !important;
+          font-weight: 500 !important;
+          line-height: 1.2;
+      }
+      }
     }
   }
   &__title {
@@ -36,21 +55,19 @@
     display: grid;
     justify-content: center;
     grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+    gap: 40px 30px;
+    margin-bottom: 60px;
     .movie-card {
-      height: 100%;
-      &__img {
-        width: 100%;
-        height: 100%;
-        .img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
+      width: 220px;
+      margin: 0 auto;
     }
     @include media(550px) {
       gap: 15px;
     }
-    gap: 40px 30px;
+  }
+  .main-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

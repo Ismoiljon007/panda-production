@@ -22,8 +22,8 @@
         </div>
 
         <div class="movie-card__badge-wrapper">
-            <span class="movie-card__badge-quality">Full HD</span>
-            <span class="movie-card__badge-new">NEW</span>
+            <span class="movie-card__badge-quality" v-if="movie?.is_premiere">Full HD</span>
+            <span class="movie-card__badge-new" v-if="false">NEW</span>
         </div>
 
         <div class="movie-card__text-wrapper">
@@ -31,7 +31,7 @@
             <div class="movie-card__cat">
                 <NuxtLink to="/">2023</NuxtLink>
                 <span>/</span>
-                <NuxtLink to="/">Jangari</NuxtLink>
+                <NuxtLink to="/">{{ movie?.genre[0].name }}</NuxtLink>
             </div>
         </div>
     </div>
