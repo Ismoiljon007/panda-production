@@ -110,7 +110,6 @@
       align-items: flex-start;
       gap: 5px;
       @extend %pr-btn;
-      // padding: 15px 40px;
     }
   }
   &__comments {
@@ -246,7 +245,9 @@
         color: #fff;
         margin-bottom: 20px;
         @include media(600px) {
+          font-weight: 400;
           font-size: 14px;
+          line-height: 1.4;
           margin-bottom: 10px;
         }
       }
@@ -290,18 +291,17 @@
       width: 126px;
       .movie-card {
         &__img {
-          height: 160px;
+          height: 230px;
         }
       }
     }
   }
   &__navigations {
-    width: 100%;
-    justify-content: flex-end;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
     gap: 8px;
-    margin-bottom: 30px;
     button {
       width: 50px;
       height: 50px;
@@ -315,6 +315,22 @@
       cursor: pointer;
       &:hover {
         border-color: #fff;
+      }
+      @include media(800px) {
+        width: 40px;
+        height: 40px;
+        img {
+          width: 18px;
+          height: 18px;
+        }
+      }
+      @include media(650px) {
+        width: 33px;
+        height: 33px;
+        img {
+          width: 14px;
+          height: 14px;
+        }
       }
     }
   }

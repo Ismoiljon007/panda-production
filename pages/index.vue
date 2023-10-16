@@ -70,7 +70,7 @@
                             spaceBetween: 30
                         },
                         '0': {
-                            spaceBetween: 10
+                            spaceBetween: 10,
                         },
                     }" class="movies__swiper">
                     <SwiperSlide v-for="item in movies[elem.id]" :key="item" class="movies__slide">
