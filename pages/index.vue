@@ -1,11 +1,13 @@
 <template>
     <main>
         <div class="hero">
-            <Swiper :slides-per-view="'1'" :autoplay="{ delay: 10000, disableOnInteraction: false, }"  :speed="800" :modules="[SwiperAutoplay]" class="hero__swiper"
-                @slide-change="onSlideChange">
+            <Swiper :slides-per-view="'1'" :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800"
+                :modules="[SwiperAutoplay]" class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
-                    <video-player loop :poster="item?.thumbnail_image_url" muted controls :autoplay="true"
-                        class="hero__video" :src="item?.trailer_url" />
+                    <video-player loop :poster="item?.thumbnail_image_url" muted  :autoplay="true"
+                        class="hero__video" :src="item?.trailer_url" :plugins="{
+                            aspectRatio: '19:8'
+                        }"/>
                     <div class="container">
                         <div class="hero__slide-text-wrapper">
                             <h4 class="hero__slide-subtitle">{{ item?.release_year }} / {{ item?.genre?.name }}</h4>
@@ -90,31 +92,34 @@ store.loader = true
 const banners = await $fetch(store.baseUrl + "/banners/")
 const muted = ref(true)
 const movies = ref({})
-// function soundFunc() {
-//     muted.value = !muted.value
-//     document.querySelectorAll('.hero__video').forEach((elem, i) => {
-//         if (elem.parentElement.classList.contains('swiper-slide-active')) {
-//             elem.childNodes[0].muted = muted.value
-//         } else {
-//             elem.childNodes[0].muted = true
-//         }
-//     })
-// }
-
-function onSlideChange(e) {
-    // document.querySelectorAll('.hero__video')[e.activeIndex].childNodes[0].muted = muted.value
-    // document.querySelectorAll('.hero__video')[e.activeIndex === 1 ? 1 : e.activeIndex - 1].childNodes[0].muted = muted.value
-    console.log(document.querySelectorAll('.hero__video')[e.activeIndex]);
+const curentId = ref(0)
+function soundFunc() {
+    muted.value = !muted.value
+    if (videoPlayers[curentId.value]) {
+        videoPlayers[curentId.value].muted(muted.value);
+    }
 }
 
-watchEffect((e) => {
-    if (e.onload) {
-        onSlideChange()
+
+const videoPlayers = [];
+function onSlideChange(swiper) {
+    videoPlayers.forEach((videoPlayer) => {
+        videoPlayer.muted(true);
+    });
+    curentId.value = swiper.activeIndex
+    if (videoPlayers[swiper.activeIndex]) {
+        videoPlayers[swiper.activeIndex].muted(muted.value);
     }
-})
-onMounted(()=> {
-    
-})
+}
+onMounted(() => {
+    document.querySelectorAll('.hero__video').forEach((videoElement) => {
+        const videoPlayer = videojs(videoElement);
+        videoPlayer.muted(true);
+        videoPlayers.push(videoPlayer);
+    });
+});
+
+
 async function getCategoriesMovie() {
     try {
         const fetchPromises = store.categories.data.categories.map(async (el) => {

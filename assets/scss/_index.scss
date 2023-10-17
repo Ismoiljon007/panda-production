@@ -1,28 +1,51 @@
 .hero {
   &__video {
-    position: absolute !important;
-    top: 0;
-    left: 0;
     width: 100% !important;
-    height: 100% !important;
     z-index: -2;
     pointer-events: none;
-    video {
-      height: 100% !important;
-      pointer-events: none;
-      object-position: top !important;
+    height: fit-content !important;
+    @include media(1190px) {
+      height: 650px !important;
     }
-  }
-  .video-js {
-    height: 100% !important;
+    @include media(960px) {
+      height: 550px !important;
+    }
+    @include media(770px) {
+      height: 500px !important;
+    }
+    @include media(700px) {
+      height: 350px !important;
+    }
+    @include media(450px) {
+      height: 280px !important;
+    }
+    video {
+      pointer-events: none;
+      @include media(1190px) {
+        object-fit: cover;
+      }
+      
+    }
   }
   &__slide-sound-btn {
     position: absolute;
-    bottom: 55px;
+    bottom: 120px;
     right: 55px;
     width: 30px;
     height: 30px;
     border: none;
+    @include media(1320px) {
+      bottom: 80px;
+    }
+    @include media(1000px) {
+      bottom: 45px;
+    }
+    @include media(650px) {
+      bottom: 30px;
+    }
+    @include media(500px) {
+      bottom: 20px;
+    }
     background: none;
     cursor: pointer;
     svg {
@@ -39,28 +62,9 @@
   }
 
   &__slide {
-    position: relative;
-    height: 830px !important;
     display: flex !important;
     flex-direction: column;
-    @media (min-width: 1921px) {
-      height: 72vh !important;
-    }
-    @include media(1320px) {
-      height: 650px !important;
-    }
-    @include media(1075px) {
-      height: 500px !important;
-    }
-    @include media(700px) {
-      height: 400px !important;
-    }
-    @include media(580px) {
-      height: 300px !important;
-    }
-    @include media(400px) {
-      height: 200px;
-    }
+    height: fit-content !important;
     overflow-y: hidden;
     &.swiper-slide-active {
       .hero__slide-subtitle {
@@ -223,8 +227,27 @@
         );
     }
     .container {
-      margin-top: auto;
+      max-width: 100%;
+      position: absolute;
+      bottom: 22px;
+      left: 0;
+      width: 100%;
       margin-bottom: 120px;
+      @include media(700px) {
+        bottom: 10px;
+      }
+      @include media(500px) {
+        bottom: 0;
+      }
+      .hero__slide-text-wrapper {
+        width: 100%;
+        max-width: 1760px;
+        padding: 0 20px;
+        margin: 0 auto;
+        @include media(1810px) {
+          padding: 0;
+        }
+      }
       @include media(1320px) {
         margin-bottom: 80px;
       }
@@ -233,6 +256,9 @@
       }
       @include media(650px) {
         margin-bottom: 30px;
+      }
+      @include media(500px) {
+        margin-bottom: 20px;
       }
     }
   }
