@@ -101,8 +101,7 @@ function soundFunc() {
 }
 const runtimeConfig = useRuntimeConfig();
 
-console.log(runtimeConfig.apiSecret);
-console.log(runtimeConfig.public.apiBase);
+
 
 const videoPlayers = [];
 function onSlideChange(swiper) {
