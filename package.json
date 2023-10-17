@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "backend",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -18,6 +18,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "@videojs-player/vue": "^1.0.0",
+    "nodemon": "^3.0.1",
     "nuxt-swiper": "^1.2.0",
     "video.js": "^8.5.2",
     "videojs-contrib-quality-levels": "^4.0.0",
@@ -26,5 +27,11 @@
     "videojs-seek-buttons": "4.0.3",
     "vue-awesome-paginate": "^1.1.46",
     "vue3-google-login": "^2.0.20"
-  }
+  },
+  "description": "Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ismoiljon <ibahtiyorov007@gmail.com>",
+  "license": "ISC",
+  "repository": "https://github.com/Ismoiljon007/panda-production.git"
 }

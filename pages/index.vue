@@ -4,10 +4,10 @@
             <Swiper :slides-per-view="'1'" :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800"
                 :modules="[SwiperAutoplay]" class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
-                    <video-player loop :poster="item?.thumbnail_image_url" muted  :autoplay="true"
-                        class="hero__video" :src="item?.trailer_url" :plugins="{
+                    <video-player loop :poster="item?.thumbnail_image_url" muted :autoplay="true" class="hero__video"
+                        :src="item?.trailer_url" :plugins="{
                             aspectRatio: '19:8'
-                        }"/>
+                        }" />
                     <div class="container">
                         <div class="hero__slide-text-wrapper">
                             <h4 class="hero__slide-subtitle">{{ item?.release_year }} / {{ item?.genre?.name }}</h4>
@@ -99,7 +99,10 @@ function soundFunc() {
         videoPlayers[curentId.value].muted(muted.value);
     }
 }
+const runtimeConfig = useRuntimeConfig();
 
+console.log(runtimeConfig.apiSecret);
+console.log(runtimeConfig.public.apiBase);
 
 const videoPlayers = [];
 function onSlideChange(swiper) {
@@ -123,7 +126,7 @@ onMounted(() => {
 async function getCategoriesMovie() {
     try {
         const fetchPromises = store.categories.data.categories.map(async (el) => {
-            const data = await $fetch(store.baseUrl + `/category/${el.id}/content/`);
+            const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`);
             movies.value[el.id] = data.data.movies;
         });
         await Promise.all(fetchPromises);
