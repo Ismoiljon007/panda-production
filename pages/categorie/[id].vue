@@ -141,7 +141,7 @@ const categorieMovies = ref(null)
 const categorieName = ref(null)
 function getCategorieMovie() {
     $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/`).then(data => {
-        categorieMovies.value = data.data.movies
+        categorieMovies.value = data.data.content
     })
     store.categories?.data?.categories.forEach(el => {
         if (el.id == id) {

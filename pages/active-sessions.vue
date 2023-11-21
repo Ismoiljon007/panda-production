@@ -21,7 +21,6 @@
                         </div>
                         <div class="profile__footer">
                             <h4 class="profile__id">ID: <span>255 274</span></h4>
-                            <h4 class="profile__balance">Balans: <span>150 000</span> so’m</h4>
                         </div>
                     </div>
                 </div>

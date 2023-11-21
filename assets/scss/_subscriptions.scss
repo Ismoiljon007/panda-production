@@ -1,5 +1,6 @@
 .subscriptions {
   padding-top: 170px;
+
   &__bottom {
     border-radius: 15px;
     background: #121212;
@@ -59,7 +60,9 @@
     margin-bottom: 50px;
   }
   &__tarrif {
-    border-radius: 1px;
+    background: rgba(24, 24, 24, 1);
+
+    border-radius: 12px;
     &-top {
       border-radius: 15px;
       background: #242424;

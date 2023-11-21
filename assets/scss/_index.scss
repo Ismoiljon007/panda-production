@@ -1,4 +1,15 @@
 .hero {
+  .swiper-pagination-bullet {
+    width: 20px !important;
+    transition: all 0.3s ease;
+    background: #c9c9c9 !important;
+    height: 4px !important;
+    border-radius: 3px !important;
+  }
+  .swiper-pagination-bullet-active {
+    width: 35px !important;
+    background: #fff !important;
+  }
   &__video {
     width: 100% !important;
     z-index: -2;

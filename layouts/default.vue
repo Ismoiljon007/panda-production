@@ -87,12 +87,20 @@
             </ul>
         </div>
     </transition>
-    <div class="search" v-if="store.search_open">
-        <form action="#" @submit.prevent="">
-            <input type="text">
-            <button>Qidirish</button>
-        </form>
-    </div>
+    <Transition name="search">
+        <div class="search" v-if="store.search_open">
+            <form @submit.prevent="">
+                <input type="text" @input="search($event)">
+                <button>Qidirish</button>
+            </form>
+            <ul class="search-list" v-if="searchData">
+                <h4>Kinolar</h4>
+                <li v-for="item in searchData?.movies" :key="item"><NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink></li>
+                <h4 class="search-serial">Serialar</h4>
+                <li v-for="item in searchData?.series" :key="item"><NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink></li>
+            </ul>
+        </div>
+    </Transition>
     <NuxtPage />
     <footer class="footer">
         <div class="footer__top">
@@ -243,6 +251,21 @@ async function getUserInfo() {
 }
 await getUserInfo()
 
+const searchData = ref(null)
+
+const search = async (e)=> {
+    const data = await $fetch(`${store.baseUrl}/search`, {
+        method: 'GET',
+        params: {
+            q: e.target.value
+        }
+    })
+    if(e.target.value.length) {
+        searchData.value = data.data
+    } else {
+        searchData.value = null
+    }
+}
 
 const scrolledNav = ref(false)
 const updateScroll = () => {
@@ -297,5 +320,16 @@ onMounted(() => {
 .menu-leave-to {
     opacity: 0;
     transform: translateX(20px);
+}
+.search-enter-active,
+.search-leave-active {
+    transition: all 0.5s ease;
+    width: 80%;
+}
+
+.search-enter-from,
+.search-leave-to {
+    opacity: 0;
+    width: 20%;
 }
 </style>

@@ -2,7 +2,7 @@
     <main>
         <div class="hero">
             <Swiper :slides-per-view="'1'" :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800"
-                :modules="[SwiperAutoplay]" class="hero__swiper" @slide-change="onSlideChange">
+                :modules="[SwiperAutoplay,SwiperPagination]" :pagination="true" class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
                     <video-player loop :poster="item?.thumbnail_image_url" muted :autoplay="true" class="hero__video"
                         :src="item?.trailer_url" :plugins="{
@@ -126,7 +126,7 @@ async function getCategoriesMovie() {
     try {
         const fetchPromises = store.categories.data.categories.map(async (el) => {
             const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`);
-            movies.value[el.id] = data.data.movies;
+            movies.value[el.id] = data.data.content;
         });
         await Promise.all(fetchPromises);
     } catch (error) {
@@ -182,4 +182,6 @@ store.loader = false
 .vjs-fullscreen-control {
     order: 5 !important;
 }
+
+
 </style>

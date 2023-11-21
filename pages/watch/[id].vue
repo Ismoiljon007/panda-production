@@ -3,14 +3,19 @@
         <div class="movie">
             <div class="container">
                 <div class="movie-video">
-                    <video-player :poster="details?.data.thumbnail_image" ref="player" controls class="video"
+                    <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div>
+                    <div class="movie-video-btns" v-if="movieOverlay">
+                        <button @click="skip(-10)"><img src="@/assets/images/svg/prev-btn.svg" alt=""></button>
+                        <button @click="playPause()"><img src="@/assets/images/svg/play-btn.svg" alt=""></button>
+                        <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
+                    </div>
+                    <video-player :poster="details?.data.thumbnail_image" ref="player" controls id="video" class="video"
                         :src="details?.data?.main_content_url" :volume="0.6" :plugins="{
                             hotkeys: {
                                 volumeStep: 0.1,
                                 seekStep: 10,
                                 enableModifiersForNumbers: false,
-                            },
-
+                            }
                         }
                             " />
                 </div>
@@ -118,12 +123,23 @@ import { useRoute } from 'vue-router';
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'videojs-hotkeys';
-
 const store = useStore();
 const { id } = useRoute().params;
-
+const player = ref()
 const details = ref(null);
 const movies = ref([]);
+
+
+
+async function getCategoriesMovie() {
+    const fetchPromises = store.categories.data.categories.map(el =>
+        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`)
+    );
+    const results = await Promise.all(fetchPromises);
+    results.forEach((data, index) => {
+        movies.value[index] = data.data.movies;
+    });
+}
 
 async function fetchData() {
     store.loader = true;
@@ -138,19 +154,34 @@ async function fetchData() {
     }
 }
 
-async function getCategoriesMovie() {
-    const fetchPromises = store.categories.data.categories.map(el =>
-        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`)
-    );
-    const results = await Promise.all(fetchPromises);
-    results.forEach((data, index) => {
-        movies.value[index] = data.data.movies;
-    });
+const movieOverlay = ref(true)
+function playPause() {
+    if (document.getElementById('video').childNodes[0].paused) {
+        document.getElementById('video').childNodes[0].play()
+        movieOverlay.value = false
+    } else {
+        document.getElementById('video').childNodes[0].pause()
+        movieOverlay.value = true
+    }
 }
+function skip(value) {
+    var video = document.getElementById('video')?.childNodes[0]
+    video.currentTime += value;
+}
+
 const com = ref(false)
 onMounted(() => {
     fetchData();
+    document.getElementById('video')?.childNodes[0]?.addEventListener('click', (e) => {
+        if (e.target.paused == true) {
+            movieOverlay.value = true
+        } else {
+            movieOverlay.value = false
+        }
+    })
 });
+watchEffect((e) => {
+})
 
 </script>
 
@@ -243,4 +274,42 @@ onMounted(() => {
 
 .vjs-fullscreen-control {
     order: 5 !important;
-}</style>
+}
+
+
+.video-js .vjs-big-play-button {
+    border: none;
+    border-radius: 50%;
+    width: 60px !important;
+    height: 60px !important;
+    display: grid !important;
+    place-items: center;
+
+    .vjs-icon-placeholder {
+        width: 60px !important;
+        height: 60px !important;
+        font-size: 22px;
+        line-height: 1.5 !important;
+
+        &::before {
+            content: url('@/assets/images/svg/play-btn.svg') !important;
+        }
+    }
+}
+
+.vjs-paused .vjs-big-play-button {
+    z-index: 2;
+}
+
+.vjs-playing .vjs-big-play-button {
+    z-index: -2;
+}
+
+.vjs-playing {
+    z-index: 4;
+}
+
+.video-js .vjs-big-play-button:hover {
+    background: none !important;
+}
+</style>
