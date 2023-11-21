@@ -297,19 +297,5 @@ watchEffect((e) => {
     }
 }
 
-.vjs-paused .vjs-big-play-button {
-    z-index: 2;
-}
 
-.vjs-playing .vjs-big-play-button {
-    z-index: -2;
-}
-
-.vjs-playing {
-    z-index: 4;
-}
-
-.video-js .vjs-big-play-button:hover {
-    background: none !important;
-}
 </style>
