@@ -106,16 +106,16 @@
                     <div class="category__main-top">
                         <h2 class="category__title">{{ categorieName }}</h2>
                         <div class="pagination">
-                            <vue-awesome-paginate :total-items="1" :items-per-page="1" :max-pages-shown="3"
-                                v-model="currentPage" :on-click="onClickHandler" />
+                            <vue-awesome-paginate :total-items="categorieMovies?.pagination?.current_page"
+                                :items-per-page="1" :max-pages-shown="3" v-model="currentPage" :on-click="onClickHandler" />
                         </div>
                     </div>
                     <div class="category__items">
-                        <movie-card v-for="item in categorieMovies" :movie="item" :key="item" />
+                        <movie-card v-for="item in categorieMovies?.content" :movie="item" :key="item" />
                     </div>
                     <div class="main-pagination">
-                        <vue-awesome-paginate :total-items="1" :items-per-page="1" :max-pages-shown="3"
-                            v-model="currentPage" :on-click="onClickHandler" />
+                        <vue-awesome-paginate :total-items="categorieMovies?.pagination?.current_page" :items-per-page="1"
+                            :max-pages-shown="3" v-model="currentPage" @click="onClickHandler" />
                     </div>
                 </div>
             </div>
@@ -139,10 +139,9 @@ let totalPages = 20;
 
 const categorieMovies = ref(null)
 const categorieName = ref(null)
-function getCategorieMovie() {
-    $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/`).then(data => {
-        categorieMovies.value = data.data.content
-    })
+async function getCategorieMovie() {
+    const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/`)
+    categorieMovies.value = data.data
     store.categories?.data?.categories.forEach(el => {
         if (el.id == id) {
             categorieName.value = el.name
@@ -183,8 +182,10 @@ function selectYearTo(e) {
 
 
 
-const onClickHandler = (page) => {
-    console.log(page);
+const onClickHandler = async (page) => {
+    const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/?page=${page}&size=10`)
+    categorieMovies.value = data.data
+    // console.log(data);
 };
 
 const currentPage = ref(1);
@@ -223,6 +224,7 @@ store.loader = false
     height: 40px;
     border-radius: 50%;
     cursor: pointer;
+
     &:hover {
         background: #2B2B2B !important;
     }

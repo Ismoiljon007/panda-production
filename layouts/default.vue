@@ -18,13 +18,13 @@
                 </div>
                 <NuxtLink to="/login" v-if="!token" class="header__login-btn">Kirish</NuxtLink>
                 <button class="header__profile" v-else @click="profile = !profile">
-                    <span style="pointer-events: none;">R</span>
+                    <span style="pointer-events: none;">{{ userInfo?.username.split("")[0] }}</span>
                     <Transition name="fade">
                         <div class="profile-modal" v-if="profile">
                             <div class="profile-modal__top">
-                                <span>90 123 45 85</span>
+                                <span>{{ userInfo?.phone_number }}</span>
                                 <span>|</span>
-                                <span>ID: 125552</span>
+                                <span>ID: {{ userInfo?.id }}</span>
                             </div>
                             <NuxtLink to="/profile" class="profile-modal__item"><img src="@/assets/images/svg/user.svg"
                                     alt=""> Akkaunt
@@ -95,9 +95,15 @@
             </form>
             <ul class="search-list" v-if="searchData">
                 <h4>Kinolar</h4>
-                <li v-for="item in searchData?.movies" :key="item"><NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink></li>
+                <li v-for="item in searchData?.movies" :key="item">
+                    <NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img
+                            src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink>
+                </li>
                 <h4 class="search-serial">Serialar</h4>
-                <li v-for="item in searchData?.series" :key="item"><NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink></li>
+                <li v-for="item in searchData?.series" :key="item">
+                    <NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img
+                            src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink>
+                </li>
             </ul>
         </div>
     </Transition>
@@ -253,14 +259,17 @@ await getUserInfo()
 
 const searchData = ref(null)
 
-const search = async (e)=> {
-    const data = await $fetch(`${store.baseUrl}/search`, {
+const search = async (e) => {
+    const data = await $fetch(`${store.baseUrl}/search/`, {
         method: 'GET',
         params: {
             q: e.target.value
+        },
+        headers: {
+            'Authorization': 'Bearer ' + store.token
         }
     })
-    if(e.target.value.length) {
+    if (e.target.value.length) {
         searchData.value = data.data
     } else {
         searchData.value = null
@@ -321,6 +330,7 @@ onMounted(() => {
     opacity: 0;
     transform: translateX(20px);
 }
+
 .search-enter-active,
 .search-leave-active {
     transition: all 0.5s ease;
@@ -331,5 +341,4 @@ onMounted(() => {
 .search-leave-to {
     opacity: 0;
     width: 20%;
-}
-</style>
+}</style>

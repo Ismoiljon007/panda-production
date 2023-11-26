@@ -7,10 +7,10 @@
                 <div class="saved__bottom">
                     <Nav />
                     <div class="saved__bottom-wrapper">
-                        <div class="saved__items" v-if="false">
-                            <!-- <movie-card v-for="item in 2" :key="item"/> -->
+                        <div class="saved__items" v-if="store.savedMovies?.data?.content?.length">
+                            <movie-card v-for="item in store.savedMovies?.data?.content" :key="item" :movie="item" />
                         </div>
-                        <div class="saved__not-found">
+                        <div class="saved__not-found" v-if="!store.savedMovies?.data?.content?.length">
                             <span class="saved__not-found-icon">:(</span>
                             <h2 class="saved__not-fount-title">Tanlanganlar yoq</h2>
                         </div>
@@ -25,8 +25,11 @@
 </template>
 
 <script setup>
-import {useStore} from '~~/store/store'
+import { useStore } from '~~/store/store'
 const store = useStore()
+
+store.getSavedMovies()
+
 store.loader = false
 </script>
 

@@ -9,5 +9,4 @@ export default defineNuxtConfig({
       apiBase: 'https://catalogservice.inminternational.uz'
     }
   },
-
 })

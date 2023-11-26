@@ -91,6 +91,7 @@
     }
     .password-input {
       position: relative;
+      width: 100%;
       button {
         position: absolute;
         top: 50%;
@@ -114,6 +115,9 @@
     }
     .login-input {
       background-image: url(@/assets/images/svg/user.svg) !important;
+    }
+    .login-input-tel {
+      background-image: url(@/assets/images/svg/tel.svg) !important;
     }
     margin-bottom: 130px;
   }

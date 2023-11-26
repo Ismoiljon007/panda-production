@@ -1,18 +1,66 @@
 .saved {
-  padding-top: 170px;
+  padding: 170px 0 100px;
   &__items {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+    @include media(900px) {
+      gap: 20px;
+    }
+    @include media(762px) {
+      grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr));
+    }
+    @include media(456px) {
+      grid-template-columns: 1fr 1fr;
+    }
     gap: 30px;
     margin-bottom: 70px;
+    .movie-card {
+      &__img {
+        @include media(1760px) {
+          height: 380px;
+        }
+        @include media(1810px) {
+          height: 330px;
+        }
+        @include media(758px) {
+          height: 300px;
+        }
+        @include media(660px) {
+          height: 280px;
+        }
+        @include media(620px) {
+          height: 340px;
+        }
+        @include media(516px) {
+          height: 300px;
+        }
+        @include media(462px) {
+          height: 270px;
+        }
+        @include media(457px) {
+          height: 250px;
+        }
+        @include media(420px) {
+          height: 220px;
+        }
+      }
+    }
   }
   &__bottom {
     border-radius: 15px;
     background: #121212;
+
     &-wrapper {
       padding: 70px 40px 40px 73px;
       display: flex;
       flex-direction: column;
+      @include media(800px) {
+        padding: 40px;
+      }
+      @include media(700px) {
+        padding: 20px 0;
+        background: $bg-color;
+      }
     }
     &-title {
       margin-bottom: 70px;
@@ -42,7 +90,7 @@
 
   &__items {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(609px, 100%), 1fr));
     gap: 30px;
     margin-bottom: 70px;
   }
@@ -50,17 +98,30 @@
     display: flex;
     align-items: center;
     background: rgba(36, 36, 36, 1);
-    padding: 37px 30px 37px 42px;
+    padding: 37px 30px 37px 30px;
     border-radius: 15px;
+    @include media(500px) {
+      flex-direction: column;
+      gap: 20px;
+    }
     &-img {
       width: 48px;
       margin-right: 45px;
+      @include media(500px) {
+        margin: 0;
+      }
       img {
         width: 100%;
+      }
+      @include media(700px) {
+        margin-right: 20px;
       }
     }
     &-text-wrapper {
       margin-right: auto;
+      @include media(500px) {
+        margin: 0;
+      }
     }
     &-finish {
       background: none;
@@ -75,6 +136,10 @@
       letter-spacing: -0.24px;
       margin-bottom: 5px;
       color: #fff;
+      @include media(700px) {
+        font-size: 18px;
+        font-weight: 600;
+      }
     }
     &-date {
       display: flex;
@@ -83,13 +148,23 @@
       @include font(400, 20px, 1.2);
       color: rgba(255, 255, 255, 0.5);
       letter-spacing: -0.2px;
+      @include media(700px) {
+        font-size: 16px;
+      }
     }
   }
   &__bottom {
     border-radius: 15px;
     background: #121212;
     &-wrapper {
-      padding: 70px 40px 40px 73px;
+      padding: 70px 40px 40px 40px;
+      @include media(800px) {
+        padding: 40px;
+      }
+      @include media(700px) {
+        padding: 20px 0;
+        background: $bg-color;
+      }
     }
     &-title {
       margin-bottom: 70px;

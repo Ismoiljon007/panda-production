@@ -101,7 +101,6 @@
       align-items: flex-end;
       @include media(800px) {
         width: 100%;
-
       }
       &-item {
         display: flex;
@@ -142,10 +141,10 @@
     align-items: center;
     gap: 150px;
     @include media(800px) {
-      gap: 80px
+      gap: 80px;
     }
     @include media(600px) {
-      gap: 50px
+      gap: 50px;
     }
   }
   &__id {
@@ -170,5 +169,32 @@
       font-size: 18px;
     }
   }
- 
+  &__payment {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding-bottom: 70px;
+    &-item {
+      &-img {
+        width: 135px;
+        object-fit: contain;
+        margin-bottom: 40px;
+      }
+      &-title {
+        @include font(500, 28px, 1.2);
+        color: #fff;
+      }
+      &-info {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 140%;
+        letter-spacing: -0.6px;
+        margin-bottom: 40px;
+      }
+      button {
+        @extend %pr-btn;
+      }
+    }
+  }
 }

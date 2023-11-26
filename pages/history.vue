@@ -7,8 +7,12 @@
                 <div class="saved__bottom">
                     <Nav />
                     <div class="saved__bottom-wrapper">
-                        <div class="saved__items">
-                            <movie-card v-for="item in 2" :key="item"/>
+                        <div class="saved__items" v-if="history.length">
+                            <movie-card v-for="item in 2" :key="item" />
+                        </div>
+                        <div class="saved__not-found" v-if="!history.length">
+                            <span class="saved__not-found-icon">:(</span>
+                            <h2 class="saved__not-fount-title">Tarixingizda hech qanday yozuv yo'q</h2>
                         </div>
                         <div class="profile__footer">
                             <h4 class="profile__id">ID: <span>255 274</span></h4>
@@ -21,8 +25,9 @@
 </template>
 
 <script setup>
-import {useStore} from '~~/store/store'
+import { useStore } from '~~/store/store'
 const store = useStore()
+const history = ref([])
 store.loader = false
 </script>
 

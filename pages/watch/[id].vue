@@ -15,7 +15,8 @@
                                 volumeStep: 0.1,
                                 seekStep: 10,
                                 enableModifiersForNumbers: false,
-                            }
+                            },
+                            hlsQualitySelector: {}
                         }
                             " />
                 </div>
@@ -28,25 +29,41 @@
                     </div>
                     <p class="movie__info-desc">{{ details?.data?.description }}</p>
                 </div>
+                <div class="movie-episods" v-if="!details?.data?.is_movie">
+                    <div class="movie-episods__seasons">
+                        <h4 class="movie-episods__seasons-title">Fasillar:</h4>
+                        <div class="movie-episods__seasons-item" v-for="(item, i) in details?.data?.seasons" :key="item">{{
+                            i
+                            + 1 }}</div>
+                    </div>
+                    <div class="movie-episods__wrapper">
+                        <div class="movie-episods__item" @click="getMovie(item?.series)" v-for="item in  episods?.data"
+                            :key="item">
+                            <div class="movie-episods__item-img">
+                                <img :src="item?.thumbnail_image_url" alt="">
+                            </div>
+                            <h4 class="movie-episods__item-name">{{ item?.series }}-qism</h4>
+                        </div>
+                    </div>
+                </div>
                 <div class="movie__adds">
                     <img src="@/assets/images/png/reklama.png" alt="">
                 </div>
-                <form class="movie__comment-write" action="#">
-                    <textarea placeholder="Fikr bildirish..."></textarea>
+                <form class="movie__comment-write" action="#" @submit.prevent="sendComment()">
+                    <textarea placeholder="Fikr bildirish..." v-model="comment"></textarea>
                     <button><img src="@/assets/images/svg/navigation.svg" alt=""> Jo‘natish</button>
                 </form>
                 <ul class="movie__comments">
-                    <li class="movie__comments-item comment-item" v-for="item in 1" :key="item">
+                    <li class="movie__comments-item comment-item" v-for="(item) in details?.data?.comments" :key="item">
+
                         <div class="movie__comments-item-wrapper">
                             <div class="movie__comments-item-img">
-                                A
+                                {{ item.username.charAt().toUpperCase() }}
                             </div>
                             <div class="movie__comments-item-text-wr">
-                                <h4 class="movie__comments-item-name">Alisher Valisherov</h4>
-                                <p class="movie__comments-item-desc">Kinga gap yo mazza qilib ko’radigan kino ekan,
-                                    ketgazgan
-                                    vaqitimga achinmadim</p>
-                                <div class="movie__comments-item-btns">
+                                <h4 class="movie__comments-item-name">{{ item?.username }}</h4>
+                                <p class="movie__comments-item-desc">{{ item?.content }}</p>
+                                <!-- <div class="movie__comments-item-btns">
                                     <button>
                                         <img src="@/assets/images/svg/heart.svg" alt="">
                                         <span>Yoqdi(30)</span>
@@ -55,12 +72,13 @@
                                         <img src="@/assets/images/svg/send.svg" alt="">
                                         <span>Javob qaytarish</span>
                                     </button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
-                        <ul class="movie__comments-item__inner">
-                            <li class="movie__comments-item" v-for="item in 1" :key="item">
+
+                        <!-- <ul class="movie__comments-item__inner">
+                            <li class="movie__comments-item">
                                 <div class="movie__comments-item-wrapper">
                                     <div class="movie__comments-item-img">
                                         A
@@ -92,7 +110,7 @@
                                     <button><img src="@/assets/images/svg/navigation.svg" alt=""> Jo‘natish</button>
                                 </div>
                             </div>
-                        </ul>
+                        </ul> -->
                     </li>
                 </ul>
                 <div class="movie__navigations">
@@ -123,37 +141,134 @@ import { useRoute } from 'vue-router';
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'videojs-hotkeys';
+import qualitySelector from 'videojs-hls-quality-selector';
+import qualityLevels from 'videojs-contrib-quality-levels';
+videojs.registerPlugin('qualityLevels', qualityLevels);
+videojs.registerPlugin('hlsQualitySelector', qualitySelector);
 const store = useStore();
 const { id } = useRoute().params;
 const player = ref()
+const comment = ref()
+// console.log(qualitySelector());
 const details = ref(null);
 const movies = ref([]);
 
-
-
-async function getCategoriesMovie() {
-    const fetchPromises = store.categories.data.categories.map(el =>
-        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`)
-    );
-    const results = await Promise.all(fetchPromises);
-    results.forEach((data, index) => {
-        movies.value[index] = data.data.movies;
+async function getMovie(series) {
+    const res = await $fetch(store.baseUrl + '/series/' + series + '/', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        }
     });
+    details.value = res
+    window.scrollTo(0, 0);
 }
-
-async function fetchData() {
+const userInfo = ref()
+async function getUserInfo() {
     store.loader = true;
     try {
-        const detailData = await $fetch(store.baseUrl + '/movies/' + id + '/');
-        details.value = detailData;
-        await getCategoriesMovie();
+        const data = await $fetch("https://userservice.inminternational.uz/users", {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        })
+        userInfo.value = data
     } catch (error) {
         console.error("Failed to fetch data", error);
     } finally {
         store.loader = false;
     }
 }
-
+await getUserInfo()
+async function sendComment() {
+    const res = await $fetch(`${store.baseUrl}/comments/`, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        },
+        body: {
+            username: userInfo.value?.data?.username,
+            content: comment.value,
+            object_id: id,
+            parent: null,
+            content_type: details.value?.data?.is_movie ? 'movie' : 'series'
+        }
+    })
+    if (res.status == 'success') {
+        getDetilsComment()
+        comment.value = ""
+    }
+}
+async function getCategoriesMovie() {
+    const fetchPromises = store.categories.data.categories.map(el =>
+        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        })
+    );
+    const results = await Promise.all(fetchPromises);
+    results.forEach((data, index) => {
+        movies.value[index] = data.data.movies;
+    });
+}
+const episods = ref(null)
+async function getEpisods(ep) {
+    const data = await $fetch(store.baseUrl + '/series/' + id + `/seasons/${ep}/episodes/`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        }
+    });
+    episods.value = data
+}
+async function fetchData() {
+    store.loader = true;
+    try {
+        const detailData = await $fetch(store.baseUrl + '/movies/' + id + '/', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        })
+        await getCategoriesMovie();
+        details.value = detailData;
+    } catch (error) {
+        const res = await $fetch(store.baseUrl + '/series/' + id + '/', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        });
+        getEpisods(res?.data?.seasons[0]?.id)
+        details.value = res;
+    } finally {
+        store.loader = false;
+    }
+}
+async function getDetilsComment() {
+    try {
+        const detailData = await $fetch(store.baseUrl + '/movies/' + id + '/', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        })
+        await getCategoriesMovie();
+        details.value = detailData;
+    } catch (error) {
+        const res = await $fetch(store.baseUrl + '/series/' + id + '/', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        });
+        getEpisods(res?.data?.seasons[0]?.id)
+        details.value = res;
+    }
+}
 const movieOverlay = ref(true)
 function playPause() {
     if (document.getElementById('video').childNodes[0].paused) {
@@ -179,9 +294,58 @@ onMounted(() => {
             movieOverlay.value = false
         }
     })
+
+
+
+    let playerVideo = videojs('video');
+    // playerVideo.hlsQualitySelector({
+    //     displayCurrentQuality: true,
+    // });
+    // let qualityLevels = playerVideo.qualityLevels();
+
+    // // disable quality levels with less than 720 horizontal lines of resolution when added
+    // // to the list.
+    // qualityLevels.on('addqualitylevel', function (event) {
+    //     let qualityLevel = event.qualityLevel;
+
+    //     if (qualityLevel.height >= 720) {
+    //         qualityLevel.enabled = true;
+    //     } else {
+    //         qualityLevel.enabled = false;
+    //     }
+    // });
+
+    // // example function that will toggle quality levels between SD and HD, defining and HD
+    // // quality as having 720 horizontal lines of resolution or more
+    // let toggleQuality = (function () {
+    //     let enable720 = true;
+
+    //     return function () {
+    //         for (let qualityLevel of qualityLevels) {
+    //             if (qualityLevel.height >= 720) {
+    //                 qualityLevel.enabled = enable720;
+    //             } else {
+    //                 qualityLevel.enabled = !enable720;
+    //             }
+    //         }
+    //         enable720 = !enable720;
+    //     };
+    // })();
+
+    // let currentSelectedQualityLevelIndex = qualityLevels.selectedIndex; // -1 if no level selected
+
+    // // Listen to change events for when the player selects a new quality level
+    // qualityLevels.on('change', function () {
+    //     console.log('Quality Level changed!');
+    //     console.log('New level:', qualityLevels[qualityLevels.selectedIndex]);
+    // });
 });
 watchEffect((e) => {
 })
+
+
+
+
 
 </script>
 
@@ -275,27 +439,4 @@ watchEffect((e) => {
 .vjs-fullscreen-control {
     order: 5 !important;
 }
-
-
-.video-js .vjs-big-play-button {
-    border: none;
-    border-radius: 50%;
-    width: 60px !important;
-    height: 60px !important;
-    display: grid !important;
-    place-items: center;
-
-    .vjs-icon-placeholder {
-        width: 60px !important;
-        height: 60px !important;
-        font-size: 22px;
-        line-height: 1.5 !important;
-
-        &::before {
-            content: url('@/assets/images/svg/play-btn.svg') !important;
-        }
-    }
-}
-
-
 </style>

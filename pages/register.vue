@@ -6,9 +6,10 @@
             <NuxtLink to="/login" class="login-logo">
                 <img src="@/assets/images/svg/logo.svg" alt="site logo">
             </NuxtLink>
-            <h2 class="login-title">Kirish</h2>
+            <h2 class="login-title">Ro‘yhatdan o‘tish</h2>
             <form action="#" @submit.prevent="login()" class="login-form">
                 <input v-model="username" placeholder="Login" type="text" class="login-input">
+                <input v-model="phonenum" placeholder="+998" id="phone" type="text" class="login-input-tel">
                 <div class="password-input">
                     <input placeholder="Parol" v-model="pass" ref="password" type="password">
                     <button type="button" @click="view()" v-if="!password_view"><img src="@/assets/images/svg/eye.svg"
@@ -17,21 +18,17 @@
                             src="@/assets/images/svg/eye-crossed.svg" alt=""></button>
                 </div>
                 <div class="login-btns">
-                    <button class="login-btn" type="submit">Kirish</button>
-                    <NuxtLink style="text-decoration: none;" class="register-btn" to="/register">Ro’yhatdan o’tish
-                    </NuxtLink>
+                    <button class="login-btn" type="submit">Ro’yhatdan o’tish</button>
                 </div>
             </form>
-            <!-- <button class="login-google-sign" @click="googleLogin()">
-                <img src="@/assets/images/svg/google.svg" alt="">
-                <span>Google bilan kirish</span>
-            </button> -->
+
             <div class="login-apps"></div>
         </div>
     </div>
 </template>
 
 <script setup>
+import IMask from 'imask';
 // import { googleTokenLogin } from 'vue3-google-login'
 import { useStore } from '~~/store/store';
 definePageMeta({
@@ -42,11 +39,8 @@ const store = useStore()
 store.loader = true
 const password_view = ref(false)
 
-
-
-
-
 const password = ref()
+const phonenum = ref()
 const username = ref()
 const pass = ref()
 // const googleLogin = () => {
@@ -60,18 +54,23 @@ const pass = ref()
 //     })
 // }
 const login = async () => {
-    $fetch(store?.authBase + '/auth/login', {
+    const tel = document.getElementById('phone')
+    let phone = tel.value.split(" ").join("")
+    let num = phone.split("-").join("")
+    let pNum = num.split('(').join("")
+    $fetch(store.authBase + '/auth/register', {
         method: 'POST',
         body: {
             username: username.value,
-            password: pass.value
+            password: pass.value,
+            phone_number: pNum.split(')').join("")
         }
     }).then(data => {
         if (data) {
             localStorage.setItem('access__token', data?.data?.access_token)
         }
         if (data.status == "success") {
-            router.push('/')
+            router.push('/login')
         }
     }).catch(error => {
         console.log(error.data);
@@ -86,7 +85,14 @@ function view() {
         password_view.value = false
     }
 }
-
+onMounted(() => {
+    var element = document.getElementById('phone');
+    var maskOptions = {
+        mask: '+{998} (00) 000-00-00',
+        lazy: false
+    }
+    var mask = new IMask(element, maskOptions);
+})
 store.loader = false
 </script>
 
