@@ -28,6 +28,8 @@
 import { useStore } from '~~/store/store'
 const store = useStore()
 const history = ref([])
+await store.getSavedMovies()
+
 store.loader = false
 </script>
 

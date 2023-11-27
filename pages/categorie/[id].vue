@@ -136,6 +136,7 @@ const yearTo = ref(false)
 
 let page = ref(10);
 let totalPages = 20;
+await store.getSavedMovies()
 
 const categorieMovies = ref(null)
 const categorieName = ref(null)

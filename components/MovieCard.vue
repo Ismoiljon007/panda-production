@@ -4,7 +4,7 @@
             <button class="movie-card__save" @click="addFvrt()">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <g id="Bookmark">
-                        <path :fill="movie?.is_favorited ? '#fff' : 'transparent'" stroke="#fff" stroke-width="2px"
+                        <path :fill="activeSave ? '#fff' : 'transparent'" stroke="#fff" stroke-width="2px"
                             d="M17,3H7A3.07,3.07,0,0,0,4,6.12V18.94a2,2,0,0,0,1.4,2,1.93,1.93,0,0,0,2.12-.62l4.48-4,4.48,4A1.94,1.94,0,0,0,18,21a1.86,1.86,0,0,0,.61-.1,2,2,0,0,0,1.4-2V6.12A3.07,3.07,0,0,0,17,3Z" />
                     </g>
                 </svg>
@@ -40,58 +40,78 @@
 <script setup>
 import { useStore } from '~/store/store';
 const store = useStore()
+const router = useRouter()
 const { movie } = defineProps(['movie'])
 async function addFvrt() {
-    if (movie?.is_movie) {
-        if (movie?.is_favorited) {
-            const data = await $fetch(store.baseUrl + `/movies/${movie?.id}/remove-favorite/`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + store.token
-                },
-                body: {
-                    "content_type": "MOVIE"
-                }
-            })
-            store.getSavedMovies()
+    if (store.token) {
+        if (movie?.is_movie) {
+            if (movie?.is_favorited) {
+                const data = await $fetch(store.baseUrl + `/movies/${movie?.id}/remove-favorite/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + store.token
+                    },
+                    body: {
+                        "content_type": "MOVIE"
+                    }
+                })
+                await store.getSavedMovies()
+            } else {
+                const data = await $fetch(store.baseUrl + `/movies/${movie?.id}/add-favorite/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + store.token
+                    },
+                    body: {
+                        "content_type": "MOVIE"
+                    }
+                })
+                await store.getSavedMovies()
+            }
         } else {
-            const data = await $fetch(store.baseUrl + `/movies/${movie?.id}/add-favorite/`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + store.token
-                },
-                body: {
-                    "content_type": "MOVIE"
-                }
-            })
-            store.getSavedMovies()
+            if (movie?.is_favorited) {
+                const data = await $fetch(store.baseUrl + `/series/${movie?.id}/remove-favorite/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + store.token
+                    },
+                    body: {
+                        "content_type": "SERIES"
+                    }
+                })
+                await store.getSavedMovies()
+            } else {
+                const data = await $fetch(store.baseUrl + `/series/${movie?.id}/add-favorite/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + store.token
+                    },
+                    body: {
+                        "content_type": "SERIES"
+                    }
+                })
+                await store.getSavedMovies()
+            }
         }
     } else {
-        if (movie?.is_favorited) {
-            const data = await $fetch(store.baseUrl + `/series/${movie?.id}/remove-favorite/`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + store.token
-                },
-                body: {
-                    "content_type": "SERIES"
-                }
-            })
-            store.getSavedMovies()
-        } else {
-            const data = await $fetch(store.baseUrl + `/series/${movie?.id}/add-favorite/`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + store.token
-                },
-                body: {
-                    "content_type": "SERIES"
-                }
-            })
-            store.getSavedMovies()
-        }
+        router.push('/login')
     }
 }
+
+
+
+const activeSave = computed(() => {
+    if (!store.token) {
+        return false
+    } else {
+        if (store.savedMovies) {
+            const itemSave = toRaw(store.savedMovies?.data?.content).find(elem => elem.id === movie.id)
+            if (itemSave) {
+                return true
+            }
+        }
+    }
+})
 </script>
 
 <style lang="scss" scoped></style>

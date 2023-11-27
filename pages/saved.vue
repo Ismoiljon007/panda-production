@@ -28,7 +28,7 @@
 import { useStore } from '~~/store/store'
 const store = useStore()
 
-store.getSavedMovies()
+await store.getSavedMovies()
 
 store.loader = false
 </script>

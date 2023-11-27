@@ -72,8 +72,7 @@
                 :modules="[SwiperAutoplay, SwiperPagination, SwiperNavigation]"
                 :navigation="{ nextEl: '.hero__right', prevEl: '.hero__left' }" :pagination="{
                     clickable: true
-                }"
-                class="hero__swiper" @slide-change="onSlideChange">
+                }" class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
                     <video-player loop :poster="item?.thumbnail_image_url" muted :autoplay="true" class="hero__video"
                         :src="item?.trailer_url" :plugins="{
@@ -170,6 +169,7 @@ function soundFunc() {
     }
 }
 const runtimeConfig = useRuntimeConfig();
+await store.getSavedMovies()
 
 const thumbsSwiper = ref(null);
 
@@ -184,14 +184,14 @@ function onSlideChange(swiper) {
         videoPlayer.muted(true);
         videoPlayer.pause()
     });
-    videoPlayersThumb.forEach((videoPlayer) => {
-        videoPlayer.pause()
-    });
+    // videoPlayersThumb.forEach((videoPlayer) => {
+    //     videoPlayer.pause()
+    // });
     curentId.value = swiper.activeIndex
     if (videoPlayers[swiper.activeIndex]) {
         videoPlayers[swiper.activeIndex].muted(muted.value);
         videoPlayers[swiper.activeIndex].play();
-        videoPlayersThumb[swiper.activeIndex].play()
+        // videoPlayersThumb[swiper.activeIndex].play()
     }
 }
 onMounted(() => {
@@ -201,11 +201,11 @@ onMounted(() => {
         videoPlayer.pause();
         videoPlayers.push(videoPlayer);
     });
-    document.querySelectorAll('.hero__thumb-video').forEach((videoElement) => {
-        const videoPlayer = videojs(videoElement);
-        videoPlayer.pause()
-        videoPlayersThumb.push(videoPlayer);
-    });
+    // document.querySelectorAll('.hero__thumb-video').forEach((videoElement) => {
+    //     const videoPlayer = videojs(videoElement);
+    //     videoPlayer.pause()
+    //     videoPlayersThumb.push(videoPlayer);
+    // });
 });
 
 
