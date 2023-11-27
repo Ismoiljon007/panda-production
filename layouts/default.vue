@@ -225,6 +225,7 @@ const store = useStore()
 const search_open = ref(false)
 const token = ref(false)
 const menu = ref(false)
+const router = useRouter()
 if (typeof window !== 'undefined') {
     if (localStorage.getItem('access__token')) {
         token.value = true
@@ -235,6 +236,7 @@ if (typeof window !== 'undefined') {
 function logout() {
     localStorage.clear()
     token.value = false
+    window.location = '/'
 }
 const profile = ref(false)
 const userInfo = ref(null)
@@ -341,4 +343,5 @@ onMounted(() => {
 .search-leave-to {
     opacity: 0;
     width: 20%;
-}</style>
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div class="hero">
+        <!-- <div class="hero">
             <Swiper :slides-per-view="'1'" :navigation="{ nextEl: '.hero__right', prevEl: '.hero__left' }"
                 :thumbs="{ swiper: thumbsSwiper }" :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800"
                 :modules="[SwiperAutoplay, SwiperThumbs, SwiperNavigation, SwiperFreeMode]" class="hero__swiper"
@@ -66,10 +66,14 @@
                     </SwiperSlide>
                 </swiper>
             </div>
-        </div>
-        <!-- <div class="hero">
+        </div> -->
+        <div class="hero">
             <Swiper :slides-per-view="'1'" :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800"
-                :modules="[SwiperAutoplay,SwiperPagination]" :pagination="true" class="hero__swiper" @slide-change="onSlideChange">
+                :modules="[SwiperAutoplay, SwiperPagination, SwiperNavigation]"
+                :navigation="{ nextEl: '.hero__right', prevEl: '.hero__left' }" :pagination="{
+                    clickable: true
+                }"
+                class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
                     <video-player loop :poster="item?.thumbnail_image_url" muted :autoplay="true" class="hero__video"
                         :src="item?.trailer_url" :plugins="{
@@ -116,8 +120,10 @@
                             d="M400,384a16,16,0,0,1-13.87-24C405,327.05,416,299.45,416,256c0-44.12-10.94-71.52-29.83-103.95A16,16,0,0,1,413.83,136C434.92,172.16,448,204.88,448,256c0,50.36-13.06,83.24-34.12,120A16,16,0,0,1,400,384Z" />
                     </svg>
                 </button>
+                <button class="hero__left"><img src="@/assets/images/svg/left.svg" alt=""></button>
+                <button class="hero__right"><img src="@/assets/images/svg/right.svg" alt=""></button>
             </Swiper>
-        </div> -->
+        </div>
 
         <div class="movies" v-for="(elem, i) in store.categories.data.categories" :key="elem.id">
             <div class="container">
@@ -208,19 +214,28 @@ async function getCategoriesMovie() {
         store.loader = true
 
         const fetchPromises = store.categories.data.categories.map(async (el) => {
-            const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + store.token
-                }
-            });
-            movies.value[el.id] = data.data.content;
+            if (store.token) {
+                const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + store.token
+                    }
+                });
+                movies.value[el.id] = data.data.content;
+            } else {
+                const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
+                    method: 'GET',
+                });
+                movies.value[el.id] = data.data.content;
+            }
         });
         await Promise.all(fetchPromises);
-        store.loader = false
 
     } catch (error) {
         console.error("Failed to fetch category movies", error);
+    } finally {
+
+        store.loader = false
     }
 }
 getCategoriesMovie()

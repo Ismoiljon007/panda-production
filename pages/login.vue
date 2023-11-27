@@ -71,7 +71,7 @@ const login = async () => {
             localStorage.setItem('access__token', data?.data?.access_token)
         }
         if (data.status == "success") {
-            router.push('/')
+            window.location = '/'
         }
     }).catch(error => {
         console.log(error.data);
@@ -87,7 +87,12 @@ function view() {
     }
 }
 
-store.loader = false
+onMounted(() => {
+    if (typeof window !== "undefined") {
+        store.loader = false
+
+    }
+})
 </script>
 
 <style lang="scss" scoped></style>

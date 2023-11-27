@@ -140,13 +140,29 @@ let totalPages = 20;
 const categorieMovies = ref(null)
 const categorieName = ref(null)
 async function getCategorieMovie() {
-    const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/`)
-    categorieMovies.value = data.data
-    store.categories?.data?.categories.forEach(el => {
-        if (el.id == id) {
-            categorieName.value = el.name
-        }
-    })
+    if (store.token) {
+        const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        })
+        categorieMovies.value = data.data
+        store.categories?.data?.categories.forEach(el => {
+            if (el.id == id) {
+                categorieName.value = el.name
+            }
+        })
+    } else {
+        const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/`)
+        categorieMovies.value = data.data
+        store.categories?.data?.categories.forEach(el => {
+            if (el.id == id) {
+                categorieName.value = el.name
+            }
+        })
+
+    }
 }
 getCategorieMovie()
 
