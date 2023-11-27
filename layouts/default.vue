@@ -253,7 +253,7 @@ function logout() {
 const profile = ref(false)
 const userInfo = ref(null)
 async function getUserInfo() {
-    store.loader = true;
+    // store.loader = true;
     try {
         const data = await $fetch("https://userservice.inminternational.uz/users", {
             method: 'GET',
@@ -265,7 +265,7 @@ async function getUserInfo() {
     } catch (error) {
         console.error("Failed to fetch data", error);
     } finally {
-        store.loader = false;
+        // store.loader = false;
     }
 
 }
