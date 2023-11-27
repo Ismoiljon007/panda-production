@@ -212,7 +212,6 @@ onMounted(() => {
 async function getCategoriesMovie() {
     try {
         store.loader = true
-
         const fetchPromises = store.categories.data.categories.map(async (el) => {
             if (store.token) {
                 const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {

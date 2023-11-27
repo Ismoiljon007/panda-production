@@ -9,7 +9,7 @@
                     </g>
                 </svg>
             </button>
-            <NuxtLink :to="`/watch/${movie?.id}`" :isMovie="false">
+            <NuxtLink :to="`/watch/${movie?.id}`">
                 <img class="img" :src="movie?.thumbnail_image" alt="">
                 <button class="movie-card__play">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="19" viewBox="0 0 16 19" fill="none">
@@ -22,7 +22,7 @@
         </div>
 
         <div class="movie-card__badge-wrapper">
-            <span class="movie-card__badge-quality" v-if="movie?.is_premiere">Full HD</span>
+            <span class="movie-card__badge-quality">Full HD</span>
             <span class="movie-card__badge-new" v-if="movie?.is_premiere">NEW</span>
         </div>
 

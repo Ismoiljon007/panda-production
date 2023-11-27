@@ -2,7 +2,7 @@
     <main>
         <div class="movie">
             <div class="container">
-                <div class="movie-video">
+                <div class="movie-video" v-if="vidType == 'online'">
                     <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div>
                     <div class="movie-video-btns" v-if="movieOverlay">
                         <button @click="skip(-10)"><img src="@/assets/images/svg/prev-btn.svg" alt=""></button>
@@ -20,6 +20,24 @@
                         }
                             " />
                 </div>
+                <div class="movie-video" v-if="vidType == 'trailer'">
+                    <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div>
+                    <div class="movie-video-btns" v-if="movieOverlay">
+                        <button @click="skip(-10)"><img src="@/assets/images/svg/prev-btn.svg" alt=""></button>
+                        <button @click="playPause()"><img src="@/assets/images/svg/play-btn.svg" alt=""></button>
+                        <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
+                    </div>
+                    <video-player :poster="details?.data.thumbnail_image" ref="player" controls id="video" class="video"
+                        :src="details?.data?.trailer_url" :volume="0.6" :plugins="{
+                            hotkeys: {
+                                volumeStep: 0.1,
+                                seekStep: 10,
+                                enableModifiersForNumbers: false,
+                            },
+                            hlsQualitySelector: {}
+                        }
+                            " />
+                </div>
                 <h2 class="movie__title">{{ details?.data?.title }}</h2>
                 <div class="movie__info">
                     <div class="movie__info-list">
@@ -28,6 +46,14 @@
                         <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
                     </div>
                     <p class="movie__info-desc">{{ details?.data?.description }}</p>
+                </div>
+                <div class="movie__btns">
+                    <button style="border: 1px solid transparent" @click="vidType = 'online'"
+                        :style="vidType == 'online' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">ONLAYN
+                        KO'RISH</button>
+                    <button style="border: 1px solid transparent" @click="vidType = 'trailer'"
+                        :style="vidType == 'trailer' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">TREYLERINI
+                        KO'RISH</button>
                 </div>
                 <div class="movie-episods" v-if="!details?.data?.is_movie">
                     <div class="movie-episods__seasons">
@@ -55,7 +81,6 @@
                 </form>
                 <ul class="movie__comments">
                     <li class="movie__comments-item comment-item" v-for="(item) in details?.data?.comments" :key="item">
-
                         <div class="movie__comments-item-wrapper">
                             <div class="movie__comments-item-img">
                                 {{ item.username.charAt().toUpperCase() }}
@@ -152,7 +177,7 @@ const comment = ref()
 // console.log(qualitySelector());
 const details = ref(null);
 const movies = ref([]);
-
+const vidType = ref('online')
 async function getMovie(series) {
     const res = await $fetch(store.baseUrl + '/series/' + series + '/', {
         method: 'GET',

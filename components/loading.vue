@@ -1,11 +1,12 @@
 <template>
-    <div class="loader">
+    <div class="loader" v-if="store.loader">
         <img src="@/assets/images/svg/logo.svg" alt="">
     </div>
 </template>
 
 <script setup>
-
+import { useStore } from '~/store/store';
+const store = useStore()
 </script>
 
 <style lang="scss" scoped>
@@ -20,6 +21,7 @@
     justify-content: center;
     background: #060606;
     z-index: 99;
+
     img {
         width: 135px;
     }

@@ -1,6 +1,9 @@
 <template>
     <header class="header" :class="{ 'header-fixed': scrolledNav }">
         <div class="container">
+            <button class="header-burger" @click="menu = true">
+                <img src="@/assets/images/svg/burger.svg" alt="" style="pointer-events: none;">
+            </button>
             <NuxtLink class="site-logo" to="/">
                 <img src="@/assets/images/svg/logo.svg" alt="site logo">
             </NuxtLink>
@@ -52,8 +55,12 @@
                     </Transition>
                 </button>
             </div>
-            <button class="header-burger" @click="menu = true">
-                <img src="@/assets/images/svg/burger.svg" alt="" style="pointer-events: none;">
+            <button class="mobil-search" @click="store.search_open = true, store.overlay = true">
+                <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="" width="20" height="20">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M14.947 13.771l4.808 4.809a.833.833 0 01-1.18 1.175l-4.808-4.804a8.384 8.384 0 01-5.338 1.906A8.428 8.428 0 010 8.43a8.428 8.428 0 1114.947 5.342zM1.673 8.43c0 3.722 3.029 6.75 6.756 6.75 3.722 0 6.755-3.028 6.755-6.75 0-3.723-3.033-6.756-6.755-6.756A6.763 6.763 0 001.673 8.43z"
+                        fill="#fff"></path>
+                </svg>
             </button>
         </div>
     </header>
@@ -85,6 +92,10 @@
                     <NuxtLink :to="`/categorie/${item.id}`">{{ item?.name }}</NuxtLink>
                 </li>
             </ul>
+            <button @click="logout()" class="logout">
+                <img src="@/assets/images/svg/fi-rr-sign-out.svg" alt="">
+                chiqish
+            </button>
         </div>
     </transition>
     <Transition name="search">
@@ -95,14 +106,15 @@
             </form>
             <ul class="search-list" v-if="searchData">
                 <h4>Kinolar</h4>
-                <li v-for="item in searchData?.movies" :key="item">
-                    <NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img
+                <li v-for="item in searchData" :key="item">
+                    <NuxtLink v-if="item.type == 'Movie'" @click="store.search_open = false" :to="`/watch/${item?.id}`"><img
                             src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink>
                 </li>
                 <h4 class="search-serial">Serialar</h4>
-                <li v-for="item in searchData?.series" :key="item">
-                    <NuxtLink @click="store.search_open = false, store.overlay = false" :to="`/watch/${item?.id}`"><img
-                            src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink>
+                <li v-for="item in searchData" :key="item">
+                    <NuxtLink v-if="item.type == 'Series'" @click="store.search_open = false, store.overlay = false"
+                        :to="`/watch/${item?.id}`"><img src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}
+                    </NuxtLink>
                 </li>
             </ul>
         </div>
@@ -330,13 +342,17 @@ onMounted(() => {
 .menu-enter-from,
 .menu-leave-to {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(-20px);
 }
 
 .search-enter-active,
 .search-leave-active {
     transition: all 0.5s ease;
     width: 80%;
+
+    @media (max-width: 920px) {
+        width: 100%;
+    }
 }
 
 .search-enter-from,

@@ -10,6 +10,15 @@
   @include media(1000px) {
     padding: 12px 0;
   }
+  .mobil-search {
+    background: none;
+    cursor: pointer;
+    border: none;
+    display: none;
+    @include media(1280px) {
+      display: block;
+    }
+  }
   &__profile {
     width: 50px;
     height: 50px;
@@ -213,6 +222,11 @@
       color: #fff;
       @include font(400, 22px, 1.2);
       letter-spacing: -0.22px;
+      @include media(720px) {
+        padding: 10px 20px 10px 34px;
+        background-position: 15px 50%;
+        background-size: 14px;
+      }
     }
     button {
       @extend %pr-btn;
@@ -220,7 +234,16 @@
       top: 0;
       right: 0;
       height: 100%;
+      @include media(720px) {
+        display: none;
+      }
     }
+  }
+  @include media(920px) {
+    left: 0;
+    width: 100%;
+    transform: translate(0, 0);
+    left: 0;
   }
   &-list {
     position: absolute;
@@ -430,7 +453,7 @@
 .menu {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   width: 280px;
   z-index: 16;
   height: 100%;
@@ -439,6 +462,26 @@
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
+  .logout {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    padding: 15px 15px 15px 43px;
+    width: 100%;
+    gap: 10px;
+    color: #ff2929;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
   &-top {
     padding: 12px 20px;
     border-bottom: 1px solid rgba(217, 217, 217, 0.2);

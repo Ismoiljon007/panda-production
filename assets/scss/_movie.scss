@@ -1,5 +1,13 @@
 .movie {
   padding-top: 130px;
+  &__btns {
+    display: flex;
+    gap: 20px;
+    button {
+      @extend %pr-btn;
+    }
+    margin-bottom: 30px;
+  }
   &-episods {
     &__seasons {
       display: flex;
