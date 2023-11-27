@@ -101,7 +101,7 @@
                 </li>
                 <h4 class="search-serial">Serialar</h4>
                 <li v-for="item in searchData?.series" :key="item">
-                    <NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img
+                    <NuxtLink @click="store.search_open = false, store.overlay = false" :to="`/watch/${item?.id}`"><img
                             src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink>
                 </li>
             </ul>
