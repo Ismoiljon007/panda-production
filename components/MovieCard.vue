@@ -105,7 +105,7 @@ const activeSave = computed(() => {
         return false
     } else {
         if (store.savedMovies) {
-            const itemSave = toRaw(store.savedMovies?.data?.content).find(elem => elem.id === movie.id)
+            const itemSave = toRaw(store.savedMovies?.data?.content)?.find(elem => elem.id === movie.id)
             if (itemSave) {
                 return true
             }
