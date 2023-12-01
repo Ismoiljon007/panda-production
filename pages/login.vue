@@ -32,11 +32,13 @@
 </template>
 
 <script setup>
+import { useToast } from "vue-toastification";
 // import { googleTokenLogin } from 'vue3-google-login'
 import { useStore } from '~~/store/store';
 definePageMeta({
     layout: "without",
 });
+const toast = useToast()
 const router = useRouter()
 const store = useStore()
 store.loader = true
@@ -71,9 +73,11 @@ const login = async () => {
             localStorage.setItem('access__token', data?.data?.access_token)
         }
         if (data.status == "success") {
+            toast.success("profilingizga muvafaqiyatli kirdingiz")
             window.location = '/'
         }
     }).catch(error => {
+        toast.error('login yoki parol xatolik bor!')
         console.log(error.data);
     })
 }
