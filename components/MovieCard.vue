@@ -9,7 +9,7 @@
                     </g>
                 </svg>
             </button>
-            <NuxtLink :to="`/watch/${movie?.id}`">
+            <NuxtLink :to="store.token !== null ? `/watch/${movie?.id}` : '/login'">
                 <img class="img" :src="movie?.thumbnail_image" alt="">
                 <button class="movie-card__play">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="19" viewBox="0 0 16 19" fill="none">
@@ -27,7 +27,8 @@
         </div>
 
         <div class="movie-card__text-wrapper">
-            <NuxtLink class="movie-card__title" :to="`/watch/${movie?.id}`">{{ movie?.title }}</NuxtLink>
+            <NuxtLink class="movie-card__title" :to="store.token !== null ? `/watch/${movie?.id}` : '/login'">{{
+                movie?.title }}</NuxtLink>
             <div class="movie-card__cat">
                 <NuxtLink to="/">2023</NuxtLink>
                 <span>/</span>
