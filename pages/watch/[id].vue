@@ -58,13 +58,13 @@
                 <div class="movie-episods" v-if="!details?.data?.is_movie">
                     <div class="movie-episods__seasons">
                         <h4 class="movie-episods__seasons-title">Fasillar:</h4>
-                        <div class="movie-episods__seasons-item" v-for="(item, i) in details?.data?.seasons" :key="item">{{
-                            i
-                            + 1 }}</div>
+                        <div class="movie-episods__seasons-item" @click="getEpisods(item.id)"
+                            v-for="(item) in details?.data?.seasons" :key="item">{{
+                                item?.season_number }}</div>
                     </div>
                     <div class="movie-episods__wrapper">
-                        <div class="movie-episods__item" @click="getMovie(item?.series)" v-for="item in  episods?.data"
-                            :key="item">
+                        <div class="movie-episods__item" @click="getMovie(item?.series)"
+                            v-for="item in  episods?.data?.episodes" :key="item">
                             <div class="movie-episods__item-img">
                                 <img :src="item?.thumbnail_image_url" alt="">
                             </div>
@@ -247,6 +247,7 @@ async function getEpisods(ep) {
             'Authorization': 'Bearer ' + store.token
         }
     });
+    getMovie(data?.data?.episodes[0].series)
     episods.value = data
 }
 async function fetchData() {
@@ -436,6 +437,7 @@ watchEffect((e) => {
 .vjs-has-started .vjs-control-bar,
 .vjs-audio-only-mode .vjs-control-bar {
     flex-wrap: wrap !important;
+    height: auto !important;
 }
 
 .video-js .vjs-progress-control {

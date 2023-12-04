@@ -77,7 +77,7 @@ const login = async () => {
             window.location = '/'
         }
     }).catch(error => {
-        toast.error('login yoki parol xatolik bor!')
+        toast.error('login yoki parolingizni qaytadan tekshiring!')
         console.log(error.data);
     })
 }
