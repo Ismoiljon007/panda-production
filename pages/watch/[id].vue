@@ -9,14 +9,14 @@
                         <button @click="playPause()"><img src="@/assets/images/svg/play-btn.svg" alt=""></button>
                         <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
                     </div>
-                    <video-player :poster="details?.data.thumbnail_image" ref="player" controls id="video" class="video"
-                        :src="details?.data?.main_content_url" :volume="0.6" :plugins="{
+                    <video-player :poster="img_url" ref="player" controls id="video" class="video" :src="video_url"
+                        :volume="0.6" :plugins="{
                             hotkeys: {
                                 volumeStep: 0.1,
                                 seekStep: 10,
                                 enableModifiersForNumbers: false,
                             },
-                            hlsQualitySelector: {}
+
                         }
                             " />
                 </div>
@@ -34,11 +34,11 @@
                                 seekStep: 10,
                                 enableModifiersForNumbers: false,
                             },
-                            hlsQualitySelector: {}
+
                         }
                             " />
                 </div>
-                <h2 class="movie__title">{{ details?.data?.title }}</h2>
+                <h2 class="movie__title">{{ title }}</h2>
                 <div class="movie__info">
                     <div class="movie__info-list">
                         <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
@@ -58,17 +58,17 @@
                 <div class="movie-episods" v-if="!details?.data?.is_movie">
                     <div class="movie-episods__seasons">
                         <h4 class="movie-episods__seasons-title">Fasillar:</h4>
-                        <div class="movie-episods__seasons-item" @click="getEpisods(item.id)"
-                            v-for="(item) in details?.data?.seasons" :key="item">{{
+                        <div class="movie-episods__seasons-item" :class="item.id == details?.data?.id ? 'active-btn' : ''"
+                            @click="getEpisods(item.id)" v-for="(item) in details?.data?.seasons" :key="item">{{
                                 item?.season_number }}</div>
                     </div>
                     <div class="movie-episods__wrapper">
-                        <div class="movie-episods__item" @click="getMovie(item?.series)"
+                        <div class="movie-episods__item" @click="getSeries(item?.id)"
                             v-for="item in  episods?.data?.episodes" :key="item">
                             <div class="movie-episods__item-img">
                                 <img :src="item?.thumbnail_image_url" alt="">
                             </div>
-                            <h4 class="movie-episods__item-name">{{ item?.series }}-qism</h4>
+                            <h4 class="movie-episods__item-name">{{ item.episode_number }}-qism</h4>
                         </div>
                     </div>
                 </div>
@@ -166,18 +166,23 @@ import { useRoute } from 'vue-router';
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'videojs-hotkeys';
-import qualitySelector from 'videojs-hls-quality-selector';
-import qualityLevels from 'videojs-contrib-quality-levels';
-videojs.registerPlugin('qualityLevels', qualityLevels);
-videojs.registerPlugin('hlsQualitySelector', qualitySelector);
+
 const store = useStore();
 const { id } = useRoute().params;
 const player = ref()
 const comment = ref()
-// console.log(qualitySelector());
 const details = ref(null);
 const movies = ref([]);
 const vidType = ref('online')
+
+
+
+const title = ref(null)
+const video_url = ref(null)
+const img_url = ref(null)
+
+
+
 async function getMovie(series) {
     const res = await $fetch(store.baseUrl + '/series/' + series + '/', {
         method: 'GET',
@@ -187,6 +192,12 @@ async function getMovie(series) {
     });
     details.value = res
     window.scrollTo(0, 0);
+}
+async function getSeries(id) {
+    const data = await $fetch(`${store.baseUrl}/management/episodes/${id}/`)
+    title.value = data?.title
+    video_url.value = data?.episode_content_url
+    img_url.value = data?.thumbnail_image_url
 }
 const userInfo = ref()
 async function getUserInfo() {
@@ -247,8 +258,9 @@ async function getEpisods(ep) {
             'Authorization': 'Bearer ' + store.token
         }
     });
-    getMovie(data?.data?.episodes[0].series)
     episods.value = data
+    getSeries(data?.data?.episodes[0]?.id)
+
 }
 async function fetchData() {
     store.loader = true;
@@ -261,6 +273,9 @@ async function fetchData() {
         })
         await getCategoriesMovie();
         details.value = detailData;
+        title.value = detailData?.data?.title
+        video_url.value = detailData?.data?.main_content_url
+        img_url.value = detailData?.data?.thumbnail_image
     } catch (error) {
         const res = await $fetch(store.baseUrl + '/series/' + id + '/', {
             method: 'GET',
@@ -268,8 +283,11 @@ async function fetchData() {
                 'Authorization': 'Bearer ' + store.token
             }
         });
-        getEpisods(res?.data?.seasons[0]?.id)
+        title.value = res?.data?.title
+        video_url.value = res?.data?.main_content_url
+        img_url.value = res?.data?.thumbnail_image
         details.value = res;
+        getEpisods(res?.data?.seasons[0]?.id)
     } finally {
         store.loader = false;
     }
@@ -366,7 +384,10 @@ onMounted(() => {
     //     console.log('New level:', qualityLevels[qualityLevels.selectedIndex]);
     // });
 });
-watchEffect((e) => {
+watchEffect(() => {
+    title.value
+    video_url.value
+    img_url.value
 })
 
 
@@ -376,6 +397,11 @@ watchEffect((e) => {
 </script>
 
 <style lang="scss">
+.active-btn {
+    background: rgba(28, 28, 28, 0.5);
+    color: #fff;
+}
+
 .video-js .vjs-big-play-button {
     background: none !important;
     border: none !important;

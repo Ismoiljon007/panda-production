@@ -13,11 +13,8 @@
                                     {{ genreName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="genre">
-                                        <li class="select__item" @click="selectGenre($event)">Jangari</li>
-                                        <li class="select__item" @click="selectGenre($event)">Fantastik</li>
-                                        <li class="select__item" @click="selectGenre($event)">Dramma</li>
-                                        <li class="select__item" @click="selectGenre($event)">Komediya</li>
-                                        <li class="select__item" @click="selectGenre($event)">Ujas kino</li>
+                                        <li class="select__item" @click="selectGenre(item.name)"
+                                            v-for="item in genreApi.data" :key="item">{{ item?.name }}</li>
                                     </ul>
                                 </Transition>
                             </div>
@@ -31,29 +28,7 @@
                                     {{ countryName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="country">
-                                        <li class="select__item" @click="selectCountry($event)">Jangari</li>
-                                        <li class="select__item" @click="selectCountry($event)">Fantastik</li>
-                                        <li class="select__item" @click="selectCountry($event)">Dramma</li>
-                                        <li class="select__item" @click="selectCountry($event)">Komediya</li>
-                                        <li class="select__item" @click="selectCountry($event)">Ujas kino</li>
-                                    </ul>
-                                </Transition>
-                            </div>
-                        </div>
-                        <div class="select">
-                            <h4 class="select__subtitle">Sifat</h4>
-                            <div class="select__wrapper">
-                                <div class="select__btn"
-                                    @click="quality = !quality, genre = false, country = false, yearFrom = false, yearTo = false"
-                                    :style="quality !== false ? 'border-radius: 15px 15px 0 0' : 'border-radius: 15px'">
-                                    {{ qualityName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
-                                <Transition name="select">
-                                    <ul class="select__list" v-if="quality">
-                                        <li class="select__item" @click="selectQuality($event)">Jangari</li>
-                                        <li class="select__item" @click="selectQuality($event)">Fantastik</li>
-                                        <li class="select__item" @click="selectQuality($event)">Dramma</li>
-                                        <li class="select__item" @click="selectQuality($event)">Komediya</li>
-                                        <li class="select__item" @click="selectQuality($event)">Ujas kino</li>
+                                        <li class="select__item" @click="selectCountry($event)">Uzbekistan</li>
                                     </ul>
                                 </Transition>
                             </div>
@@ -67,11 +42,8 @@
                                     {{ yearFromName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="yearFrom">
-                                        <li class="select__item" @click="selectYearFrom($event)">Jangari</li>
-                                        <li class="select__item" @click="selectYearFrom($event)">Fantastik</li>
-                                        <li class="select__item" @click="selectYearFrom($event)">Dramma</li>
-                                        <li class="select__item" @click="selectYearFrom($event)">Komediya</li>
-                                        <li class="select__item" @click="selectYearFrom($event)">Ujas kino</li>
+                                        <li class="select__item" @click="selectYearFrom(item)"
+                                            v-for="item in apiYear?.data?.available_years" :key="item">{{ item }}</li>
                                     </ul>
                                 </Transition>
                             </div>
@@ -85,19 +57,16 @@
                                     {{ yearToName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="yearTo">
-                                        <li class="select__item" @click="selectYearTo($event)">Jangari</li>
-                                        <li class="select__item" @click="selectYearTo($event)">Fantastik</li>
-                                        <li class="select__item" @click="selectYearTo($event)">Dramma</li>
-                                        <li class="select__item" @click="selectYearTo($event)">Komediya</li>
-                                        <li class="select__item" @click="selectYearTo($event)">Ujas kino</li>
+                                        <li class="select__item" @click="selectYearTo(item)"
+                                            v-for="item in apiYear?.data?.available_years" :key="item">{{ item }}</li>
                                     </ul>
                                 </Transition>
                             </div>
                         </div>
                     </div>
                     <div class="category__btns">
-                        <button class="category__reset-btn">Tozalash</button>
-                        <button class="category__select-btn">Tanlash</button>
+                        <button class="category__reset-btn" @click="resetFilter()">Tozalash</button>
+                        <!-- <button class="category__select-btn" @click="filterCategory()">Tanlash</button> -->
                     </div>
                 </div>
             </div>
@@ -110,8 +79,12 @@
                                 :items-per-page="1" :max-pages-shown="3" v-model="currentPage" :on-click="onClickHandler" />
                         </div>
                     </div>
-                    <div class="category__items">
+                    <div class="category__items" v-if="categorieMovies?.content.length">
                         <movie-card v-for="item in categorieMovies?.content" :movie="item" :key="item" />
+                    </div>
+                    <div class="category__not-found" v-if="!categorieMovies?.content.length">
+                        <span class="saved__not-found-icon">:(</span>
+                        <h2 class="saved__not-fount-title">Xech qanday ma'lumot topilmadi</h2>
                     </div>
                     <div class="main-pagination">
                         <vue-awesome-paginate :total-items="categorieMovies?.pagination?.current_page" :items-per-page="1"
@@ -138,11 +111,14 @@ let page = ref(10);
 let totalPages = 20;
 await store.getSavedMovies()
 
+const apiYear = await $fetch(`${store.baseUrl}/available-years/`)
+
+
 const categorieMovies = ref(null)
 const categorieName = ref(null)
 async function getCategorieMovie() {
     if (store.token) {
-        const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/`, {
+        const data = await $fetch(`${store.baseUrl}/category/${id}/content/`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + store.token
@@ -155,7 +131,7 @@ async function getCategorieMovie() {
             }
         })
     } else {
-        const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/`)
+        const data = await $fetch(`${store.baseUrl}/category/${id}/content/`)
         categorieMovies.value = data.data
         store.categories?.data?.categories.forEach(el => {
             if (el.id == id) {
@@ -168,35 +144,93 @@ async function getCategorieMovie() {
 getCategorieMovie()
 
 const genreName = ref("Barchasi")
-function selectGenre(e) {
-    genreName.value = e.target.textContent
+async function selectGenre(n) {
+    genreName.value = n
     genre.value = false
-}
+    const data = await $fetch(`${store.baseUrl}/search`, {
+        method: 'GET',
+        params: {
+            genre: genreName.value?.toLowerCase(),
+            start_year: yearFromName.value,
+            end_year: yearToName.value,
+            category: id
 
+        }
+    })
+    categorieMovies.value = data.data
+}
+async function resetFilter() {
+    genreName.value = "Barchasi"
+    yearFromName.value = "Barchasi"
+    yearToName.value = "Barchasi"
+    const data = await $fetch(`${store.baseUrl}/search`, {
+        method: 'GET',
+        params: {
+            category: id
+        }
+    })
+    categorieMovies.value = data.data
+}
 const countryName = ref("Uzbekistan")
-function selectCountry(e) {
+async function selectCountry(e) {
     countryName.value = e.target.textContent
     country.value = false
+    const data = await $fetch(`${store.baseUrl}/search`, {
+        method: 'GET',
+        params: {
+            genre: genreName.value?.toLowerCase(),
+            start_year: yearFromName.value,
+            end_year: yearToName.value,
+            category: id
+
+
+        }
+    })
+    categorieMovies.value = data.data
 }
 
 const qualityName = ref("Full HD")
-function selectQuality(e) {
-    qualityName.value = e.target.textContent
-    quality.value = false
-}
+
 
 const yearFromName = ref("Barchasi")
-function selectYearFrom(e) {
-    yearFromName.value = e.target.textContent
+async function selectYearFrom(y) {
+    yearFromName.value = y
     yearFrom.value = false
+    const data = await $fetch(`${store.baseUrl}/search`, {
+        method: 'GET',
+        params: {
+            genre: genreName.value == 'Barchasi' ? "" : genreName.value?.toLowerCase(),
+            start_year: yearFromName.value,
+            end_year: yearToName.value,
+            category: id
+
+        }
+    })
+    // console.log(yearFromName.value);
+    categorieMovies.value = data.data
 }
 
 const yearToName = ref("Barchasi")
-function selectYearTo(e) {
-    yearToName.value = e.target.textContent
+async function selectYearTo(y) {
+    yearToName.value = y
     yearTo.value = false
-}
+    const data = await $fetch(`${store.baseUrl}/search`, {
+        method: 'GET',
+        params: {
+            genre: genreName.value == 'Barchasi' ? "" : genreName.value?.toLowerCase(),
+            start_year: yearFromName.value,
+            end_year: yearToName.value,
+            category: id
 
+
+        }
+    })
+    categorieMovies.value = data.data
+
+}
+const genreApi = await $fetch(`${store.baseUrl}/genres/`)
+
+const g = ref()
 
 
 const onClickHandler = async (page) => {
@@ -210,6 +244,14 @@ store.loader = false
 </script>
 
 <style lang="scss">
+.category__not-found {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .select-enter-from,
 .select-leave-to {
     opacity: 0;

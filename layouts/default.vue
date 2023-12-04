@@ -35,7 +35,8 @@
                             <NuxtLink to="/subscriptions" class="profile-modal__item"><img
                                     src="@/assets/images/svg/subs.svg" alt=""> Obunalar
                             </NuxtLink>
-                            <NuxtLink to="/" class="profile-modal__item"><img src="@/assets/images/svg/pay.svg" alt="">
+                            <NuxtLink to="/payment" class="profile-modal__item"><img src="@/assets/images/svg/pay.svg"
+                                    alt="">
                                 To’lovlar
                             </NuxtLink>
                             <NuxtLink to="/saved" class="profile-modal__item"><img src="@/assets/images/svg/bookmark.svg"
@@ -105,16 +106,9 @@
                 <button>Qidirish</button>
             </form>
             <ul class="search-list" v-if="searchData">
-                <h4>Kinolar</h4>
-                <li v-for="item in searchData" :key="item">
-                    <NuxtLink v-if="item.type == 'Movie'" @click="store.search_open = false" :to="`/watch/${item?.id}`"><img
+                <li v-for="item in searchData?.content" :key="item">
+                    <NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img
                             src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink>
-                </li>
-                <h4 class="search-serial">Serialar</h4>
-                <li v-for="item in searchData" :key="item">
-                    <NuxtLink v-if="item.type == 'Series'" @click="store.search_open = false, store.overlay = false"
-                        :to="`/watch/${item?.id}`"><img src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}
-                    </NuxtLink>
                 </li>
             </ul>
         </div>

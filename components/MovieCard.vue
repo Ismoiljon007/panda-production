@@ -32,7 +32,7 @@
             <div class="movie-card__cat">
                 <NuxtLink to="/">2023</NuxtLink>
                 <span>/</span>
-                <NuxtLink to="/">{{ movie?.genre[0].name }}</NuxtLink>
+                <NuxtLink to="/">{{ movie?.genre[0]?.name }}</NuxtLink>
             </div>
         </div>
     </div>

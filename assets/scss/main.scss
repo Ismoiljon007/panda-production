@@ -272,6 +272,15 @@ main {
     list-style: none;
     padding-bottom: 14px;
     border-radius: 0 0 15px 15px;
+    max-height: 175px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #fff;
+      border-radius: 1px;
+    }
   }
   &__subtitle {
     margin-bottom: 10px;
