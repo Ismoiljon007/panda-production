@@ -10,6 +10,8 @@
                         <div class="profile__payment">
                             <div class="profile__payment-item">
                                 <img src="@/assets/images/png/click.png" alt="payme logo" class="profile__payment-item-img">
+                                <h2 class="profile__payment-item-title">{{ store.plan_name == '' ? 'obuna tanlang' :
+                                    'tarif: ' + store.plan_name }}</h2>
                                 <p class="profile__payment-item-info">Click tizimi orqali hisobingizni to‘ldirish uchun
                                     summani kiriting</p>
                                 <button @click="payment()">To’lash</button>

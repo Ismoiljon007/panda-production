@@ -9,6 +9,9 @@ export const useStore = defineStore("store", () => {
   const overlay = ref(false);
   const search_open = ref(false);
   const planId = ref(null);
+
+  const plan_name = ref("");
+
   const token =
     typeof window !== "undefined"
       ? localStorage.getItem("access__token")
@@ -29,6 +32,7 @@ export const useStore = defineStore("store", () => {
     savedMovies.value = data;
   }
   return {
+    plan_name,
     savedMovies,
     getSavedMovies,
     planId,

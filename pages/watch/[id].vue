@@ -19,6 +19,7 @@
 
                         }
                             " />
+                    <div class="movie-payment" @click="router.push('/subscriptions')"></div>
                 </div>
                 <div class="movie-video" v-if="vidType == 'trailer'">
                     <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div>
@@ -165,8 +166,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'videojs-hotkeys';
@@ -179,13 +178,13 @@ const details = ref(null);
 const movies = ref([]);
 const vidType = ref('online')
 
-
+const paymentTrue = ref(true)
 
 const title = ref(null)
 const video_url = ref(null)
 const img_url = ref(null)
 
-
+const router = useRouter()
 
 async function getMovie(series) {
     const res = await $fetch(store.baseUrl + '/series/' + series + '/', {
@@ -260,7 +259,7 @@ async function getCategoriesMovie() {
     );
     const results = await Promise.all(fetchPromises);
     results.forEach((data, index) => {
-        movies.value[index] = data.data.movies;
+        movies.value[index] = data.data.content;
     });
 }
 const episods = ref(null)
@@ -292,6 +291,11 @@ async function fetchData() {
                 'Authorization': 'Bearer ' + store.token
             }
         })
+        if (detailData?.data?.main_content_url == null) {
+            paymentTrue.value = true
+        } else {
+            paymentTrue.value = false
+        }
         await getCategoriesMovie();
         details.value = detailData;
         title.value = detailData?.data?.title
@@ -304,6 +308,11 @@ async function fetchData() {
                 'Authorization': 'Bearer ' + store.token
             }
         });
+        if (res?.data?.main_content_url == null) {
+            paymentTrue.value = true
+        } else {
+            paymentTrue.value = false
+        }
         title.value = res?.data?.title
         video_url.value = res?.data?.main_content_url
         img_url.value = res?.data?.thumbnail_image
@@ -418,6 +427,17 @@ watchEffect(() => {
 </script>
 
 <style lang="scss">
+.movie-payment {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: transparent;
+    cursor: pointer;
+}
+
 .active-btn {
     background: rgba(28, 28, 28, 0.5);
     color: #fff;

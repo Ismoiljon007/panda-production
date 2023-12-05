@@ -97,7 +97,10 @@
 </template>
 
 <script setup>
+import {VueAwesomePaginate} from "vue-awesome-paginate";
+import "vue-awesome-paginate/dist/style.css";
 import { useStore } from '~~/store/store'
+
 const store = useStore()
 store.loader = true
 const { id } = useRoute().params

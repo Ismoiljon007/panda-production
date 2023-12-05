@@ -58,12 +58,13 @@ const login = async () => {
     let phone = tel.value.split(" ").join("")
     let num = phone.split("-").join("")
     let pNum = num.split('(').join("")
+    let p = pNum.split(')').join("")
     $fetch(store.authBase + '/auth/register', {
         method: 'POST',
         body: {
             username: username.value,
             password: pass.value,
-            phone_number: pNum.split(')').join("")
+            phone_number: p.split('_').join('')
         }
     }).then(data => {
         if (data) {

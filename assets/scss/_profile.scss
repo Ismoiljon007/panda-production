@@ -194,7 +194,9 @@
         margin-bottom: 40px;
       }
       &-title {
-        @include font(500, 28px, 1.2);
+        @include font(500, 24px, 1.2);
+        margin-bottom: 20px;
+        text-transform: capitalize;
         color: #fff;
       }
       &-info {
