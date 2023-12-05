@@ -19,7 +19,7 @@
 
                         }
                             " />
-                    <div class="movie-payment" @click="router.push('/subscriptions')"></div>
+                    <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')"></div>
                 </div>
                 <div class="movie-video" v-if="vidType == 'trailer'">
                     <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div>

@@ -4,7 +4,8 @@ export const useStore = defineStore("store", () => {
   const baseUrl = "https://catalogservice.inminternational.uz";
   const userInfoBase = "https://userservice.inminternational.uz";
   const authBase = "https://authservice.inminternational.uz";
-  const paymentUrl = "https://eab0-213-230-127-150.ngrok-free.app/billing";
+  const paymentUrl = "https://billingservice.inminternational.uz/billing";
+  const analiticsUrl = "https://analitics-service.inminternational.uz";
   const loader = ref(true);
   const overlay = ref(false);
   const search_open = ref(false);
@@ -32,6 +33,7 @@ export const useStore = defineStore("store", () => {
     savedMovies.value = data;
   }
   return {
+    analiticsUrl,
     plan_name,
     savedMovies,
     getSavedMovies,
