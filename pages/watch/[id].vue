@@ -3,13 +3,18 @@
         <div class="movie">
             <div class="container">
                 <div class="movie-video" v-if="vidType == 'online'">
-                    <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div>
-                    <div class="movie-video-btns" v-if="movieOverlay">
+                    <!-- <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div> -->
+                    <!-- <div class="movie-video-btns" v-if="movieOverlay">
                         <button @click="skip(-10)"><img src="@/assets/images/svg/prev-btn.svg" alt=""></button>
                         <button @click="playPause()"><img src="@/assets/images/svg/play-btn.svg" alt=""></button>
                         <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
-                    </div>
-                    <video-player :poster="img_url" ref="player" controls id="video" class="video" :src="video_url"
+                    </div> -->
+                    <!-- {{ video_url }} -->
+                    <CustomPlayer :item="{
+                        link: video_url,
+                        poster: img_url
+                    }" />
+                    <!-- <video-player :poster="img_url" ref="player" controls id="video" class="video" :src="video_url"
                         :volume="0.6" :plugins="{
                             hotkeys: {
                                 volumeStep: 0.1,
@@ -18,7 +23,7 @@
                             },
 
                         }
-                            " />
+                            " /> -->
                     <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')"></div>
                 </div>
                 <div class="movie-video" v-if="vidType == 'trailer'">
@@ -181,8 +186,8 @@ const vidType = ref('online')
 const paymentTrue = ref(true)
 
 const title = ref(null)
-const video_url = ref(null)
-const img_url = ref(null)
+const video_url = ref("")
+const img_url = ref("")
 
 const router = useRouter()
 
@@ -295,11 +300,11 @@ async function fetchData() {
             paymentTrue.value = true
         } else {
             paymentTrue.value = false
+            video_url.value = detailData?.data?.main_content_url
         }
         await getCategoriesMovie();
         details.value = detailData;
         title.value = detailData?.data?.title
-        video_url.value = detailData?.data?.main_content_url
         img_url.value = detailData?.data?.thumbnail_image
     } catch (error) {
         const res = await $fetch(store.baseUrl + '/series/' + id + '/', {
@@ -312,9 +317,9 @@ async function fetchData() {
             paymentTrue.value = true
         } else {
             paymentTrue.value = false
+            video_url.value = res?.data?.main_content_url
         }
         title.value = res?.data?.title
-        video_url.value = res?.data?.main_content_url
         img_url.value = res?.data?.thumbnail_image
         details.value = res;
         getEpisods(res?.data?.seasons[0]?.id)
@@ -358,9 +363,9 @@ function skip(value) {
     video.currentTime += value;
 }
 
+await fetchData();
 const com = ref(false)
 onMounted(() => {
-    fetchData();
     document.getElementById('video')?.childNodes[0]?.addEventListener('click', (e) => {
         if (e.target.paused == true) {
             movieOverlay.value = true
@@ -371,7 +376,7 @@ onMounted(() => {
 
 
 
-    let playerVideo = videojs('video');
+    // let playerVideo = videojs('video');
     // playerVideo.hlsQualitySelector({
     //     displayCurrentQuality: true,
     // });
