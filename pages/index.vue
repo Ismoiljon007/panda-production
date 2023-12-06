@@ -86,8 +86,9 @@
                                 the
                                 1500s, when an unknown printer took a galley of type and scrambled it to
                                 make a type specimen book.</p>
-                            <NuxtLink class="hero__slide-btn" :to="`/watch/${item.object_id}`"><img
-                                    src="@/assets/images/svg/play.svg" alt=""> Ko’rish
+                            <NuxtLink class="hero__slide-btn"
+                                :to="store.token == null ? '/login' : item?.is_movie == true ? `/watch/${item.object_id}` : `/series/${item.object_id}`">
+                                <img src="@/assets/images/svg/play.svg" alt=""> Ko’rish
                             </NuxtLink>
                         </div>
                     </div>
