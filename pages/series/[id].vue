@@ -59,7 +59,27 @@
                         :style="vidType == 'trailer' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">TREYLERINI
                         KO'RISH</button>
                 </div>
-
+                <div class="movie-episods" v-if="!details?.data?.is_movie">
+                    <div class="movie-episods__seasons">
+                        <h4 class="movie-episods__seasons-title">Fasillar:</h4>
+                        <div class="movie-episods__seasons-item" :class="item.id == details?.data?.id ? 'active-btn' : ''"
+                            @click="getEpisods(item.id), checkEpisod($event)" v-for="(item) in details?.data?.seasons"
+                            :key="item">{{
+                                item?.season_number }}</div>
+                    </div>
+                    <div class="movie-episods__wrapper">
+                        <div class="movie-episods__item"
+                            :class="item?.id == episods?.data?.episodes[0]?.id ? 'active-item' : ''"
+                            @click="getSeries(item?.id), checkSeries($event)" v-for="item in  episods?.data?.episodes"
+                            :key="item">
+                            <div class="movie-episods__item-img" style="pointer-events: none;">
+                                <img :src="item?.thumbnail_image_url" alt="">
+                            </div>
+                            <h4 class="movie-episods__item-name" style="pointer-events: none;">{{ item.episode_number
+                            }}-qism</h4>
+                        </div>
+                    </div>
+                </div>
                 <div class="movie__adds">
                     <img src="@/assets/images/png/reklama.png" alt="">
                 </div>
@@ -160,6 +180,58 @@ const comment = ref()
 const details = ref(null);
 const movies = ref([]);
 const vidType = ref('online')
+
+const paymentTrue = ref(true)
+
+const title = ref(null)
+const video_url = ref("")
+const img_url = ref("")
+
+const router = useRouter()
+
+async function getMovie(series) {
+    const res = await $fetch(store.baseUrl + '/series/' + series + '/', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        }
+    });
+    details.value = res
+    window.scrollTo(0, 0);
+}
+async function getSeries(id, e) {
+    const data = await $fetch(`${store.baseUrl}/management/episodes/${id}/`)
+    title.value = data?.title
+    video_url.value = data?.episode_content_url
+    img_url.value = data?.thumbnail_image_url
+}
+function checkSeries(e) {
+    document.querySelectorAll('.movie-episods__item').forEach(el => {
+        if (el == e.target) {
+            el.classList.add('active-item')
+        } else {
+            el.classList.remove('active-item')
+        }
+    })
+}
+const userInfo = ref()
+async function getUserInfo() {
+    store.loader = true;
+    try {
+        const data = await $fetch("https://userservice.inminternational.uz/users", {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        })
+        userInfo.value = data
+    } catch (error) {
+        console.error("Failed to fetch data", error);
+    } finally {
+        store.loader = false;
+    }
+}
+
 function openReply(id) {
     if (document.querySelector(`.reply-${id}`).style.display == 'none') {
         document.querySelector(`.reply-${id}`).style.display = 'flex'
@@ -189,31 +261,8 @@ async function replie(parent) {
         repliesCom.value = ""
     }
 }
-const paymentTrue = ref(true)
 
-const title = ref(null)
-const video_url = ref("")
-const img_url = ref("")
 
-const router = useRouter()
-
-const userInfo = ref()
-async function getUserInfo() {
-    store.loader = true;
-    try {
-        const data = await $fetch("https://userservice.inminternational.uz/users", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-        userInfo.value = data
-    } catch (error) {
-        console.error("Failed to fetch data", error);
-    } finally {
-        store.loader = false;
-    }
-}
 await getUserInfo()
 async function sendComment() {
     const res = await $fetch(`${store.baseUrl}/management/comments/`, {
@@ -226,7 +275,7 @@ async function sendComment() {
             content: comment.value,
             object_id: id,
             parent: null,
-            content_type: 15
+            content_type: 13
         }
     })
     if (res) {
@@ -248,25 +297,46 @@ async function getCategoriesMovie() {
         movies.value[index] = data.data.content;
     });
 }
+const episods = ref(null)
+async function getEpisods(ep, e) {
+    const data = await $fetch(store.baseUrl + '/series/' + id + `/seasons/${ep}/episodes/`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        }
+    });
+    episods.value = data
+    getSeries(data?.data?.episodes[0]?.id)
+}
+function checkEpisod(e) {
+    document.querySelectorAll('.movie-episods__seasons-item').forEach(el => {
+        if (el == e.target) {
+            el.classList.add('active-btn')
+        } else {
+            el.classList.remove('active-btn')
+        }
+    })
+}
 async function fetchData() {
     store.loader = true;
     try {
-        const detailData = await $fetch(store.baseUrl + '/movies/' + id + '/', {
+        const res = await $fetch(store.baseUrl + '/series/' + id + '/', {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + store.token
             }
-        })
-        if (detailData?.data?.is_free == false) {
+        });
+        if (res?.data?.is_free == false) {
             paymentTrue.value = true
         } else {
             paymentTrue.value = false
-            video_url.value = detailData?.data?.main_content_url
+            video_url.value = res?.data?.series_summary_url
         }
-        await getCategoriesMovie();
-        details.value = detailData;
-        title.value = detailData?.data?.title
-        img_url.value = detailData?.data?.thumbnail_image
+        title.value = res?.data?.title
+        img_url.value = res?.data?.thumbnail_image
+        details.value = res;
+        getEpisods(res?.data?.seasons[0]?.id)
+        await getCategoriesMovie()
     } catch (error) {
         console.log(error);
     } finally {
@@ -274,28 +344,16 @@ async function fetchData() {
     }
 }
 async function getDetilsComment() {
-    try {
-        const detailData = await $fetch(store.baseUrl + '/movies/' + id + '/', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-        await getCategoriesMovie();
-        details.value = detailData;
-    } catch (error) {
-        const res = await $fetch(store.baseUrl + '/series/' + id + '/', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        });
-        getEpisods(res?.data?.seasons[0]?.id)
-        details.value = res;
-    }
+    const res = await $fetch(store.baseUrl + '/series/' + id + '/', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        }
+    });
+    getEpisods(res?.data?.seasons[0]?.id)
+    details.value = res;
 }
 const movieOverlay = ref(true)
-
 
 await fetchData();
 const com = ref(false)
@@ -307,7 +365,6 @@ onMounted(() => {
             movieOverlay.value = false
         }
     })
-
 
 });
 watchEffect(() => {

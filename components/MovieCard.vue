@@ -9,7 +9,8 @@
                     </g>
                 </svg>
             </button>
-            <NuxtLink :to="store.token !== null ? `/watch/${movie?.id}` : '/login'">
+            <NuxtLink
+                :to="store.token == null ? '/login' : movie?.is_movie == true ? `/watch/${movie?.id}` : `/series/${movie?.id}`">
                 <img class="img" :src="movie?.thumbnail_image" alt="">
                 <button class="movie-card__play">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="19" viewBox="0 0 16 19" fill="none">
