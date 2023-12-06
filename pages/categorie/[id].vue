@@ -150,7 +150,7 @@ const genreName = ref("Barchasi")
 async function selectGenre(n) {
     genreName.value = n
     genre.value = false
-    const data = await $fetch(`${store.baseUrl}/search`, {
+    const data = await $fetch(`${store.baseUrl}/search/`, {
         method: 'GET',
         params: {
             genre: genreName.value?.toLowerCase(),
@@ -166,7 +166,7 @@ async function resetFilter() {
     genreName.value = "Barchasi"
     yearFromName.value = "Barchasi"
     yearToName.value = "Barchasi"
-    const data = await $fetch(`${store.baseUrl}/search`, {
+    const data = await $fetch(`${store.baseUrl}/search/`, {
         method: 'GET',
         params: {
             category: id
@@ -178,7 +178,7 @@ const countryName = ref("Uzbekistan")
 async function selectCountry(e) {
     countryName.value = e.target.textContent
     country.value = false
-    const data = await $fetch(`${store.baseUrl}/search`, {
+    const data = await $fetch(`${store.baseUrl}/search/`, {
         method: 'GET',
         params: {
             genre: genreName.value?.toLowerCase(),
@@ -199,7 +199,7 @@ const yearFromName = ref("Barchasi")
 async function selectYearFrom(y) {
     yearFromName.value = y
     yearFrom.value = false
-    const data = await $fetch(`${store.baseUrl}/search`, {
+    const data = await $fetch(`${store.baseUrl}/search/`, {
         method: 'GET',
         params: {
             genre: genreName.value == 'Barchasi' ? "" : genreName.value?.toLowerCase(),
@@ -217,7 +217,7 @@ const yearToName = ref("Barchasi")
 async function selectYearTo(y) {
     yearToName.value = y
     yearTo.value = false
-    const data = await $fetch(`${store.baseUrl}/search`, {
+    const data = await $fetch(`${store.baseUrl}/search/`, {
         method: 'GET',
         params: {
             genre: genreName.value == 'Barchasi' ? "" : genreName.value?.toLowerCase(),
