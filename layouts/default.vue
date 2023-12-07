@@ -79,7 +79,7 @@
                     </svg>
                 </button>
             </div>
-            <NuxtLink class="menu-user" to="/profile">
+            <NuxtLink class="menu-user" to="/profile" v-if="store.token">
                 <div class="menu-img" style="text-transform: uppercase;">
                     {{ userInfo?.username.split("")[0] }}
                 </div>
@@ -93,10 +93,11 @@
                     <NuxtLink :to="`/categorie/${item.id}`">{{ item?.name }}</NuxtLink>
                 </li>
             </ul>
-            <button @click="logout()" class="logout">
+            <button @click="logout()" class="logout" v-if="store.token">
                 <img src="@/assets/images/svg/fi-rr-sign-out.svg" alt="">
                 chiqish
             </button>
+            <NuxtLink v-if="!store.token" to="/login" class="btn">Kirish</NuxtLink>
         </div>
     </transition>
     <Transition name="search">
@@ -348,6 +349,7 @@ onMounted(() => {
     transform: translateY(0);
 
 }
+
 
 .fade-enter-from,
 .fade-leave-to {
