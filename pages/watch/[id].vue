@@ -10,10 +10,14 @@
                         <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
                     </div> -->
                     <!-- {{ video_url }} -->
-                    <CustomPlayer :item="{
+                    <vue-plyr :item="{
                         link: video_url,
                         poster: img_url
                     }" />
+                    <!-- <CustomPlayer :item="{
+                        link: video_url,
+                        poster: img_url
+                    }" /> -->
                     <!-- <video-player :poster="img_url" ref="player" controls id="video" class="video" :src="video_url"
                         :volume="0.6" :plugins="{
                             hotkeys: {
