@@ -29,7 +29,8 @@
                                         <h4 class="subscriptions__tarrif-price">{{ item?.duration_days }} kunga {{
                                             item?.price
                                         }} so’m</h4>
-                                        <button class="subscriptions__tarrif-btn" @click="pay(item.id, item?.name)">Obuna
+                                        <button class="subscriptions__tarrif-btn"
+                                            @click="pay(item.id, item?.name, item.price)">Obuna
                                             bo‘lish</button>
                                     </div>
                                 </div>
@@ -86,9 +87,9 @@ async function getPlans() {
 
     store.loader = false
 }
-function pay(id, name) {
+function pay(id, name, price) {
     store.planId = id
-    store.plan_name = name
+    store.plan_name = name + ', ' + 'price: ' + price
     router.push('/payment')
 }
 getPlans()

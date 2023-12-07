@@ -1,16 +1,35 @@
 .profile-nav {
   list-style: none;
-  display: flex;
-  align-items: center;
-  border-radius: 20px;
-  background: #242424;
+
+  div[role="tablist"] {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr) !important;
+    @include media(860px) {
+      grid-template-columns: repeat(6, 130px) !important;
+      width: fit-content;
+    }
+    width: 100%;
+    background: #242424;
+  }
+  height: fit-content;
+  border-radius: 8px;
   overflow-x: auto;
   &::-webkit-scrollbar {
     height: 2px;
     background: #242424;
   }
+  .absolute.duration-200 {
+    .bg-white {
+      background: #424242 !important;
+    }
+  }
   &::-webkit-scrollbar-thumb {
     background: #fff;
+  }
+  button {
+  }
+  button[aria-selected="true"] {
+    background: #424242 !important;
   }
   &__item {
     a {
@@ -46,9 +65,25 @@
     padding: 100px 0;
   }
   &__bottom {
+    #img {
+      display: none;
+    }
     border-radius: 15px;
     background: #121212;
     &-wrapper {
+      position: relative;
+      .edit-profile {
+        position: absolute;
+        top: 70px;
+        right: 40px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        svg {
+          width: 40px;
+          height: 40px;
+        }
+      }
       padding: 70px 40px 40px 73px;
       @include media(800px) {
         padding: 40px;
@@ -71,7 +106,31 @@
       }
     }
   }
+  .upload-img {
+    cursor: pointer;
+  }
   &__img {
+    position: relative;
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      svg {
+        width: 40px;
+        height: 40px;
+      }
+      background: #121212;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      padding: 10px;
+    }
     width: 237px;
     height: 237px;
     background: #d9d9d9;
@@ -111,6 +170,9 @@
       align-items: flex-end;
       @include media(800px) {
         width: 100%;
+      }
+      button {
+        @extend %pr-btn;
       }
       &-item {
         display: flex;

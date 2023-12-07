@@ -31,9 +31,9 @@
             <NuxtLink class="movie-card__title" :to="store.token !== null ? `/watch/${movie?.id}` : '/login'">{{
                 movie?.title }}</NuxtLink>
             <div class="movie-card__cat">
-                <NuxtLink to="/">2023</NuxtLink>
+                <div>{{ yearGet(movie?.release_date) }}</div>
                 <span>/</span>
-                <NuxtLink to="/">{{ movie?.genre[0]?.name }}</NuxtLink>
+                <div>{{ movie?.genre[0]?.name }}</div>
             </div>
         </div>
     </div>
@@ -100,7 +100,16 @@ async function addFvrt() {
     }
 }
 
+function yearGet(y) {
+    const dateString = y;
 
+    // Create a new Date object from the string
+    const dateObject = new Date(dateString);
+
+    // Get the year
+    const year = dateObject.getFullYear();
+    return year
+}
 
 const activeSave = computed(() => {
     if (!store.token) {

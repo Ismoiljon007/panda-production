@@ -12,7 +12,7 @@
       align-items: flex-end;
       gap: 63px;
       @include media(1600px) {
-        flex-wrap: wrap;
+        // flex-wrap: wrap;
         justify-content: flex-end;
         gap: 30px;
       }

@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <div class="category__items">
-                        <movie-card v-for="item in 50" :key="item" />
+                        <movie-card v-for="item in searchVal?.data?.content" :key="item" :movie="item" />
                     </div>
                 </div>
             </div>
@@ -31,6 +31,15 @@ const onClickHandler = (page) => {
 
 const currentPage = ref(1);
 
+const searchVal = await $fetch(`${store.baseUrl}/search/`, {
+    method: 'GET',
+    params: {
+        q: search
+    },
+    headers: {
+        'Authorization': 'Bearer ' + store.token
+    }
+})
 </script>
 
 <style lang="scss">

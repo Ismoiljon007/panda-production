@@ -101,14 +101,23 @@
     </transition>
     <Transition name="search">
         <div class="search" v-if="store.search_open">
-            <form @submit.prevent="">
-                <input type="text" @input="search($event)">
+            <form @submit.prevent="searchSubmit()">
+                <input type="text" v-model="searchEvent" @input="search($event)">
                 <button>Qidirish</button>
             </form>
-            <ul class="search-list" v-if="searchData">
+            <ul class="search-list" v-if="searchData?.content.length">
                 <li v-for="item in searchData?.content" :key="item">
-                    <NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`"><img
-                            src="@/assets/images/svg/search.svg" alt=""> {{ item?.title }}</NuxtLink>
+                    <NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`">
+                        <img :src="item?.thumbnail_image" alt="">
+                        <div class="wrapper">
+                            {{ item?.title }}
+                            <div class="genres-wrapper">
+                                <span>{{ item?.genre[0].name }}</span>
+                                <span>/</span>
+                                <span>{{ yearGet(item?.release_date) }}</span>
+                            </div>
+                        </div>
+                    </NuxtLink>
                 </li>
             </ul>
         </div>
@@ -231,6 +240,25 @@ const store = useStore()
 const search_open = ref(false)
 const token = ref(false)
 const menu = ref(false)
+function searchSubmit() {
+    if (searchEvent.value.length) {
+        router.push('/search/' + searchEvent.value)
+        searchEvent.value = ""
+        store.overlay = false
+        store.search_open = false
+    }
+}
+function yearGet(y) {
+    const dateString = y;
+
+    // Create a new Date object from the string
+    const dateObject = new Date(dateString);
+
+    // Get the year
+    const year = dateObject.getFullYear();
+    return year
+}
+const searchEvent = ref("")
 const router = useRouter()
 if (typeof window !== 'undefined') {
     if (localStorage.getItem('access__token')) {

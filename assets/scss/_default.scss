@@ -93,8 +93,7 @@
         transition: all 0.3s ease;
         &:hover {
           color: #fff;
-        background: rgba($color: $bg-color, $alpha: 0.2);
-
+          background: rgba($color: $bg-color, $alpha: 0.2);
         }
         letter-spacing: -0.6px;
         img {
@@ -271,6 +270,25 @@
     }
     li {
       a {
+        img {
+          width: 51px;
+          height: 72px;
+          object-fit: cover;
+        }
+        .genres-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+        .wrapper {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+        span {
+          font-size: 16px;
+          font-weight: 400;
+        }
         text-decoration: none;
         padding: 6px 31px;
         border-radius: 15px;
