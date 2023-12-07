@@ -345,7 +345,7 @@ async function fetchData() {
                 'Authorization': 'Bearer ' + store.token
             }
         });
-        if (res?.data?.is_free == false) {
+        if (res?.data?.series_summary_url == null) {
             paymentTrue.value = true
         } else {
             paymentTrue.value = false
