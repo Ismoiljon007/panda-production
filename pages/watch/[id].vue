@@ -184,7 +184,9 @@ function commentDate(d) {
         year: 'numeric',
     }).format(inputDate);
 
-    return formattedDate.split('/').join('.')
+    if(d) {
+        return formattedDate.split('/').join('.')
+    }
 }
 const repliesCom = ref(null)
 async function replie(parent) {

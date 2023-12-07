@@ -193,15 +193,18 @@ const router = useRouter()
 
 
 function commentDate(d) {
-    const inputDate = new Date(d);
-
-    const formattedDate = new Intl.DateTimeFormat('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-    }).format(inputDate);
-
-    return formattedDate.split('/').join('.')
+    if (d) {
+        const inputDate = new Date(d);
+    
+        const formattedDate = new Intl.DateTimeFormat('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        }).format(inputDate);
+        return formattedDate.split('/').join('.')
+    } else {
+        return 0
+    }
 }
 
 
