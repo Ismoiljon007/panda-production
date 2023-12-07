@@ -105,9 +105,9 @@
                 <input type="text" v-model="searchEvent" @input="search($event)">
                 <button>Qidirish</button>
             </form>
-            <ul class="search-list" v-if="searchData?.content.length">
+            <ul class="search-list" v-if="searchData.length">
                 <li v-for="item in searchData?.content" :key="item">
-                    <NuxtLink @click="store.search_open = false" :to="`/watch/${item?.id}`">
+                    <NuxtLink @click="store.search_open = false, searchData = []" :to="`/watch/${item?.id}`">
                         <img :src="item?.thumbnail_image" alt="">
                         <div class="wrapper">
                             {{ item?.title }}
@@ -246,6 +246,7 @@ function searchSubmit() {
         searchEvent.value = ""
         store.overlay = false
         store.search_open = false
+        searchData.value = []
     }
 }
 function yearGet(y) {
@@ -293,7 +294,7 @@ async function getUserInfo() {
 }
 await getUserInfo()
 
-const searchData = ref(null)
+const searchData = ref([])
 
 const search = async (e) => {
     const data = await $fetch(`${store.baseUrl}/search/`, {
@@ -306,7 +307,7 @@ const search = async (e) => {
         }
     })
     if (e.target.value.length) {
-        searchData.value = data.data
+        searchData.value = data.data.content
     } else {
         searchData.value = null
     }
