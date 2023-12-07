@@ -18,12 +18,12 @@
                         </button>
                         <h3 class="profile__bottom-title">Foydalanuvchi haqida ma’lumot</h3>
                         <div class="profile__info">
-                            <div class="profile__img" v-if="update" style="text-transform: uppercase;">
+                            <div class="profile__img" style="text-transform: uppercase;">
                                 <span>{{ userInfo?.data?.username.split("")[0] }}</span>
                             </div>
-                            <input type="file" id="img">
-                            <label class="profile__img upload-img" for="img" v-if="!update"
-                                style="text-transform: uppercase;">
+                            <!-- <input type="file" id="img"> -->
+                            <label class="profile__img upload-img" for="img" v-if="false
+                                " style="text-transform: uppercase;">
                                 <span>{{ userInfo?.data?.username.split("")[0] }}</span>
                                 <button>
                                     <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
@@ -63,10 +63,11 @@
 </template>
 
 <script setup>
+import { useToast } from 'vue-toastification';
 import { useStore } from '~~/store/store';
 const store = useStore()
 const userInfo = ref(null)
-
+const toast = useToast()
 const update = ref(true)
 
 const name = ref()
@@ -76,18 +77,21 @@ const tel = ref()
 
 async function updateUserInfo() {
     const formdata = new FormData()
-    formdata.append('phone_number', tel.value)
-    formdata.append('name', name.value)
-    formdata.append('username', login.value)
-    formdata.append('avatar', document.getElementById('img').files[0] ? document.getElementById('img').files[0] : "")
     const data = await $fetch(`${store.userInfoBase}/users`, {
         method: 'PUT',
         headers: {
             'Authorization': 'Bearer ' + store.token
         },
-        body: formdata
+        body: {
+            'phone_number': tel.value,
+            'name': name.value,
+            'username': login.value
+        }
     })
-    console.log(data);
+    if (data.status == "success") {
+        update.value = true
+        toast.success('profilingiz muvafaqiyatli tahrirlandi')
+    }
 }
 
 async function getUserInfo() {
