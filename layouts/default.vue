@@ -269,9 +269,9 @@ if (typeof window !== 'undefined') {
     }
 }
 function logout() {
+    window.location = '/'
     localStorage.clear()
     token.value = false
-    window.location = '/'
 }
 const profile = ref(false)
 const userInfo = ref(null)

@@ -19,6 +19,8 @@
                 </div>
                 <div class="login-btns">
                     <button class="login-btn" type="submit">Ro’yhatdan o’tish</button>
+                    <NuxtLink style="text-decoration: none;" class="register-btn" to="/register">Kirish
+                    </NuxtLink>
                 </div>
             </form>
 
