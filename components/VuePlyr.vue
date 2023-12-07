@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video ref="videoRef" class="video-plyr" controls playsinline crossorigin></video>
+        <video ref="videoRef" class="video-plyr" :poster="item.poster" controls playsinline crossorigin></video>
     </div>
 </template>
 
@@ -19,9 +19,7 @@ onMounted(() => {
     store.loader = true
     if (Hls.isSupported()) {
         hls = new Hls();
-        const videoPl = new Plyr(videoRef.value)
-        videoPl.poster = item.poster
-        hls.loadSource(item.link);
+        hls.loadSource(item?.link);
         hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
             const availableQualities = hls.levels.map((l) => l.height);
             player = new Plyr(videoRef.value, {

@@ -80,7 +80,7 @@
                             <div class="movie__comments-item-text-wr">
                                 <h4 class="movie__comments-item-name">{{ item?.username }}</h4>
                                 <p class="movie__comments-item-desc">{{ item?.content }}</p>
-                                <div class="movie__comments-item-btns" v-if="item?.username !== userInfo?.data?.username">
+                                <div class="movie__comments-item-btns">
                                     <!-- <button>
                                         <img src="@/assets/images/svg/heart.svg" alt="">
                                         <span>Yoqdi(30)</span>
@@ -275,7 +275,7 @@ async function fetchData() {
                 'Authorization': 'Bearer ' + store.token
             }
         })
-        if (detailData?.data?.is_free == false) {
+        if (detailData?.data?.main_content_url == null) {
             paymentTrue.value = true
         } else {
             paymentTrue.value = false

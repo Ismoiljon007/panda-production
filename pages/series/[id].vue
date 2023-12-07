@@ -96,15 +96,17 @@
                             <div class="movie__comments-item-text-wr">
                                 <h4 class="movie__comments-item-name">{{ item?.username }}</h4>
                                 <p class="movie__comments-item-desc">{{ item?.content }}</p>
-                                <div class="movie__comments-item-btns" v-if="item?.username !== userInfo?.data?.username">
+                                <div class="movie__comments-item-btns">
                                     <!-- <button>
                                         <img src="@/assets/images/svg/heart.svg" alt="">
                                         <span>Yoqdi(30)</span>
                                     </button> -->
-                                    <button @click="openReply(item?.id)">
+                                    <button @click="openReply(item?.id)" v-if="item?.username !== userInfo?.data?.username">
                                         <img src="@/assets/images/svg/send.svg" alt="">
                                         <span>Javob qaytarish</span>
                                     </button>
+                                    <span>sana: {{ commentDate(el?.created_at) }}</span>
+
                                 </div>
                             </div>
                         </div>
@@ -188,6 +190,20 @@ const video_url = ref("")
 const img_url = ref("")
 
 const router = useRouter()
+
+
+function commentDate(d) {
+    const inputDate = new Date(d);
+
+    const formattedDate = new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    }).format(inputDate);
+
+    return formattedDate.split('/').join('.')
+}
+
 
 async function getMovie(series) {
     const res = await $fetch(store.baseUrl + '/series/' + series + '/', {
