@@ -41,7 +41,7 @@
                         <button @click="playPause()"><img src="@/assets/images/svg/play-btn.svg" alt=""></button>
                         <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
                     </div> -->
-                    <CustomPlayer :item="{
+                    <vue-plyr :item="{
                         link: details?.data?.trailer_url,
                         poster: details?.data.thumbnail_image
                     }" />
@@ -85,16 +85,17 @@
                                         <img src="@/assets/images/svg/heart.svg" alt="">
                                         <span>Yoqdi(30)</span>
                                     </button> -->
-                                    <button @click="openReply(item?.id)">
+                                    <button @click="openReply(item?.id)" v-if="item?.username !== userInfo?.data?.username">
                                         <img src="@/assets/images/svg/send.svg" alt="">
                                         <span>Javob qaytarish</span>
                                     </button>
+                                    <span>sana: {{ commentDate(item?.created_at) }}</span>
                                 </div>
                             </div>
                         </div>
 
 
-                        <ul class="movie__comments-item__inner">
+                        <ul class="movie__comments-item__inner" v-if="item?.replies.length">
                             <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
                                 <div class="movie__comments-item-wrapper">
                                     <div class="movie__comments-item-img">
@@ -112,6 +113,8 @@
                                                 <img src="@/assets/images/svg/send.svg" alt="">
                                                 <span>Javob qaytarish</span>
                                             </button> -->
+                                            <span>sana: {{ commentDate(el?.created_at) }}</span>
+
                                         </div>
                                     </div>
                                 </div>
@@ -171,6 +174,17 @@ function openReply(id) {
         document.querySelector(`.reply-${id}`).style.display = 'none'
     }
     // document.querySelector(`reply-${id}`).style.display == 'none' ? 'flex' : 'none'
+}
+function commentDate(d) {
+    const inputDate = new Date(d);
+
+    const formattedDate = new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    }).format(inputDate);
+
+    return formattedDate.split('/').join('.')
 }
 const repliesCom = ref(null)
 async function replie(parent) {

@@ -13,8 +13,7 @@
                             <li @click="subs = 'active', activePlanGet()"
                                 :class="subs == 'active' ? 'subscriptions-nav-item-active' : ''">
                                 Aktiv obunalar</li>
-                            <li>Sotib olish tarixi</li>
-                            <li>Promo kod</li>
+                            <!-- <li>Sotib olish tarixi</li> -->
                         </ul>
                         <div class="subscriptions__tarrifs-wr" v-if="subs == 'subs'">
                             <div class="subscriptions__tarrifs">

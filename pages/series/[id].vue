@@ -10,7 +10,7 @@
                         <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
                     </div> -->
                     <!-- {{ video_url }} -->
-                    <CustomPlayer :item="{
+                    <vue-plyr :item="{
                         link: video_url,
                         poster: img_url
                     }" />
@@ -37,7 +37,7 @@
                         <button @click="playPause()"><img src="@/assets/images/svg/play-btn.svg" alt=""></button>
                         <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
                     </div> -->
-                    <CustomPlayer :item="{
+                    <vue-plyr :item="{
                         link: details?.data?.trailer_url,
                         poster: details?.data.thumbnail_image
                     }" />
