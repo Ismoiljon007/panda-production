@@ -244,10 +244,10 @@
     }
   }
   @include media(920px) {
-    left: 0;
     width: 100%;
     transform: translate(0, 0);
     left: 0;
+    padding: 2px 5px;
   }
   &-list {
     position: absolute;
