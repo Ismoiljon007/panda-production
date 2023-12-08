@@ -330,8 +330,8 @@ const updateScroll = () => {
     }
     scrolledNav.value = false;
 };
-watchEffect((e) => {
-    if (e) {
+function check() {
+    watchEffect(() => {
         if (store.loader) {
             document.querySelector('body').style.overflow = 'hidden'
         } else {
@@ -345,10 +345,10 @@ watchEffect((e) => {
         } else {
             document.querySelector('body').style.overflow = 'visible'
         }
-    }
-})
-onMounted(() => {
-
+    })
+}
+onMounted((e) => {
+    check()
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {
             if (profile.value) {

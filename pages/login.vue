@@ -33,7 +33,6 @@
 
 <script setup>
 import { useToast } from "vue-toastification";
-// import { googleTokenLogin } from 'vue3-google-login'
 import { useStore } from '~~/store/store';
 definePageMeta({
     layout: "without",

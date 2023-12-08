@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import {VueAwesomePaginate} from "vue-awesome-paginate";
+import { VueAwesomePaginate } from "vue-awesome-paginate";
 import "vue-awesome-paginate/dist/style.css";
 import { useStore } from '~~/store/store'
 
@@ -120,6 +120,7 @@ const apiYear = await $fetch(`${store.baseUrl}/available-years/`)
 const categorieMovies = ref(null)
 const categorieName = ref(null)
 async function getCategorieMovie() {
+    store.loader = true
     if (store.token) {
         const data = await $fetch(`${store.baseUrl}/category/${id}/content/`, {
             method: 'GET',
@@ -143,6 +144,7 @@ async function getCategorieMovie() {
         })
 
     }
+    store.loader = false
 }
 getCategorieMovie()
 
