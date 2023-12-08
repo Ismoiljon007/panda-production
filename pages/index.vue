@@ -186,7 +186,7 @@ const videoPlayersThumb = [];
 function onSlideChange(swiper) {
     videoPlayers.forEach((videoPlayer) => {
         videoPlayer.muted(true);
-        videoPlayer.pause()
+        // videoPlayer.pause()
     });
     // videoPlayersThumb.forEach((videoPlayer) => {
     //     videoPlayer.pause()
@@ -194,7 +194,7 @@ function onSlideChange(swiper) {
     curentId.value = swiper.activeIndex
     if (videoPlayers[swiper.activeIndex]) {
         videoPlayers[swiper.activeIndex].muted(muted.value);
-        videoPlayers[swiper.activeIndex].play();
+        // videoPlayers[swiper.activeIndex].play();
         // videoPlayersThumb[swiper.activeIndex].play()
     }
 }
@@ -202,7 +202,7 @@ onMounted(() => {
     document.querySelectorAll('.hero__video').forEach((videoElement) => {
         const videoPlayer = videojs(videoElement);
         videoPlayer.muted(true);
-        videoPlayer.pause();
+        // videoPlayer.pause();
         videoPlayers.push(videoPlayer);
     });
     // document.querySelectorAll('.hero__thumb-video').forEach((videoElement) => {
