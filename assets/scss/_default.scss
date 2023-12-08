@@ -260,7 +260,6 @@
     background: #222;
     padding: 25px 0;
     list-style: none;
-    height: 100%;
     max-height: 400px;
     overflow-y: auto;
     .search-serial {
@@ -272,6 +271,9 @@
     }
     &::-webkit-scrollbar-thumb {
       background: #fff;
+    }
+    @include media(600px) {
+      padding: 15px 0;
     }
     h4 {
       margin-bottom: 12px;
