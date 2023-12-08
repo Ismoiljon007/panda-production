@@ -97,7 +97,10 @@ const updateQuality = (newQuality) => {
 
     object-fit: cover;
 }
-
+.video-plyr {
+    width: 100%;
+    height: auto !important;
+}
 .plyr__video-wrapper {
     display: flex;
     align-items: center;
