@@ -270,7 +270,7 @@ if (typeof window !== 'undefined') {
     }
 }
 function logout() {
-    window.location = '/'
+    router.push('/')
     localStorage.clear()
     token.value = false
 }

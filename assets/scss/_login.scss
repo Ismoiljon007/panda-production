@@ -129,6 +129,19 @@
       button {
         width: 50%;
       }
+      a {
+        width: 50%;
+      }
+    }
+    @include media(561px) {
+      button {
+        width: 100%;
+        text-align: center;
+      }
+      a {
+        text-align: center;
+      }
+      flex-direction: column;
     }
   }
   .login-btn {
