@@ -74,7 +74,7 @@
                     clickable: true
                 }" class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
-                    <video-player loop :poster="store.baseUrl + item?.thumbnail_image_url" muted playsinline
+                    <video-player loop muted playsinline
                         :autoplay="true" class="hero__video" :src="item?.trailer_url" :plugins="{
                             aspectRatio: '19:8'
                         }" />
