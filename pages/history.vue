@@ -28,9 +28,9 @@
 import { useStore } from '~~/store/store'
 const store = useStore()
 const history = ref([])
+store.loader = false
 await store.getSavedMovies()
 
-store.loader = false
 </script>
 
 <style lang="scss" scoped></style>

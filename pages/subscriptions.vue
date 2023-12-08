@@ -73,8 +73,9 @@ const store = useStore()
 const plans = ref([])
 const router = useRouter()
 const subs = ref('subs')
+store.loader = false
+
 async function getPlans() {
-    store.loader = true
 
     const data = await $fetch(`${store.baseUrl}/plans/`, {
         method: 'GET',
@@ -84,7 +85,6 @@ async function getPlans() {
     })
     plans.value = data.data
 
-    store.loader = false
 }
 function pay(id, name, price) {
     store.planId = id
@@ -95,7 +95,6 @@ getPlans()
 
 const userInfo = ref(null)
 async function getUserInfo() {
-    store.loader = true;
     try {
         const data = await $fetch("https://userservice.inminternational.uz/users", {
             method: 'GET',
@@ -107,7 +106,6 @@ async function getUserInfo() {
     } catch (error) {
         console.error("Failed to fetch data", error);
     } finally {
-        store.loader = false;
     }
 }
 await getUserInfo()

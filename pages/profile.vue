@@ -73,6 +73,7 @@ const update = ref(true)
 const name = ref()
 const login = ref()
 const tel = ref()
+store.loader = false;
 
 
 async function updateUserInfo() {
@@ -95,7 +96,6 @@ async function updateUserInfo() {
 }
 
 async function getUserInfo() {
-    store.loader = true;
     try {
         const data = await $fetch("https://userservice.inminternational.uz/users", {
             method: 'GET',
@@ -110,7 +110,6 @@ async function getUserInfo() {
     } catch (error) {
         console.error("Failed to fetch data", error);
     } finally {
-        store.loader = false;
     }
 }
 getUserInfo()

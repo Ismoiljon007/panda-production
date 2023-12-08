@@ -32,6 +32,8 @@ import { useStore } from '~~/store/store';
 const store = useStore()
 const userInfo = ref(null)
 const router = useRouter()
+store.loader = false;
+
 async function payment() {
     if (store.planId !== null) {
         console.log(userInfo.value?.data?.id);
@@ -55,7 +57,6 @@ async function payment() {
 
 
 async function getUserInfo() {
-    store.loader = true;
     try {
         const data = await $fetch(store.userInfoBase + "/users", {
             method: 'GET',
@@ -67,7 +68,6 @@ async function getUserInfo() {
     } catch (error) {
         console.error("Failed to fetch data", error);
     } finally {
-        store.loader = false;
     }
 }
 await getUserInfo()
