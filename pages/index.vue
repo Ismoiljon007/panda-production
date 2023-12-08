@@ -80,7 +80,7 @@
                         }" />
                     <div class="container">
                         <div class="hero__slide-text-wrapper">
-                            <h4 class="hero__slide-subtitle">{{ item?.release_year }} / {{ item?.genre?.name }}</h4>
+                            <h4 class="hero__slide-subtitle">{{ item?.release_year }} / {{ item?.content_genre[0]?.name }}</h4>
                             <h2 class="hero__slide-title">{{ item?.content_title }}</h2>
                             <p class="hero__slide-desc">Lorem Ipsum has been the industry's standard dummy text ever since
                                 the
