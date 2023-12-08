@@ -99,7 +99,6 @@ const updateQuality = (newQuality) => {
 }
 .video-plyr {
     width: 100%;
-    height: auto !important;
 }
 .plyr__video-wrapper {
     display: flex;

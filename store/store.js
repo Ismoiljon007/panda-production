@@ -13,7 +13,7 @@ export const useStore = defineStore("store", () => {
 
   const plan_name = ref("");
 
-  const token =
+  let token =
     typeof window !== "undefined"
       ? localStorage.getItem("access__token")
       : null;

@@ -273,6 +273,9 @@ function logout() {
     router.push('/')
     localStorage.clear()
     token.value = false
+    store.token = typeof window !== "undefined"
+      ? localStorage.getItem("access__token")
+      : null;
 }
 const profile = ref(false)
 const userInfo = ref(null)
