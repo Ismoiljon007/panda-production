@@ -103,7 +103,7 @@
     <Transition name="search">
         <div class="search" v-if="store.search_open">
             <form @submit.prevent="searchSubmit()">
-                <input type="text" v-model="searchEvent" @input="search($event)">
+                <input type="text" autofocus v-model="searchEvent" @input="search($event)">
                 <button>Qidirish</button>
             </form>
             <ul class="search-list" v-if="searchData?.length">
