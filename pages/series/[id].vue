@@ -94,19 +94,18 @@
                                 {{ item.username.charAt().toUpperCase() }}
                             </div>
                             <div class="movie__comments-item-text-wr">
-                                <h4 class="movie__comments-item-name">{{ item?.username }}</h4>
+                                <h4 class="movie__comments-item-name">{{ item?.username }} <span>{{
+                                    commentDate(item?.created_at) }} oldin</span></h4>
                                 <p class="movie__comments-item-desc">{{ item?.content }}</p>
                                 <div class="movie__comments-item-btns">
                                     <!-- <button>
                                         <img src="@/assets/images/svg/heart.svg" alt="">
                                         <span>Yoqdi(30)</span>
                                     </button> -->
-                                    <button @click="openReply(item?.id)" v-if="item?.username !== userInfo?.data?.username">
+                                    <button @click="openReply(item?.id)">
                                         <img src="@/assets/images/svg/send.svg" alt="">
                                         <span>Javob qaytarish</span>
                                     </button>
-                                    <span>sana: {{ commentDate(el?.created_at) }}</span>
-
                                 </div>
                             </div>
                         </div>
@@ -119,7 +118,8 @@
                                         {{ el?.username.charAt().toUpperCase() }}
                                     </div>
                                     <div class="movie__comments-item-text-wr">
-                                        <h4 class="movie__comments-item-name">{{ el?.username }}</h4>
+                                        <h4 class="movie__comments-item-name">{{ el?.username }} <span>{{
+                                            commentDate(el?.created_at) }} oldin</span></h4>
                                         <p class="movie__comments-item-desc">{{ el?.content }}</p>
                                         <div class="movie__comments-item-btns">
                                             <!-- <button>
@@ -130,12 +130,13 @@
                                                 <img src="@/assets/images/svg/send.svg" alt="">
                                                 <span>Javob qaytarish</span>
                                             </button> -->
+
                                         </div>
                                     </div>
                                 </div>
 
                             </li>
-                            <div class="movie__comments-reply" :class="`reply-${item.id}`">
+                            <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
                                 <div class="movie__comments-item-img">{{ userInfo?.data?.username.charAt().toUpperCase() }}
                                 </div>
                                 <div class="movie__comments-text-wrapper">
@@ -193,20 +194,39 @@ const router = useRouter()
 
 
 function commentDate(d) {
-    if (d) {
-        const inputDate = new Date(d);
-    
-        const formattedDate = new Intl.DateTimeFormat('en-GB', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        }).format(inputDate);
-        return formattedDate.split('/').join('.')
-    } else {
-        return 0
-    }
-}
 
+const inputDate = new Date(d);
+const currentDate = new Date();
+
+const timeDifference = currentDate - inputDate;
+
+const seconds = Math.floor(timeDifference / 1000);
+const minutes = Math.floor(seconds / 60);
+const hours = Math.floor(minutes / 60);
+const days = Math.floor(hours / 24);
+const months = Math.floor(days / 30);
+const years = Math.floor(months / 12);
+
+let output;
+
+if (seconds < 60) {
+    output = `${seconds} soniya`;
+} else if (minutes < 60) {
+    output = `${minutes} daqiqa`;
+} else if (hours < 24) {
+    output = `${hours} soat`;
+} else if (days < 30) {
+    output = `${days} kun`;
+} else if (months < 12) {
+    output = `${months} oy`;
+} else {
+    output = `${years} yil`;
+}
+if (d) {
+    return output
+
+}
+}
 
 async function getMovie(series) {
     const res = await $fetch(store.baseUrl + '/series/' + series + '/', {
@@ -317,7 +337,7 @@ async function getCategoriesMovie() {
     });
 }
 const episods = ref(null)
-async function getEpisods(ep, e) {
+async function getEpisods(ep) {
     const data = await $fetch(store.baseUrl + '/series/' + id + `/seasons/${ep}/episodes/`, {
         method: 'GET',
         headers: {
