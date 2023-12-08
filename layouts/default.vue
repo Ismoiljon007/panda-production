@@ -274,8 +274,8 @@ function logout() {
     localStorage.clear()
     token.value = false
     store.token = typeof window !== "undefined"
-      ? localStorage.getItem("access__token")
-      : null;
+        ? localStorage.getItem("access__token")
+        : null;
 }
 const profile = ref(false)
 const userInfo = ref(null)
@@ -289,10 +289,10 @@ async function getUserInfo() {
             }
         })
         userInfo.value = data.data
+        localStorage.setItem('user_id', data?.data?.id)
     } catch (error) {
         console.error("Failed to fetch data", error);
     } finally {
-        // store.loader = false;
     }
 
 }
