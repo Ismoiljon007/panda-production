@@ -74,8 +74,8 @@
                     clickable: true
                 }" class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
-                    <video-player loop muted playsinline
-                        :autoplay="true" class="hero__video" :src="item?.trailer_url" :plugins="{
+                    <video-player loop muted playsinline :autoplay="true" class="hero__video" :src="item?.trailer_url"
+                        :plugins="{
                             aspectRatio: '19:8'
                         }" />
                     <div class="container">
@@ -202,7 +202,7 @@ onMounted(() => {
     document.querySelectorAll('.hero__video').forEach((videoElement) => {
         const videoPlayer = videojs(videoElement);
         videoPlayer.muted(true);
-        // videoPlayer.pause();
+        videoPlayer.play();
         videoPlayers.push(videoPlayer);
     });
     // document.querySelectorAll('.hero__thumb-video').forEach((videoElement) => {
