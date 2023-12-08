@@ -112,6 +112,16 @@
 
 
                         <ul class="movie__comments-item__inner">
+                            <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
+                                <div class="movie__comments-item-img">{{ userInfo?.data?.username.charAt().toUpperCase() }}
+                                </div>
+                                <div class="movie__comments-text-wrapper">
+                                    <h4 class="movie__comments-title">{{ userInfo?.data?.username }}</h4>
+                                    <textarea v-model="repliesCom" class="movie__comments-write"></textarea>
+                                    <button @click="replie(item?.id)"><img src="@/assets/images/svg/navigation.svg" alt="">
+                                        Jo‘natish</button>
+                                </div>
+                            </div>
                             <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
                                 <div class="movie__comments-item-wrapper">
                                     <div class="movie__comments-item-img">
@@ -136,16 +146,7 @@
                                 </div>
 
                             </li>
-                            <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
-                                <div class="movie__comments-item-img">{{ userInfo?.data?.username.charAt().toUpperCase() }}
-                                </div>
-                                <div class="movie__comments-text-wrapper">
-                                    <h4 class="movie__comments-title">{{ userInfo?.data?.username }}</h4>
-                                    <textarea v-model="repliesCom" class="movie__comments-write"></textarea>
-                                    <button @click="replie(item?.id)"><img src="@/assets/images/svg/navigation.svg" alt="">
-                                        Jo‘natish</button>
-                                </div>
-                            </div>
+
                         </ul>
                     </li>
                 </ul>
@@ -195,37 +196,37 @@ const router = useRouter()
 
 function commentDate(d) {
 
-const inputDate = new Date(d);
-const currentDate = new Date();
+    const inputDate = new Date(d);
+    const currentDate = new Date();
 
-const timeDifference = currentDate - inputDate;
+    const timeDifference = currentDate - inputDate;
 
-const seconds = Math.floor(timeDifference / 1000);
-const minutes = Math.floor(seconds / 60);
-const hours = Math.floor(minutes / 60);
-const days = Math.floor(hours / 24);
-const months = Math.floor(days / 30);
-const years = Math.floor(months / 12);
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(months / 12);
 
-let output;
+    let output;
 
-if (seconds < 60) {
-    output = `${seconds} soniya`;
-} else if (minutes < 60) {
-    output = `${minutes} daqiqa`;
-} else if (hours < 24) {
-    output = `${hours} soat`;
-} else if (days < 30) {
-    output = `${days} kun`;
-} else if (months < 12) {
-    output = `${months} oy`;
-} else {
-    output = `${years} yil`;
-}
-if (d) {
-    return output
+    if (seconds < 60) {
+        output = `${seconds} soniya`;
+    } else if (minutes < 60) {
+        output = `${minutes} daqiqa`;
+    } else if (hours < 24) {
+        output = `${hours} soat`;
+    } else if (days < 30) {
+        output = `${days} kun`;
+    } else if (months < 12) {
+        output = `${months} oy`;
+    } else {
+        output = `${years} yil`;
+    }
+    if (d) {
+        return output
 
-}
+    }
 }
 
 async function getMovie(series) {

@@ -96,6 +96,16 @@
 
 
                         <ul class="movie__comments-item__inner">
+                            <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
+                                <div class="movie__comments-item-img">{{ userInfo?.data?.username.charAt().toUpperCase() }}
+                                </div>
+                                <div class="movie__comments-text-wrapper">
+                                    <h4 class="movie__comments-title">{{ userInfo?.data?.username }}</h4>
+                                    <textarea v-model="repliesCom" class="movie__comments-write"></textarea>
+                                    <button @click="replie(item?.id)"><img src="@/assets/images/svg/navigation.svg" alt="">
+                                        Jo‘natish</button>
+                                </div>
+                            </div>
                             <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
                                 <div class="movie__comments-item-wrapper">
                                     <div class="movie__comments-item-img">
@@ -120,16 +130,6 @@
                                 </div>
 
                             </li>
-                            <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
-                                <div class="movie__comments-item-img">{{ userInfo?.data?.username.charAt().toUpperCase() }}
-                                </div>
-                                <div class="movie__comments-text-wrapper">
-                                    <h4 class="movie__comments-title">{{ userInfo?.data?.username }}</h4>
-                                    <textarea v-model="repliesCom" class="movie__comments-write"></textarea>
-                                    <button @click="replie(item?.id)"><img src="@/assets/images/svg/navigation.svg" alt="">
-                                        Jo‘natish</button>
-                                </div>
-                            </div>
                         </ul>
                     </li>
                 </ul>
