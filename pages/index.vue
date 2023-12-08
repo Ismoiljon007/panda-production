@@ -242,7 +242,6 @@ async function getCategoriesMovie() {
     }
 }
 getCategoriesMovie()
-store.loader = false
 
 </script>
 
