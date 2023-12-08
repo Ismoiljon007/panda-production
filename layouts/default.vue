@@ -56,7 +56,7 @@
                     </Transition>
                 </button>
             </div>
-            <button class="mobil-search" @click="store.search_open = true, store.overlay = true, focInt()">
+            <button class="mobil-search" @click="store.search_open = true, store.overlay = true">
                 <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="" width="20" height="20">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M14.947 13.771l4.808 4.809a.833.833 0 01-1.18 1.175l-4.808-4.804a8.384 8.384 0 01-5.338 1.906A8.428 8.428 0 010 8.43a8.428 8.428 0 1114.947 5.342zM1.673 8.43c0 3.722 3.029 6.75 6.756 6.75 3.722 0 6.755-3.028 6.755-6.75 0-3.723-3.033-6.756-6.755-6.756A6.763 6.763 0 001.673 8.43z"
@@ -300,7 +300,7 @@ await getUserInfo()
 function focInt() {
     setTimeout(() => {
         document.getElementById('search-int')?.focus()
-    }, 500)
+    }, 1000)
 }
 const searchData = ref([])
 
@@ -330,8 +330,25 @@ const updateScroll = () => {
     }
     scrolledNav.value = false;
 };
-
+watchEffect((e) => {
+    if (e) {
+        if (store.loader) {
+            document.querySelector('body').style.overflow = 'hidden'
+        } else {
+            document.querySelector('body').style.overflow = 'visible'
+        }
+        if (store.search_open) {
+            setTimeout(() => {
+                document.getElementById('search-int')?.focus()
+            }, 1000)
+            document.querySelector('body').style.overflow = 'hidden'
+        } else {
+            document.querySelector('body').style.overflow = 'visible'
+        }
+    }
+})
 onMounted(() => {
+
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {
             if (profile.value) {

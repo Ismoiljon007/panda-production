@@ -74,8 +74,8 @@
                     clickable: true
                 }" class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
-                    <video-player loop :poster="store.baseUrl + item?.thumbnail_image_url" muted playsinline :autoplay="true"
-                        class="hero__video" :src="item?.trailer_url" :plugins="{
+                    <video-player loop :poster="store.baseUrl + item?.thumbnail_image_url" muted playsinline
+                        :autoplay="true" class="hero__video" :src="item?.trailer_url" :plugins="{
                             aspectRatio: '19:8'
                         }" />
                     <div class="container">
@@ -160,6 +160,8 @@
 import videojs from 'video.js';
 import { useStore } from '~~/store/store';
 const store = useStore()
+store.loader = true
+
 const banners = await $fetch(store.baseUrl + "/banners/")
 const muted = ref(true)
 const movies = ref({})
@@ -240,6 +242,8 @@ async function getCategoriesMovie() {
     }
 }
 getCategoriesMovie()
+store.loader = false
+
 </script>
 
 <style lang="scss">
