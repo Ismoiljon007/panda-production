@@ -186,7 +186,7 @@ const videoPlayersThumb = [];
 function onSlideChange(swiper) {
     videoPlayers.forEach((videoPlayer) => {
         videoPlayer.muted(true);
-        // videoPlayer.pause()
+        videoPlayer.play()
     });
     // videoPlayersThumb.forEach((videoPlayer) => {
     //     videoPlayer.pause()
@@ -194,7 +194,7 @@ function onSlideChange(swiper) {
     curentId.value = swiper.activeIndex
     if (videoPlayers[swiper.activeIndex]) {
         videoPlayers[swiper.activeIndex].muted(muted.value);
-        // videoPlayers[swiper.activeIndex].play();
+        videoPlayers[swiper.activeIndex].play();
         // videoPlayersThumb[swiper.activeIndex].play()
     }
 }
