@@ -3,59 +3,73 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onBeforeUnmount, defineProps } from 'vue';
 import Plyr from 'plyr';
 import Hls from 'hls.js';
-import 'vue-plyr/dist/vue-plyr.css'
-import { useStore } from '~/store/store';
+import 'vue-plyr/dist/vue-plyr.css';
 
-const store = useStore()
-const { item } = defineProps(['item'])
-
+const { item } = defineProps(['item']);
 const videoRef = ref(null);
 let player = null;
 let hls = null;
 
 onMounted(() => {
-    if (Hls.isSupported()) {
-        hls = new Hls();
-        hls.loadSource(item?.link);
-        hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-            const availableQualities = hls.levels.map((l) => l.height);
-            player = new Plyr(videoRef.value, {
-                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen', 'rewind', 'fast-forward'],
-                quality: {
-                    default: availableQualities[0],
-                    options: availableQualities,
-                    forced: true,
-                    onChange: (e) => updateQuality(e),
-                },
-                keyboard: {
-                    focused: true,
-                    global: true
-                }
-            });
-        });
-        hls.attachMedia(videoRef.value);
-    }
+  if (Hls.isSupported()) {
+    hls = new Hls();
+    hls.loadSource(item?.link);
+    hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+      const availableQualities = hls.levels.map((level) => level.height);
+      player = new Plyr(videoRef.value, {
+        controls: [
+          'play-large',
+          'play',
+          'progress',
+          'current-time',
+          'mute',
+          'volume',
+          'captions',
+          'settings',
+          'pip',
+          'airplay',
+          'fullscreen',
+          'rewind',
+          'fast-forward',
+        ],
+        quality: {
+          default: availableQualities[0],
+          options: availableQualities,
+          forced: true,
+          onChange: (e) => updateQuality(e),
+        },
+        keyboard: {
+          focused: true,
+          global: true,
+        },
+      });
+    });
+    hls.attachMedia(videoRef.value);
+  }
 });
 
 onBeforeUnmount(() => {
-    if (player) {
-        player.destroy();
-    }
+  if (player) {
+    player.destroy();
+  }
 });
 
 const updateQuality = (newQuality) => {
-    hls.levels.forEach((level, levelIndex) => {
-        if (level.height === newQuality) {
-            hls.currentLevel = levelIndex;
-        }
-    });
+  hls.levels.forEach((level, levelIndex) => {
+    if (level.height === newQuality) {
+      hls.currentLevel = levelIndex;
+    }
+  });
 };
 </script>
 
 <style lang="scss">
 .plyr {
+    --plyr-color-main: #2d2d2d !important;
+
     width: 100%;
     height: 730px !important;
 
@@ -98,9 +112,11 @@ const updateQuality = (newQuality) => {
 
     object-fit: cover;
 }
+
 .video-plyr {
     width: 100%;
 }
+
 .plyr__video-wrapper {
     display: flex;
     align-items: center;
