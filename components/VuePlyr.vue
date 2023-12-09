@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video ref="videoRef" controls @click="startPlayback" playsinline crossorigin :src="videoUrl"
+        <video ref="videoRef" class="video-plyr" controls @click="startPlayback" playsinline crossorigin :src="videoUrl"
             type="application/x-mpegURL"></video>
     </div>
 </template>
@@ -79,4 +79,60 @@ const startPlayback = () => {
     }
 };
 </script>
-  
+
+<style lang="scss">
+.plyr {
+    --plyr-color-main: #2d2d2d !important;
+
+    width: 100%;
+    height: 730px !important;
+
+    @media (max-width: 1425px) {
+        height: 600px !important;
+    }
+
+    @media (max-width: 1060px) {
+        height: 460px !important;
+    }
+
+    @media (max-width: 1060px) {
+        height: 460px !important;
+    }
+
+    @media (max-width: 760px) {
+        height: 370px !important;
+    }
+}
+
+.video-plyr[poster] {
+    width: 100%;
+    height: 730px !important;
+
+    @media (max-width: 1425px) {
+        height: 600px !important;
+    }
+
+    @media (max-width: 1060px) {
+        height: 460px !important;
+    }
+
+    @media (max-width: 1060px) {
+        height: 460px !important;
+    }
+
+    @media (max-width: 760px) {
+        height: 370px !important;
+    }
+
+    object-fit: cover;
+}
+
+.video-plyr {
+    width: 100%;
+}
+
+.plyr__video-wrapper {
+    display: flex;
+    align-items: center;
+}
+</style>
