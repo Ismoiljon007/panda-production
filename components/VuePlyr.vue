@@ -1,5 +1,5 @@
 <template>
-    <video ref="videoRef" class="video-plyr" :poster="item.poster" controls playsinline crossorigin></video>
+    <video ref="videoRef" class="video-plyr" :poster="item.poster" controls playsinline crossorigin muted></video>
 </template>
 
 <script setup>
@@ -7,6 +7,7 @@ import Plyr from 'plyr';
 import Hls from 'hls.js';
 import 'vue-plyr/dist/vue-plyr.css'
 import { useStore } from '~/store/store';
+
 const store = useStore()
 const { item } = defineProps(['item'])
 
