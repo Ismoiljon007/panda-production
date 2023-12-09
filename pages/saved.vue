@@ -15,7 +15,7 @@
                             <h2 class="saved__not-fount-title">Tanlanganlar yoq</h2>
                         </div>
                         <div class="profile__footer">
-                            <h4 class="profile__id">ID: <span>255 274</span></h4>
+                            <h4 class="profile__id">ID: <span>{{ userInfo?.data?.id }}</span></h4>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,22 @@ const store = useStore()
 store.loader = false
 
 await store.getSavedMovies()
-
+const userInfo = ref()
+async function getUserInfo() {
+    try {
+        const data = await $fetch("https://userservice.inminternational.uz/users", {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + store.token
+            }
+        })
+        userInfo.value = data
+    } catch (error) {
+        console.error("Failed to fetch data", error);
+    } finally {
+    }
+}
+await getUserInfo()
 </script>
 
 <style lang="scss" scoped></style>

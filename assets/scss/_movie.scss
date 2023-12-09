@@ -5,6 +5,11 @@
     gap: 20px;
     button {
       @extend %pr-btn;
+      @include media(600px) {
+        font-size: 12px;
+        padding: 8px 16px;
+        border-radius: 10px;
+      }
     }
     margin-bottom: 30px;
   }
