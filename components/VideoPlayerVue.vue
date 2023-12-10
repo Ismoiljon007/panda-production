@@ -141,7 +141,19 @@ onMounted(() => {
 
     order: 4;
 }
-
+.vjs-big-play-button {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%,-50%) !important;
+    .vjs-icon-placeholder {
+        &::before {
+            width: 30px;
+            height: 30px;
+            content: url("@/assets/images/svg/play-btn.svg") !important;
+        }
+    }
+}
 .vjs-fullscreen-control {
     order: 9 !important;
 }
