@@ -20,10 +20,8 @@ export const useStore = defineStore("store", () => {
   const runtimeConfig = useRuntimeConfig();
   const categories = ref(null);
   async function getCategory() {
-    loader.value = true;
     const data = await $fetch(baseUrl + `/category/`);
     categories.value = data;
-    loader.value = false;
   }
   const savedMovies = ref();
   async function getSavedMovies() {

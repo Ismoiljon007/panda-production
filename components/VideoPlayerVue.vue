@@ -20,9 +20,7 @@ onMounted(() => {
         fluid: true,
         controls: item?.controls,
         aspectRatio: '16:9',
-        nativeTextTracks: false,
         plugins: {
-            nativeTextTracks: false,
             hotkeys: {
                 volumeStep: 0.1,
                 seekStep: 5,
