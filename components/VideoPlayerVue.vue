@@ -53,7 +53,6 @@ onMounted(() => {
     });
 
     player.on("pause", (e) => {
-        console.log(player.bigPlayButton.show);
         player.bigPlayButton.show();
     });
 })

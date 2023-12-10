@@ -95,9 +95,48 @@ import { useStore } from '~~/store/store';
 const store = useStore()
 store.loader = true
 
-const banners = await $fetch(store.baseUrl + "/banners/")
+const banners = ref(null)
+async function getBanners() {
+    store.loader = true
+    const data = await $fetch(store.baseUrl + "/banners/")
+    banners.value = data
+    store.loader = false
+}
 const muted = ref(true)
 const movies = ref({})
+
+async function getCategoriesMovie() {
+    try {
+        store.loader = true
+        const fetchPromises = store.categories.data.categories.map(async (el) => {
+            if (store.token) {
+                const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + store.token
+                    }
+                });
+                movies.value[el.id] = data.data.content;
+            } else {
+                const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
+                    method: 'GET',
+                });
+                movies.value[el.id] = data.data.content;
+            }
+        });
+        await Promise.all(fetchPromises);
+
+    } catch (error) {
+        console.error("Failed to fetch category movies", error);
+    } finally {
+
+        store.loader = false
+    }
+}
+
+
+
+
 const curentId = ref(0)
 function soundFunc() {
     muted.value = !muted.value
@@ -144,34 +183,7 @@ onMounted(() => {
     //     videoPlayersThumb.push(videoPlayer);
     // });
 });
-async function getCategoriesMovie() {
-    try {
-        store.loader = true
-        const fetchPromises = store.categories.data.categories.map(async (el) => {
-            if (store.token) {
-                const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + store.token
-                    }
-                });
-                movies.value[el.id] = data.data.content;
-            } else {
-                const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
-                    method: 'GET',
-                });
-                movies.value[el.id] = data.data.content;
-            }
-        });
-        await Promise.all(fetchPromises);
-
-    } catch (error) {
-        console.error("Failed to fetch category movies", error);
-    } finally {
-
-        store.loader = false
-    }
-}
+getBanners()
 await getCategoriesMovie()
 
 

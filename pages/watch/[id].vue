@@ -159,7 +159,6 @@ function openReply(id) {
     } else {
         document.querySelector(`.reply-${id}`).style.display = 'none'
     }
-    // document.querySelector(`reply-${id}`).style.display == 'none' ? 'flex' : 'none'
 }
 function commentDate(d) {
 
@@ -241,7 +240,6 @@ async function getUserInfo() {
         store.loader = false;
     }
 }
-await getUserInfo()
 async function sendComment() {
     const res = await $fetch(`${store.baseUrl}/management/comments/`, {
         method: 'POST',
@@ -324,7 +322,6 @@ async function getDetilsComment() {
 const movieOverlay = ref(true)
 
 
-await fetchData();
 const com = ref(false)
 onMounted(() => {
     document.getElementById('video')?.childNodes[0]?.addEventListener('click', (e) => {
@@ -334,15 +331,14 @@ onMounted(() => {
             movieOverlay.value = false
         }
     })
-
-
 });
 watchEffect(() => {
     title.value
     video_url.value
     img_url.value
 })
-
+await fetchData();
+await getUserInfo()
 
 
 
