@@ -3,7 +3,7 @@
         <div class="movie">
             <div class="container">
                 <div class="movie-video" v-if="vidType == 'online'">
-                    <video-player-vue :item="{
+                    <video-player-vue class="vd-serie" :item="{
                         url: video_url,
                         img: img_url,
                         controls: true,
@@ -230,6 +230,8 @@ async function getSeries(id, e) {
     title.value = data?.title
     video_url.value = data?.episode_content_url
     img_url.value = data?.thumbnail_image_url
+    var originalHTML = document.querySelector('.vd-serie').innerHTML;
+    document.querySelector('.vd-serie').innerHTML = originalHTML;
 }
 function checkSeries(e) {
     document.querySelectorAll('.movie-episods__item').forEach(el => {

@@ -19,7 +19,7 @@ onMounted(() => {
     var player = videojs(el, {
         fluid: true,
         controls: item?.controls,
-        aspectRatio: '16:6',
+        aspectRatio: '16:9',
         plugins: {
             hotkeys: {
                 volumeStep: 0.1,
@@ -91,22 +91,18 @@ onMounted(() => {
 }
 
 .vjs-volume-panel {
-    order: 5 !important;
+    order: 7 !important;
 }
 
 .vjs-remaining-time {
     order: 3 !important;
-    margin-right: auto !important;
+    margin-right: 20px !important;
 }
 
 .vjs-picture-in-picture-control {
     display: none !important;
 }
 
-// .vjs-seek-button {
-//     width: 30px !important;
-//     height: 30px !important;
-// }
 .skip-forward {
     width: 30px !important;
     height: 20px !important;
@@ -123,7 +119,8 @@ onMounted(() => {
         }
     }
 
-    order: 2;
+    order: 5;
+    margin-right: auto !important;
 }
 
 .skip-back {
@@ -142,14 +139,15 @@ onMounted(() => {
         }
     }
 
-    order: 2;
+    order: 4;
 }
 
 .vjs-fullscreen-control {
-    order: 6 !important;
+    order: 9 !important;
 }
 
 .vjs-quality-selector {
-    order: 3 !important;
-}</style>
+    order: 8 !important;
+}
+</style>
   
