@@ -1,7 +1,7 @@
 <template>
     <div>
         <video ref="videoPlayer" playsinline crossorigin :autoplay="item?.autoplay" :loop="item?.loop" :muted="item?.muted"
-            :poster="item.img" class="video-js vjs-default-skin"></video>
+            class="video-js vjs-default-skin"></video>
     </div>
 </template>
 
@@ -12,7 +12,7 @@ import 'videojs-contrib-quality-levels';
 import 'videojs-hotkeys';
 import 'videojs-seek-buttons';
 import videojsqualityselector from 'videojs-hls-quality-selector';
-
+const videoPlayer = ref()
 const { item } = defineProps(['item'])
 onMounted(() => {
     const el = document.querySelector('.video-js');
@@ -20,6 +20,14 @@ onMounted(() => {
         fluid: true,
         controls: item?.controls,
         aspectRatio: '16:9',
+        html5: {
+            nativeAudioTracks: false,
+            nativeVideoTracks: false,
+            hls: {
+                overrideNative: true,
+            },
+        },
+        poster: item.img,
         plugins: {
             hotkeys: {
                 volumeStep: 0.1,
@@ -34,11 +42,20 @@ onMounted(() => {
         },
         sources: [{
             src: item.url,
-            type: 'application/x-mpegURL'
+            type: 'application/x-mpegURL',
+            withCredentials: false,
         }]
     });
     player.hlsQualitySelector = videojsqualityselector;
     player.hlsQualitySelector();
+    player.on("play", (e) => {
+        player.bigPlayButton.hide();
+    });
+
+    player.on("pause", (e) => {
+        console.log(player.bigPlayButton.show);
+        player.bigPlayButton.show();
+    });
 })
 </script>
   
@@ -76,31 +93,31 @@ onMounted(() => {
 
 .vjs-has-started .vjs-control-bar,
 .vjs-audio-only-mode .vjs-control-bar {
-    flex-wrap: wrap !important;
-    height: auto !important;
+    // flex-wrap: wrap !important;
+    // height: auto !important;
 }
 
 .video-js .vjs-progress-control {
-    order: 1 !important;
-    width: 100%;
+    // order: 1 !important;
+    // width: 100%;
 }
 
-.vjs-paused,
-.vjs-playing {
-    order: 2 !important;
-}
+// .vjs-paused,
+// .vjs-playing {
+//     order: 2 !important;
+// }
 
-.vjs-volume-panel {
-    order: 7 !important;
-}
+// .vjs-volume-panel {
+//     order: 7 !important;
+// }
 
-.vjs-remaining-time {
-    order: 3 !important;
-    margin-right: 20px !important;
-}
+// .vjs-remaining-time {
+//     order: 3 !important;
+//     margin-right: 20px !important;
+// }
 
 .vjs-picture-in-picture-control {
-    display: none !important;
+    // display: none !important;   
 }
 
 .skip-forward {
@@ -119,8 +136,8 @@ onMounted(() => {
         }
     }
 
-    order: 5;
-    margin-right: auto !important;
+    // order: 5;
+    // margin-right: auto !important;
 }
 
 .skip-back {
@@ -139,27 +156,34 @@ onMounted(() => {
         }
     }
 
-    order: 4;
+    // order: 4;
 }
+
 .vjs-big-play-button {
     position: absolute !important;
     top: 50% !important;
     left: 50% !important;
-    transform: translate(-50%,-50%) !important;
+    transform: translate(-50%, -50%) !important;
+
     .vjs-icon-placeholder {
         &::before {
-            width: 30px;
-            height: 30px;
-            content: url("@/assets/images/svg/play-btn.svg") !important;
+
+            font-size: 88px !important;
+
+            // content: url("@/assets/images/svg/play-btn.svg") !important;
+            @media (max-width: 790px) {
+                font-size: 48px !important;
+            }
         }
     }
 }
-.vjs-fullscreen-control {
-    order: 9 !important;
-}
 
-.vjs-quality-selector {
-    order: 8 !important;
-}
+// .vjs-fullscreen-control {
+//     order: 9 !important;
+// }
+
+// .vjs-quality-selector {
+//     order: 8 !important;
+// }
 </style>
   

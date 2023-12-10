@@ -146,6 +146,7 @@ import hlsQualitySelector from "videojs-hls-quality-selector";
 
 videojs.registerPlugin("hlsQualitySelector", hlsQualitySelector);
 const store = useStore();
+store.loader = true
 const { id } = useRoute().params;
 const player = ref()
 const comment = ref()
