@@ -4,7 +4,7 @@
             :poster="item.img" class="video-js vjs-default-skin"></video>
     </div>
 </template>
-  
+
 <script setup>
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
@@ -20,7 +20,9 @@ onMounted(() => {
         fluid: true,
         controls: item?.controls,
         aspectRatio: '16:9',
+        nativeTextTracks: false,
         plugins: {
+            nativeTextTracks: false,
             hotkeys: {
                 volumeStep: 0.1,
                 seekStep: 5,
