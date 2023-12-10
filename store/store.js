@@ -18,10 +18,13 @@ export const useStore = defineStore("store", () => {
       ? localStorage.getItem("access__token")
       : null;
   const runtimeConfig = useRuntimeConfig();
-  const { data: categories } = useAsyncData(
-    "cat",
-    async () => await $fetch(runtimeConfig.apiSecret + `/category`)
-  );
+  const categories = ref(null);
+  async function getCategory() {
+    loader.value = true;
+    const data = await $fetch(baseUrl + `/category/`);
+    categories.value = data;
+    loader.value = false;
+  }
   const savedMovies = ref();
   async function getSavedMovies() {
     const data = await $fetch(`${baseUrl}/user-favorites/`, {
@@ -33,6 +36,7 @@ export const useStore = defineStore("store", () => {
     savedMovies.value = data;
   }
   return {
+    getCategory,
     analiticsUrl,
     plan_name,
     savedMovies,

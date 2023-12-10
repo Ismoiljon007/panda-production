@@ -3,27 +3,14 @@
         <div class="movie">
             <div class="container">
                 <div class="movie-video" v-if="vidType == 'online'">
-                    <!-- <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div> -->
-                    <!-- <div class="movie-video-btns" v-if="movieOverlay">
-                        <button @click="skip(-10)"><img src="@/assets/images/svg/prev-btn.svg" alt=""></button>
-                        <button @click="playPause()"><img src="@/assets/images/svg/play-btn.svg" alt=""></button>
-                        <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
-                    </div> -->
-                    <!-- {{ video_url }} -->
-                    <vue-plyr :item="{
-                        link: video_url,
-                        poster: img_url
+                    <video-player-vue :item="{
+                        url: video_url,
+                        img: img_url,
+                        controls: true,
+                        autoplay: false,
+                        loop: false,
+                        muted: false,
                     }" />
-                    <!-- <video-player :poster="img_url" ref="player" controls id="video" class="video" :src="video_url"
-                        :volume="0.6" :plugins="{
-                            hotkeys: {
-                                volumeStep: 0.1,
-                                seekStep: 10,
-                                enableModifiersForNumbers: false,
-                            },
-
-                        }
-                            " /> -->
                     <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
                         <button>
                             obuna sotib olish
@@ -31,15 +18,13 @@
                     </div>
                 </div>
                 <div class="movie-video" v-if="vidType == 'trailer'">
-                    <!-- <div class="movie-video-overlay" v-if="movieOverlay" @click="playPause()"></div>
-                    <div class="movie-video-btns" v-if="movieOverlay">
-                        <button @click="skip(-10)"><img src="@/assets/images/svg/prev-btn.svg" alt=""></button>
-                        <button @click="playPause()"><img src="@/assets/images/svg/play-btn.svg" alt=""></button>
-                        <button @click="skip(10)"><img src="@/assets/images/svg/next-btn.svg" alt=""></button>
-                    </div> -->
-                    <vue-plyr :item="{
-                        link: details?.data?.trailer_url,
-                        poster: details?.data.thumbnail_image
+                    <video-player-vue :item="{
+                        url: details?.data?.trailer_url,
+                        img: details?.data?.thumbnail_image,
+                        controls: true,
+                        autoplay: false,
+                        loop: false,
+                        muted: false,
                     }" />
                 </div>
                 <h2 class="movie__title">{{ title }}</h2>
@@ -122,31 +107,32 @@
                                         Jo‘natish</button>
                                 </div>
                             </div>
-                            <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
-                                <div class="movie__comments-item-wrapper">
-                                    <div class="movie__comments-item-img">
-                                        {{ el?.username.charAt().toUpperCase() }}
-                                    </div>
-                                    <div class="movie__comments-item-text-wr">
-                                        <h4 class="movie__comments-item-name">{{ el?.username }} <span>{{
-                                            commentDate(el?.created_at) }} oldin</span></h4>
-                                        <p class="movie__comments-item-desc">{{ el?.content }}</p>
-                                        <div class="movie__comments-item-btns">
-                                            <!-- <button>
-                                                <img src="@/assets/images/svg/heart.svg" alt="">
-                                                <span>Yoqdi(30)</span>
-                                            </button>
-                                            <button @click="com = !com">
-                                                <img src="@/assets/images/svg/send.svg" alt="">
-                                                <span>Javob qaytarish</span>
-                                            </button> -->
+                            <div v-if="item?.replies.length" class="wr-comments">
+                                <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
+                                    <div class="movie__comments-item-wrapper">
+                                        <div class="movie__comments-item-img">
+                                            {{ el?.username.charAt().toUpperCase() }}
+                                        </div>
+                                        <div class="movie__comments-item-text-wr">
+                                            <h4 class="movie__comments-item-name">{{ el?.username }} <span>{{
+                                                commentDate(el?.created_at) }} oldin</span></h4>
+                                            <p class="movie__comments-item-desc">{{ el?.content }}</p>
+                                            <div class="movie__comments-item-btns">
+                                                <!-- <button>
+                                                    <img src="@/assets/images/svg/heart.svg" alt="">
+                                                    <span>Yoqdi(30)</span>
+                                                </button>
+                                                <button @click="com = !com">
+                                                    <img src="@/assets/images/svg/send.svg" alt="">
+                                                    <span>Javob qaytarish</span>
+                                                </button> -->
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </li>
-
+                                </li>
+                            </div>
                         </ul>
                     </li>
                 </ul>
@@ -431,94 +417,8 @@ watchEffect(() => {
     }
 }
 
-.video-js .vjs-big-play-button {
-    background: none !important;
-    border: none !important;
-    width: 107px !important;
-    height: 107px !important;
-}
-
-.movie-video {
-    position: relative;
-}
-
-.vjs-poster {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #060606;
-}
-
-.vjs-poster img {}
-
-.prev-video {
-    position: absolute;
-    top: 50%;
-    z-index: 5;
-}
-
-.video {
-    width: 100%;
-    height: 730px !important;
-
-    @media (max-width: 1425px) {
-        height: 600px !important;
-    }
-
-    @media (max-width: 1060px) {
-        height: 460px !important;
-    }
-
-    @media (max-width: 1060px) {
-        height: 460px !important;
-    }
-
-    @media (max-width: 760px) {
-        height: 370px !important;
-    }
-
-}
-
 .for {
     position: absolute;
     top: 50%;
-}
-
-
-.video-js .vjs-control-bar {
-    background: transparent !important;
-}
-
-.vjs-has-started .vjs-control-bar,
-.vjs-audio-only-mode .vjs-control-bar {
-    flex-wrap: wrap !important;
-    height: auto !important;
-}
-
-.video-js .vjs-progress-control {
-    order: 1 !important;
-    width: 100%;
-}
-
-.vjs-paused,
-.vjs-playing {
-    order: 2 !important;
-}
-
-.vjs-volume-panel {
-    order: 4 !important;
-}
-
-.vjs-remaining-time {
-    order: 3 !important;
-    margin-right: auto !important;
-}
-
-.vjs-picture-in-picture-control {
-    display: none !important;
-}
-
-.vjs-fullscreen-control {
-    order: 5 !important;
 }
 </style>

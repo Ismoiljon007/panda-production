@@ -347,6 +347,11 @@
         display: flex;
         flex-direction: column;
         gap: 30px;
+        .wr-comments {
+          display: flex;
+          flex-direction: column;
+          gap: 30px;
+        }
         @include media(700px) {
           margin-left: 50px;
         }
