@@ -164,6 +164,7 @@ import videojs from 'video.js';
 import 'videojs-hotkeys';
 
 const store = useStore();
+store.loader = true
 const { id } = useRoute().params;
 const player = ref()
 const comment = ref()
@@ -291,7 +292,6 @@ async function replie(parent) {
 }
 
 
-await getUserInfo()
 async function sendComment() {
     const res = await $fetch(`${store.baseUrl}/management/comments/`, {
         method: 'POST',
@@ -383,7 +383,6 @@ async function getDetilsComment() {
 }
 const movieOverlay = ref(true)
 
-await fetchData();
 const com = ref(false)
 onMounted(() => {
     document.getElementById('video')?.childNodes[0]?.addEventListener('click', (e) => {
@@ -401,7 +400,8 @@ watchEffect(() => {
     img_url.value
 })
 
-
+await getUserInfo()
+await fetchData();
 
 
 

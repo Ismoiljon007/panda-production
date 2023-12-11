@@ -170,23 +170,28 @@
   }
   &__item {
     position: relative;
-    padding-bottom: 4px;
-    &::after {
-      transition: all 0.3s ease;
-      content: "";
-      width: 0%;
-      background: $white;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 1px;
-    }
-    &:hover {
-      &::after {
-        width: 100%;
-      }
-    }
     a {
+      padding-bottom: 4px;
+      &.router-link-active {
+        &::after {
+          width: 100%;
+        }
+      }
+      &::after {
+        transition: all 0.3s ease;
+        content: "";
+        width: 0%;
+        background: $white;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 1px;
+      }
+      &:hover {
+        &::after {
+          width: 100%;
+        }
+      }
       @include font(400, 22px, 25px);
       text-decoration: none;
       color: $white;
@@ -273,7 +278,7 @@
       background: #fff;
     }
     @include media(600px) {
-      padding:  0;
+      padding: 0;
     }
     h4 {
       margin-bottom: 12px;
