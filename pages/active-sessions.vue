@@ -143,13 +143,25 @@ async function removeSession(id) {
 
 function deiveName(name) {
     if(name?.includes('Windows')) {
-        return 'Windows'
+        const parts = name.split(', ');
+        const index = parts.indexOf("Windows");
+        const version = parts[index];
+        return version + ', ' + parts[1]
     } else if(name?.includes('Mac OS')) {
-        return 'Mac OS'
+        const parts = name.split(', ');
+        const index = parts.indexOf("Mac OS");
+        const version = parts[index];
+        return version + ', ' + parts[1]
     } else if(name?.includes('Android')) {
-        return 'Android'
+        const parts = name.split(', ');
+        const index = parts.indexOf("Android");
+        const version = parts[index];
+        return version + ', ' + parts[1]
     } else if(name?.includes('iPhone')) {
-        return 'iPhone'
+        const parts = name.split(', ');
+        const index = parts.indexOf("iPhone");
+        const version = parts[index];
+        return version + ', ' + parts[1]
     }
 }
 
