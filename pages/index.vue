@@ -3,7 +3,7 @@
         <div class="hero">
             <Swiper :slides-per-view="'1'" :autoplay="{ delay: 10000, disableOnInteraction: false, }" :speed="800"
                 :modules="[SwiperAutoplay, SwiperPagination, SwiperNavigation]"
-                :navigation="{ nextEl: '.hero__right', prevEl: '.hero__left' }" :pagination="{
+                :navigation="{ nextEl: '.hero__right', prevEl: '.hero__left', }" :pagination="{
                     clickable: true
                 }" class="hero__swiper" @slide-change="onSlideChange">
                 <SwiperSlide v-for="item in banners?.data" :key="item" class="hero__slide">
@@ -54,8 +54,8 @@
                             d="M400,384a16,16,0,0,1-13.87-24C405,327.05,416,299.45,416,256c0-44.12-10.94-71.52-29.83-103.95A16,16,0,0,1,413.83,136C434.92,172.16,448,204.88,448,256c0,50.36-13.06,83.24-34.12,120A16,16,0,0,1,400,384Z" />
                     </svg>
                 </button>
-                <button class="hero__left"><img src="@/assets/images/svg/left.svg" alt=""></button>
-                <button class="hero__right"><img src="@/assets/images/svg/right.svg" alt=""></button>
+                <button class="hero__left" v-if="banners?.data?.length > 1"><img src="@/assets/images/svg/left.svg" alt=""></button>
+                <button class="hero__right" v-if="banners?.data?.length > 1"><img src="@/assets/images/svg/right.svg" alt=""></button>
             </Swiper>
         </div>
 

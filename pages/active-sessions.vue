@@ -24,7 +24,7 @@
                                         </g>
                                     </svg>
                                 </div>
-                                <div class="active-sessions__item-img" v-if="item?.device_info?.includes('iPhone')">
+                                <div class="active-sessions__item-img" v-if="item?.device_info?.includes('iOS')">
                                     <!DOCTYPE svg
                                         PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'>
                                     <svg id="Capa_1" style="enable-background:new 0 0 90 90;" version="1.1"
@@ -157,9 +157,9 @@ function deiveName(name) {
         const index = parts.indexOf("Android");
         const version = parts[index];
         return version + ', ' + parts[1]
-    } else if(name?.includes('iPhone')) {
+    } else if(name?.includes('iOS')) {
         const parts = name.split(', ');
-        const index = parts.indexOf("iPhone");
+        const index = parts.indexOf("iOS");
         const version = parts[index];
         return version + ', ' + parts[1]
     }
