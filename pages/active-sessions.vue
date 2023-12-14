@@ -18,7 +18,8 @@
                                         <span>{{ deviveTime(item?.created_at) }}</span>
                                     </h4>
                                 </div>
-                                <button class="active-sessions__item-finish">Yakunlash</button>
+                                <button class="active-sessions__item-finish"
+                                    @click="removeSession(item?.session_id)">Yakunlash</button>
                             </div>
                         </div>
                         <div class="profile__footer">
@@ -35,6 +36,7 @@
 import { useStore } from '~~/store/store'
 const store = useStore()
 store.loader = false
+const router = useRouter()
 const userInfo = ref()
 async function getUserInfo() {
     try {
@@ -69,6 +71,44 @@ function deviveTime(time) {
 
     const result = `${formattedTime} ${formattedDate}`;
     return result
+}
+async function removeSession(id) {
+    const data = await $fetch(`${store.authBase}/auth/sessions/logout`, {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        },
+        body: {
+            session_id: id
+        }
+    })
+    getSessions()
+    if (store.token) {
+        try {
+            const data = await $fetch(store.authBase + '/auth/verify-token', {
+                headers: {
+                    'Authorization': 'Bearer ' + store.token
+                }
+            })
+            if (data?.status != 'success') {
+                router.push('/')
+                localStorage.clear()
+                store.tokenOpen = false
+                store.token = typeof window !== "undefined"
+                    ? localStorage.getItem("access__token")
+                    : null;
+            }
+        } catch (error) {
+            router.push('/')
+            localStorage.clear()
+            store.tokenOpen = false
+            store.token = typeof window !== "undefined"
+                ? localStorage.getItem("access__token")
+                : null;
+        } finally {
+
+        }
+    }
 }
 await getUserInfo()
 const sessions = ref()

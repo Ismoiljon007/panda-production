@@ -19,7 +19,7 @@
                     <input type="text">
                     <img src="@/assets/images/svg/search.svg" alt="">
                 </div>
-                <NuxtLink to="/login" v-if="!token" class="header__login-btn">Kirish</NuxtLink>
+                <NuxtLink to="/login" v-if="!store.token" class="header__login-btn">Kirish</NuxtLink>
                 <button class="header__profile" v-else @click="profile = !profile">
                     <span style="pointer-events: none;">{{ userInfo?.username.split("")[0] }}</span>
                     <Transition name="fade">

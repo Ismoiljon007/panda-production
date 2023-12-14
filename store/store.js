@@ -10,6 +10,7 @@ export const useStore = defineStore("store", () => {
   const overlay = ref(false);
   const search_open = ref(false);
   const planId = ref(null);
+  const tokenOpen = ref(false);
 
   const plan_name = ref("");
 
@@ -38,6 +39,7 @@ export const useStore = defineStore("store", () => {
     analiticsUrl,
     plan_name,
     savedMovies,
+    tokenOpen,
     getSavedMovies,
     planId,
     paymentUrl,

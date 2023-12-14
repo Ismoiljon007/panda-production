@@ -30,7 +30,7 @@ async function chechToken() {
       if (data?.status != 'success') {
         router.push('/')
         localStorage.clear()
-        token.value = false
+        store.tokenOpen = false
         store.token = typeof window !== "undefined"
           ? localStorage.getItem("access__token")
           : null;
@@ -38,7 +38,7 @@ async function chechToken() {
     } catch (error) {
       router.push('/')
       localStorage.clear()
-      token.value = false
+      store.tokenOpen = false
       store.token = typeof window !== "undefined"
         ? localStorage.getItem("access__token")
         : null;
