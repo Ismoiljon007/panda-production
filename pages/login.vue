@@ -34,6 +34,8 @@
 <script setup>
 import { useToast } from "vue-toastification";
 import { useStore } from '~~/store/store';
+import { useSessionData } from '~/composables/useSessionData';
+
 definePageMeta({
     layout: "without",
 });
@@ -42,6 +44,7 @@ const router = useRouter()
 const store = useStore()
 store.loader = true
 const password_view = ref(false)
+const { sessionData } = useSessionData();
 
 
 
@@ -65,7 +68,8 @@ const login = async () => {
         method: 'POST',
         body: {
             username: username.value,
-            password: pass.value
+            password: pass.value,
+            device_info:`${sessionData.value?.browserName}, ${sessionData.value?.browserVersion}, ${sessionData.value?.operatingSystem}, ${sessionData.value?.screenHeight}, ${sessionData.value?.screenWidth}, ${sessionData.value?.timezone}` 
         }
     }).then(data => {
         if (data) {
