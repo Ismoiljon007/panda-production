@@ -19,8 +19,4 @@ onMounted(() => {
     add.value = true
   }, 120000)
 })
-
-watchEffect(()=> {
-
-})
 </script>
