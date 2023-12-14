@@ -39,47 +39,35 @@ import { useToast } from "vue-toastification";
 definePageMeta({
     layout: "without",
 });
-const toast = useToast()
 const router = useRouter()
 const store = useStore()
 store.loader = true
 const password_view = ref(false)
 const { sessionData } = useSessionData();
 
-
-
-
-
 const password = ref()
 const username = ref()
 const pass = ref()
-// const googleLogin = () => {
-//     googleTokenLogin().then(async (response) => {
-//         const res = await $fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-//             headers: {
-//                 Authorization: `Bearer ${response?.access_token}`,
-//             },
-//         })
-//         console.log(res.email);
-//     })
-// }
+
 const login = async () => {
     $fetch(store?.authBase + '/auth/login', {
         method: 'POST',
         body: {
             username: username.value,
             password: pass.value,
-            device_info:`${sessionData.value?.browserName}, ${sessionData.value?.browserVersion}, ${sessionData.value?.operatingSystem}, ${sessionData.value?.screenHeight}, ${sessionData.value?.screenWidth}, ${sessionData.value?.timezone}` 
+            device_info: `${sessionData.value?.browserName}, ${sessionData.value?.browserVersion}, ${sessionData.value?.operatingSystem}, ${sessionData.value?.screenHeight}, ${sessionData.value?.screenWidth}, ${sessionData.value?.timezone}`
         }
     }).then(data => {
         if (data) {
             localStorage.setItem('access__token', data?.data?.access_token)
         }
         if (data.status == "success") {
+            const toast = useToast()
             toast.success("profilingizga muvafaqiyatli kirdingiz")
             window.location = '/'
         }
     }).catch(error => {
+        const toast = useToast()
         toast.error('login yoki parolingizni qaytadan tekshiring!')
         console.log(error.data);
     })
