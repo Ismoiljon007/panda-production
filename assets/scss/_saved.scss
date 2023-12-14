@@ -103,12 +103,16 @@
     @include media(500px) {
       flex-direction: column;
       gap: 20px;
+      text-align: center;
     }
     &-img {
       width: 48px;
       margin-right: 45px;
       @include media(500px) {
-        margin: 0;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       img {
         width: 100%;
