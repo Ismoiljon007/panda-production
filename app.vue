@@ -19,35 +19,8 @@ onMounted(() => {
     add.value = true
   }, 120000)
 })
-async function chechToken() {
-  if(store.token) {
-    try {
-      const data = await $fetch(store.authBase + '/auth/verify-token', {
-        headers: {
-          'Authorization': 'Bearer ' + store.token
-        }
-      })
-      if (data?.status != 'success') {
-        router.push('/')
-        localStorage.clear()
-        store.tokenOpen = false
-        store.token = typeof window !== "undefined"
-          ? localStorage.getItem("access__token")
-          : null;
-      }
-    } catch (error) {
-      router.push('/')
-      localStorage.clear()
-      store.tokenOpen = false
-      store.token = typeof window !== "undefined"
-        ? localStorage.getItem("access__token")
-        : null;
-    } finally {
-  
-    }
-  }
-}
-onMounted(() => {
-  chechToken()
+
+watchEffect(()=> {
+
 })
 </script>

@@ -19,12 +19,12 @@
                         <h3 class="profile__bottom-title">Foydalanuvchi haqida ma’lumot</h3>
                         <div class="profile__info">
                             <div class="profile__img" style="text-transform: uppercase;">
-                                <span>{{ userInfo?.data?.username.split("")[0] }}</span>
+                                <span>{{ store.userInfo?.username.split("")[0] }}</span>
                             </div>
                             <!-- <input type="file" id="img"> -->
                             <label class="profile__img upload-img" for="img" v-if="false
                                 " style="text-transform: uppercase;">
-                                <span>{{ userInfo?.data?.username.split("")[0] }}</span>
+                                <span>{{ store.userInfo?.username.split("")[0] }}</span>
                                 <button>
                                     <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M0 0h48v48H0z" fill="none" />
@@ -53,7 +53,7 @@
                             </form>
                         </div>
                         <div class="profile__footer">
-                            <h4 class="profile__id">ID: <span>{{ userInfo?.data?.id }}</span></h4>
+                            <h4 class="profile__id">ID: <span>{{ store.userInfo?.id }}</span></h4>
                         </div>
                     </div>
                 </div>
@@ -66,13 +66,11 @@
 import { useToast } from 'vue-toastification';
 import { useStore } from '~~/store/store';
 const store = useStore()
-const userInfo = ref(null)
 const toast = useToast()
 const update = ref(true)
-
-const name = ref()
-const login = ref()
-const tel = ref()
+const name = ref(store.userInfo?.name)
+const login = ref(store.userInfo?.username)
+const tel = ref(store.userInfo?.phone_number)
 store.loader = false;
 
 
@@ -95,24 +93,11 @@ async function updateUserInfo() {
     }
 }
 
-async function getUserInfo() {
-    try {
-        const data = await $fetch("https://userservice.inminternational.uz/users", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-        userInfo.value = data
-        name.value = data?.data?.name ? data?.data?.name : ''
-        login.value = data?.data?.username ? data?.data?.username : ''
-        tel.value = data?.data?.phone_number ? data?.data?.phone_number : ''
-    } catch (error) {
-        console.error("Failed to fetch data", error);
-    } finally {
-    }
-}
-getUserInfo()
+watchEffect(() => {
+    name.value = store.userInfo?.name
+    login.value = store.userInfo?.username
+    tel.value = store.userInfo?.phone_number
+})
 </script>
 
 <style lang="scss" scoped></style>

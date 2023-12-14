@@ -241,7 +241,6 @@ const g = ref()
 const onClickHandler = async (page) => {
     const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/?page=${page}&size=10`)
     categorieMovies.value = data.data
-    // console.log(data);
 };
 
 const currentPage = ref(1);

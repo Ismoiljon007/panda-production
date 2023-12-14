@@ -32,9 +32,9 @@
 </template>
 
 <script setup>
-import { useToast } from "vue-toastification";
 import { useStore } from '~~/store/store';
 import { useSessionData } from '~/composables/useSessionData';
+import { useToast } from "vue-toastification";
 
 definePageMeta({
     layout: "without",

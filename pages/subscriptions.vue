@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="profile__footer">
-                            <h4 class="profile__id">ID: <span>{{ userInfo?.data?.id }}</span></h4>
+                            <h4 class="profile__id">ID: <span>{{ store.userInfo?.id }}</span></h4>
                         </div>
                     </div>
                 </div>
@@ -93,26 +93,10 @@ function pay(id, name, price) {
 }
 getPlans()
 
-const userInfo = ref(null)
-async function getUserInfo() {
-    try {
-        const data = await $fetch("https://userservice.inminternational.uz/users", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-        userInfo.value = data
-    } catch (error) {
-        console.error("Failed to fetch data", error);
-    } finally {
-    }
-}
-await getUserInfo()
 
 const activePlan = ref([])
 async function activePlanGet() {
-    const data = await $fetch(`https://billingservice.inminternational.uz/billing/${userInfo.value?.data?.id}/subscriptions/`, {
+    const data = await $fetch(`https://billingservice.inminternational.uz/billing/${store.userInfo?.id}/subscriptions/`, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + store.token,

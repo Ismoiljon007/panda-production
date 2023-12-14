@@ -34,7 +34,34 @@ export const useStore = defineStore("store", () => {
     });
     savedMovies.value = data;
   }
+
+  const userInfo = ref(null);
+  async function getUserInfo() {
+    fetch("https://userservice.inminternational.uz/users", {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).then((res) => {
+      if (res.status != 200) {
+        localStorage.clear();
+        tokenOpen.value = false;
+        token =
+          typeof window !== "undefined"
+            ? localStorage.getItem("access__token")
+            : null;
+        window.location = "/login";
+      } else {
+        res.json().then((data) => {
+          userInfo.value = data?.data;
+          localStorage.setItem("user_id", data?.data?.id);
+        });
+      }
+    });
+  }
   return {
+    userInfo,
+    getUserInfo,
     getCategory,
     analiticsUrl,
     plan_name,

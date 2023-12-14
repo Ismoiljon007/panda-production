@@ -110,7 +110,7 @@ async function getCategoriesMovie() {
         store.loader = true
         const fetchPromises = store.categories.data.categories.map(async (el) => {
             if (store.token) {
-                const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
+                const data = await $fetch(store.baseUrl + `/category/${el.id}/content/`, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + store.token
@@ -118,7 +118,7 @@ async function getCategoriesMovie() {
                 });
                 movies.value[el.id] = data.data.content;
             } else {
-                const data = await $fetch(runtimeConfig.public.apiBase + `/category/${el.id}/content/`, {
+                const data = await $fetch(store.baseUrl + `/category/${el.id}/content/`, {
                     method: 'GET',
                 });
                 movies.value[el.id] = data.data.content;
@@ -177,16 +177,7 @@ onMounted(() => {
         videoPlayer.play();
         videoPlayers.push(videoPlayer);
     });
-    // document.querySelectorAll('.hero__thumb-video').forEach((videoElement) => {
-    //     const videoPlayer = videojs(videoElement);
-    //     videoPlayer.pause()
-    //     videoPlayersThumb.push(videoPlayer);
-    // });
 });
 getBanners()
 await getCategoriesMovie()
-
-
-
 </script>
-

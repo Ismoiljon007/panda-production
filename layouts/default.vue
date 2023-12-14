@@ -21,13 +21,13 @@
                 </div>
                 <NuxtLink to="/login" v-if="!store.token" class="header__login-btn">Kirish</NuxtLink>
                 <button class="header__profile" v-else @click="profile = !profile">
-                    <span style="pointer-events: none;">{{ userInfo?.username.split("")[0] }}</span>
+                    <span style="pointer-events: none;">{{ store.userInfo?.username.split("")[0] }}</span>
                     <Transition name="fade">
                         <div class="profile-modal" v-if="profile">
                             <div class="profile-modal__top">
-                                <span>{{ userInfo?.phone_number }}</span>
+                                <span>{{ store.userInfo?.phone_number }}</span>
                                 <span>|</span>
-                                <span>ID: {{ userInfo?.id }}</span>
+                                <span>ID: {{ store.userInfo?.id }}</span>
                             </div>
                             <NuxtLink to="/profile" class="profile-modal__item"><img src="@/assets/images/svg/user.svg"
                                     alt=""> Akkaunt
@@ -81,11 +81,11 @@
             </div>
             <NuxtLink class="menu-user" to="/profile" v-if="store.token">
                 <div class="menu-img" style="text-transform: uppercase;">
-                    {{ userInfo?.username.split("")[0] }}
+                    {{ store.userInfo?.username.split("")[0] }}
                 </div>
                 <div class="menu-text-wrapper">
-                    <h3 class="menu-name">{{ userInfo?.username }}</h3>
-                    <h4 class="menu-id">ID: {{ userInfo?.id }}</h4>
+                    <h3 class="menu-name">{{ store.userInfo?.username }}</h3>
+                    <h4 class="menu-id">ID: {{ store.userInfo?.id }}</h4>
                 </div>
             </NuxtLink>
             <ul class="menu-list">
@@ -113,9 +113,9 @@
                         <div class="wrapper">
                             {{ item?.title }}
                             <div class="genres-wrapper">
-                                <span>{{ item?.genre[0].name }}</span>
-                                <span>/</span>
                                 <span>{{ yearGet(item?.release_date) }}</span>
+                                <span>/</span>
+                                <span>{{ item?.genre[0].name }}</span>
                             </div>
                         </div>
                     </NuxtLink>
@@ -241,6 +241,7 @@ const store = useStore()
 const search_open = ref(false)
 const token = ref(false)
 const menu = ref(false)
+const route = useRoute()
 function searchSubmit() {
     if (searchEvent.value.length) {
         router.push('/search/' + searchEvent.value)
@@ -279,25 +280,7 @@ function logout() {
         : null;
 }
 const profile = ref(false)
-const userInfo = ref(null)
-async function getUserInfo() {
-    // store.loader = true;
-    try {
-        const data = await $fetch("https://userservice.inminternational.uz/users", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-        userInfo.value = data.data
-        localStorage.setItem('user_id', data?.data?.id)
-    } catch (error) {
-        console.error("Failed to fetch data", error);
-    } finally {
-    }
 
-}
-await getUserInfo()
 function focInt() {
     setTimeout(() => {
         document.getElementById('search-int')?.focus()
@@ -348,7 +331,10 @@ function check() {
         }
     })
 }
-onMounted((e) => {
+watch(() => route.path, (newPath, oldPath) => {
+    store.getUserInfo()
+})
+onMounted(async (e) => {
     check()
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {
@@ -363,7 +349,7 @@ onMounted((e) => {
         }
     })
     window.addEventListener("scroll", updateScroll);
-
+   await store.getUserInfo()
 })
 </script>
 

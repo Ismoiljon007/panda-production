@@ -18,7 +18,7 @@
                             </div>
                         </div>
                         <div class="profile__footer">
-                            <h4 class="profile__id">ID: <span>{{ userInfo?.data?.id }}</span></h4>
+                            <h4 class="profile__id">ID: <span>{{ store.userInfo?.id }}</span></h4>
                         </div>
                     </div>
                 </div>
@@ -30,20 +30,18 @@
 <script setup>
 import { useStore } from '~~/store/store';
 const store = useStore()
-const userInfo = ref(null)
 const router = useRouter()
 store.loader = false;
 
 async function payment() {
     if (store.planId !== null) {
-        console.log(userInfo.value?.data?.id);
         const data = await $fetch(store.paymentUrl + '/payment-url/', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${store.token}`
             },
             body: {
-                user_id: userInfo.value?.data?.id,
+                user_id: store.userInfo?.id,
                 plan_id: store.planId
             }
         })
@@ -55,22 +53,6 @@ async function payment() {
     }
 }
 
-
-async function getUserInfo() {
-    try {
-        const data = await $fetch(store.userInfoBase + "/users", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-        userInfo.value = data
-    } catch (error) {
-        console.error("Failed to fetch data", error);
-    } finally {
-    }
-}
-await getUserInfo()
 </script>
 
 <style lang="scss" scoped></style>
