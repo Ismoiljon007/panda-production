@@ -299,7 +299,7 @@ const search = async (e) => {
         }
     })
     if (e.target.value.length) {
-        searchData.value = data.data.content
+        searchData.value = data?.data?.content
     } else {
         searchData.value = null
     }
@@ -335,6 +335,7 @@ watch(() => route.path, (newPath, oldPath) => {
     store.getUserInfo()
 })
 onMounted(async (e) => {
+    await store.getUserInfo()
     check()
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {
@@ -349,7 +350,6 @@ onMounted(async (e) => {
         }
     })
     window.addEventListener("scroll", updateScroll);
-   await store.getUserInfo()
 })
 </script>
 

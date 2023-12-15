@@ -7,14 +7,13 @@
                 <img src="@/assets/images/svg/logo.svg" alt="site logo">
             </NuxtLink>
             <h2 class="login-title">Kirish</h2>
-            <form action="#" @submit.prevent="login()" class="login-form">
+            <form @submit.prevent="login" class="login-form">
                 <input v-model="username" placeholder="Login" type="text" class="login-input">
                 <div class="password-input">
-                    <input placeholder="Parol" v-model="pass" ref="password" type="password">
-                    <button type="button" @click="view()" v-if="!password_view"><img src="@/assets/images/svg/eye.svg"
-                            alt=""></button>
-                    <button type="button" @click="view()" v-if="password_view"><img
-                            src="@/assets/images/svg/eye-crossed.svg" alt=""></button>
+                    <input :type="passwordInputType" placeholder="Parol" v-model="password" ref="passwordField">
+                    <button type="button" @click="togglePasswordView">
+                        <img :src="passwordViewIcon" alt="Toggle password view">
+                    </button>
                 </div>
                 <div class="login-btns">
                     <button class="login-btn" type="submit">Kirish</button>
@@ -32,62 +31,62 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from '~~/store/store';
 import { useSessionData } from '~/composables/useSessionData';
 import { useToast } from "vue-toastification";
+import { useRouter } from 'vue-router';
 
-definePageMeta({
-    layout: "without",
-});
-const router = useRouter()
-const store = useStore()
-store.loader = true
-const password_view = ref(false)
+definePageMeta({ layout: "without" });
+
+const router = useRouter();
+const store = useStore();
+store.loader = true;
+
+const passwordView = ref(false);
+const password = ref('');
+const username = ref('');
 const { sessionData } = useSessionData();
 
-const password = ref()
-const username = ref()
-const pass = ref()
+const passwordInputType = computed(() => passwordView.value ? 'text' : 'password');
+const passwordViewIcon = computed(() => passwordView.value ? '/_nuxt/assets/images/svg/eye-crossed.svg' : '/_nuxt/assets/images/svg/eye.svg');
+
+const togglePasswordView = () => {
+    passwordView.value = !passwordView.value;
+};
 
 const login = async () => {
-    $fetch(store?.authBase + '/auth/login', {
-        method: 'POST',
-        body: {
-            username: username.value,
-            password: pass.value,
-            device_info: `${sessionData.value?.browserName}, ${sessionData.value?.browserVersion}, ${sessionData.value?.operatingSystem}, ${sessionData.value?.screenHeight}, ${sessionData.value?.screenWidth}, ${sessionData.value?.timezone}`
+    try {
+        const data = await $fetch(store?.authBase + '/auth/login', {
+            method: 'POST',
+            body: {
+                username: username.value,
+                password: password.value,
+                device_info: `${sessionData.value?.browserName}, ${sessionData.value?.browserVersion}, ${sessionData.value?.operatingSystem}, ${sessionData.value?.screenHeight}, ${sessionData.value?.screenWidth}, ${sessionData.value?.timezone}`
+            }
+        });
+
+        if (data && data.status === "success") {
+            localStorage.setItem('access__token', data?.data?.access_token);
+            useToast().success("profilingizga muvafaqiyatli kirdingiz", {
+                timeout: 2000,
+            });
+            store.token = typeof window !== "undefined"
+                ? localStorage.getItem("access__token")
+                : null;
+            router.push('/');
+        } else {
+            throw new Error('Authentication failed');
         }
-    }).then(data => {
-        if (data) {
-            localStorage.setItem('access__token', data?.data?.access_token)
-        }
-        if (data.status == "success") {
-            const toast = useToast()
-            toast.success("profilingizga muvafaqiyatli kirdingiz")
-            window.location = '/'
-        }
-    }).catch(error => {
-        const toast = useToast()
-        toast.error('login yoki parolingizni qaytadan tekshiring!')
-        console.log(error.data);
-    })
-}
-function view() {
-    if (password.value.type == 'password') {
-        password.value.type = "text"
-        password_view.value = true
-    } else {
-        password.value.type = "password"
-        password_view.value = false
+    } catch (error) {
+        useToast().error('login yoki parolingizni qaytadan tekshiring!');
+        console.error(error);
     }
-}
+};
 
 onMounted(() => {
-    if (typeof window !== "undefined") {
-        store.loader = false
-
-    }
-})
+    store.loader = false;
+});
 </script>
 
 <style lang="scss" scoped></style>

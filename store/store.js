@@ -54,8 +54,10 @@ export const useStore = defineStore("store", () => {
           window.location = "/login";
         } else {
           res.json().then((data) => {
-            userInfo.value = data?.data;
-            localStorage.setItem("user_id", data?.data?.id);
+            if(data?.data) {
+              userInfo.value = data?.data;
+              localStorage.setItem("user_id", data?.data?.id);
+            }
           });
         }
       });
