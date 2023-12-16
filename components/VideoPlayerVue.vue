@@ -19,7 +19,7 @@ onMounted(() => {
     var player = videojs(el, {
         fluid: true,
         controls: item?.controls,
-        aspectRatio: '16:9',
+        aspectRatio: '16:8',
         html5: {
             nativeAudioTracks: false,
             nativeVideoTracks: false,
@@ -71,6 +71,12 @@ onMounted(() => {
 
 .video-player {
     border-radius: 16px;
+
+    video {
+        border-radius: 16px;
+
+    }
+
     border: 1px solid rgba($color: #fff, $alpha: 0.7);
 }
 
