@@ -280,3 +280,19 @@
     }
   }
 }
+.change-pass {
+  // @extend %pr-btn;
+  // width: 343px;
+  // text-align: center;
+  color: #fff;
+  transition: all 0.3s ease;
+  &:hover {
+    text-decoration: underline;
+  }
+  @include media(400px) {
+    font-size: 17px;
+  }
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+}

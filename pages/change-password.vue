@@ -6,19 +6,28 @@
             <NuxtLink to="/login" class="login-logo">
                 <img src="@/assets/images/svg/logo.svg" alt="site logo">
             </NuxtLink>
-            <h2 class="login-title">Kirish</h2>
-            <form @submit.prevent="login" class="login-form">
+            <h2 class="login-title">Parolni yangilash</h2>
+            <form @submit.prevent="changePass" class="login-form">
                 <input v-model="username" placeholder="Login" type="text" class="login-input">
                 <div class="password-input">
-                    <input :type="passwordInputType" placeholder="Parol" v-model="password" ref="passwordField">
+                    <input :type="passwordInputType" placeholder="Hozirgi parol" v-model="password" ref="passwordField">
                     <button type="button" @click="togglePasswordView">
                         <img v-if="passwordViewIcon" src="@/assets/images/svg/eye-crossed.svg" alt="Toggle password view">
                         <img v-if="!passwordViewIcon" src="@/assets/images/svg/eye.svg" alt="Toggle password view">
                     </button>
                 </div>
+                <div class="password-input">
+                    <input :type="passwordInputTypeChange" placeholder="Yangi parol" v-model="passwordChange"
+                        ref="passwordField">
+                    <button type="button" @click="togglePasswordViewChange">
+                        <img v-if="passwordViewIconChange" src="@/assets/images/svg/eye-crossed.svg"
+                            alt="Toggle password view">
+                        <img v-if="!passwordViewIconChange" src="@/assets/images/svg/eye.svg" alt="Toggle password view">
+                    </button>
+                </div>
                 <div class="login-btns">
-                    <button class="login-btn" type="submit">Kirish</button>
-                    <NuxtLink style="text-decoration: none;" class="register-btn" to="/register">Ro’yhatdan o’tish
+                    <button class="login-btn" type="submit">Yangilash</button>
+                    <NuxtLink style="text-decoration: none;" class="register-btn" to="/profile">Orta qaytish
                     </NuxtLink>
                 </div>
             </form>
@@ -45,42 +54,44 @@ const store = useStore();
 store.loader = true;
 
 const passwordView = ref(false);
+const passwordViewChange = ref(false);
 const password = ref('');
+const passwordChange = ref('');
 const username = ref('');
 const { sessionData } = useSessionData();
 
 const passwordInputType = computed(() => passwordView.value ? 'text' : 'password');
+const passwordInputTypeChange = computed(() => passwordViewChange.value ? 'text' : 'password');
 const passwordViewIcon = computed(() => passwordView.value ? true : false);
+const passwordViewIconChange = computed(() => passwordViewChange.value ? true : false);
 
 const togglePasswordView = () => {
     passwordView.value = !passwordView.value;
 };
+const togglePasswordViewChange = () => {
+    passwordViewChange.value = !passwordViewChange.value;
+};
 
-const login = async () => {
-    try {
-        const data = await $fetch(store?.authBase + '/auth/login', {
+async function changePass() {
+    try{
+        const data = await $fetch(store.authBase + '/auth/change-password', {
             method: 'POST',
             body: {
                 username: username.value,
-                password: password.value,
-                device_info: `${sessionData.value?.browserName}, ${sessionData.value?.browserVersion}, ${sessionData.value?.operatingSystem}, ${sessionData.value?.screenHeight}, ${sessionData.value?.screenWidth}, ${sessionData.value?.timezone}`
+                current_password: password.value,
+                new_password: passwordChange.value
             }
-        });
-
-        if (data && data.status === "success") {
-            localStorage.setItem('access__token', data?.data?.access_token);
-            useToast().success("profilingizga muvafaqiyatli kirdingiz", {
+        })
+        if(data?.status == "success") {
+            useToast().success("Parolingiz muvaffaqiyatli yangilandi", {
                 timeout: 2000,
             });
-            window.location = '/'
-        } else {
-            throw new Error('Authentication failed');
+            router.push('/profile')
         }
-    } catch (error) {
-        useToast().error('login yoki parolingizni qaytadan tekshiring!');
-        console.error(error);
+    } catch(error) {
+        useToast().error("Noto'g'ri ma'lumot kiritildi!");
     }
-};
+}
 
 onMounted(() => {
     store.loader = false;

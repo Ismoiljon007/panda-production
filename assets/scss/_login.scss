@@ -170,6 +170,10 @@
   .login-btn {
     @extend %pr-btn;
     font-weight: 500;
+    width: 50%;
+    @include media(563px) {
+      width: 100%;
+    }
   }
   .register-btn {
     padding: 13px 42px;
@@ -179,6 +183,11 @@
     @include font(500, 20px, 1.2);
     color: #fff;
     background: #111;
+    width: 50%;
+    text-align: center;
+    @include media(563px) {
+      width: 100%;
+    }
   }
   &-google-sign {
     margin-bottom: auto;

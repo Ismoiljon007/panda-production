@@ -271,13 +271,21 @@ if (typeof window !== 'undefined') {
         token.value = false
     }
 }
-function logout() {
-    router.push('/')
-    localStorage.clear()
-    token.value = false
-    store.token = typeof window !== "undefined"
+async function logout() {
+    const data = await $fetch(store.authBase + '/auth/logout', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        }
+    })
+    if(data?.status == "success") {
+        localStorage.clear()
+        token.value = false
+        store.token = typeof window !== "undefined"
         ? localStorage.getItem("access__token")
         : null;
+        router.push('/')
+    }
 }
 const profile = ref(false)
 

@@ -49,6 +49,7 @@
                                         :style="update == false ? 'border-color: #2D54B9;' : 'transparent'"
                                         :disabled="update" id="tel" type="text" v-model="tel">
                                 </div>
+                                <NuxtLink class="change-pass" to="/change-password">Parolni yangilash</NuxtLink>
                                 <button @click="updateUserInfo()" v-if="!update">ma'lumotni yangilash</button>
                             </form>
                         </div>
