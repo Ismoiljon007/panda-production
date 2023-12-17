@@ -118,7 +118,7 @@ onMounted(() => {
     border-radius: 16px;
 
     @media (max-width: 665px) {
-        bottom: 0 !important;
+        padding-bottom: 0px;
     }
 
     background: linear-gradient(180deg, rgba(6, 6, 6, 0) 0%, rgba(6, 6, 6, 0.1741071428571429) 35%, rgba(6, 6, 6, 0.7539390756302521) 100%) !important;
