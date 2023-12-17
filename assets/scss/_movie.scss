@@ -8,10 +8,11 @@
       @extend %pr-btn;
       background-color: rgba(28, 28, 28, 0.5);
       color: #fff;
-      padding: 8px 48px;
+      padding: 8px 38px;
       font-size: 16px;
       border: 1px solid #fff;
       border-radius: 12px;
+      white-space: nowrap;
       @include media(600px) {
         font-size: 12px;
         padding: 8px 16px;
@@ -213,6 +214,7 @@
       max-width: 990px;
       @include font(500, 20, 1.5);
       letter-spacing: -0.6px;
+      margin-bottom: 20px;
     }
     @include media(880px) {
       flex-direction: column;

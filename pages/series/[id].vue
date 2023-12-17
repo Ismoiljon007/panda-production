@@ -2,47 +2,51 @@
     <main>
         <div class="movie">
             <div class="container">
-                <div class="movie-video" v-if="vidType == 'online'">
-                    <video-player-vue class="vd-serie" :item="{
-                        url: video_url,
-                        img: img_url,
-                        controls: true,
-                        autoplay: false,
-                        loop: false,
-                        muted: false,
-                    }" />
-                    <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
-                        <button>
-                            obuna sotib olish
-                        </button>
+                <div class="movie-top">
+                    <div class="movie-video" v-if="vidType == 'online'">
+                        <video-player-vue :item="{
+                            url: video_url,
+                            img: img_url,
+                            controls: true,
+                            autoplay: false,
+                            loop: false,
+                            muted: false,
+                        }" />
+                        <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
+                            <button>
+                                obuna sotib olish
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="movie-video" v-if="vidType == 'trailer'">
-                    <video-player-vue :item="{
-                        url: details?.data?.trailer_url,
-                        img: details?.data?.thumbnail_image,
-                        controls: true,
-                        autoplay: false,
-                        loop: false,
-                        muted: false,
-                    }" />
-                </div>
-                <h2 class="movie__title">{{ title }}</h2>
-                <div class="movie__info">
-                    <div class="movie__info-list">
-                        <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
-                        <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
-                        <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
+                    <div class="movie-video" v-if="vidType == 'trailer'">
+                        <video-player-vue :item="{
+                            url: details?.data?.trailer_url,
+                            img: details?.data?.thumbnail_image,
+                            controls: true,
+                            autoplay: false,
+                            loop: false,
+                            muted: false,
+                        }" />
                     </div>
-                    <p class="movie__info-desc">{{ details?.data?.description }}</p>
-                </div>
-                <div class="movie__btns">
-                    <button style="border: 1px solid transparent" @click="vidType = 'online'"
-                        :style="vidType == 'online' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">ONLAYN
-                        KO'RISH</button>
-                    <button style="border: 1px solid transparent" @click="vidType = 'trailer'"
-                        :style="vidType == 'trailer' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">TREYLERINI
-                        KO'RISH</button>
+                    <div class="movie__info">
+                        <h2 class="movie__title">{{ title }}</h2>
+                        <div class="movie__info-list">
+                            <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
+                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
+                            <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
+                        </div>
+
+                        <p class="movie__info-desc"><span class="subtitle">Malumot:</span> {{ details?.data?.description }}
+                        </p>
+                        <div class="movie__btns">
+                            <button @click="vidType = 'online'"
+                                :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">ONLAYN
+                                KO'RISH</button>
+                            <button @click="vidType = 'trailer'"
+                                :style="vidType == 'trailer' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">TREYLERINI
+                                KO'RISH</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="movie-episods" v-if="!details?.data?.is_movie">
                     <div class="movie-episods__seasons">
