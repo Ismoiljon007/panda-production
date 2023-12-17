@@ -65,8 +65,6 @@ onMounted(() => {
 .video-js .vjs-big-play-button {
     background: none !important;
     border: none !important;
-    width: 107px !important;
-    height: 107px !important;
 }
 
 .video-player {
@@ -103,11 +101,13 @@ onMounted(() => {
 }
 
 .video-js .vjs-control-bar {
-    background: transparent !important;
-    width: 95%;
-    left: 50% !important;
+    width: 100%;
+    padding: 0 2%;
     bottom: 15px !important;
-    transform: translateX(-50%);
+    @media (max-width: 665px) {
+        bottom: 0 !important;
+    }
+    background: linear-gradient(180deg, rgba(6,6,6,0) 0%, rgba(6,6,6,0.1741071428571429) 35%, rgba(6,6,6,0.7539390756302521) 100%) !important;
 }
 
 .vjs-has-started .vjs-control-bar,
@@ -135,57 +135,110 @@ onMounted(() => {
 
 .vjs-volume-panel {
     order: 7 !important;
+    @media (max-width: 665px) {
+        width: 20px !important;
+    }
 }
 
 .vjs-remaining-time {
     order: 5 !important;
-    margin-right: 20px !important;
     margin-right: auto !important;
     font-size: 30px;
     transform: translateY(20%);
+
+    @media (max-width: 665px) {
+        transform: translateY(0);
+    }
 }
 
 .vjs-picture-in-picture-control {
     order: 11;
 }
 
+.video-js .vjs-button {
+    @media (max-width: 665px) {
+        width: 24px !important;
+    }
+}
+
 .skip-forward {
-    width: 30px !important;
-    height: 20px !important;
+    width: 25px !important;
+    height: 30px !important;
+
+    @media (max-width: 665px) {
+
+        width: 20px !important;
+        height: 20px !important;
+        transform: translateY(4px);
+    }
+
+    transform: translateY(5px);
 
     .vjs-icon-placeholder {
         height: 100% !important;
         width: 100% !important;
 
+        @media (max-width: 665px) {
+            width: 20px !important;
+        }
+
         &::before {
+            content: "";
             display: inline-block !important;
             height: 100% !important;
             width: 100% !important;
-            font-size: 30px;
-            content: url("@/assets/images/svg/skip-right.svg");
+
+            @media (max-width: 665px) {
+                width: 20px !important;
+            }
+
+            font-size: 10px;
+            background: url("@/assets/images/svg/skip-right.svg");
+            background-repeat: no-repeat;
+            background-size: contain;
         }
     }
 
-    margin-right: 20px !important;
-
+    margin-right: 20px;
     order: 4;
 }
 
 .skip-back {
-    width: 30px !important;
-    height: 20px !important;
+    width: 25px !important;
+    height: 30px !important;
+
+    @media (max-width: 665px) {
+        width: 20px !important;
+        height: 20px !important;
+        transform: translateY(4px);
+        margin-right: -10px !important;
+        margin-left: 5px !important; 
+    }
+
+    transform: translateY(5px);
 
     .vjs-icon-placeholder {
         height: 100% !important;
         width: 100% !important;
 
+        @media (max-width: 665px) {
+            width: 20px !important;
+        }
+
         &::before {
+            content: "";
             display: inline-block !important;
             height: 100% !important;
             width: 100% !important;
-            font-size: 30px;
 
-            content: url("@/assets/images/svg/skip-left.svg");
+            @media (max-width: 665px) {
+                width: 20px !important;
+            }
+
+            font-size: 10px;
+            background: url("@/assets/images/svg/skip-left.svg");
+            background-repeat: no-repeat;
+            background-size: contain;
         }
     }
 
@@ -198,6 +251,19 @@ onMounted(() => {
     width: 30px !important;
     height: 30px !important;
     transform: translateY(20%);
+
+    @media (max-width: 665px) {
+        transform: translateY(10%);
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 8px;
+    }
+}
+
+.video-js .vjs-volume-panel.vjs-volume-panel-horizontal.vjs-hover {
+    @media (max-width: 665px) {
+        width: 7em !important;
+    }
 }
 
 .vjs-big-play-button {
@@ -221,6 +287,16 @@ onMounted(() => {
 
 .vjs-fullscreen-control {
     order: 10 !important;
+}
+
+
+
+.video-js .vjs-icon-placeholder {
+    @media (max-width: 665px) {
+        &::before {
+            font-size: 16px;
+        }
+    }
 }
 
 .vjs-quality-selector {
