@@ -87,7 +87,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     border-radius: 16px;
-
+    background-size: cover;
 }
 
 .vjs-poster img {
