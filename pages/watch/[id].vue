@@ -38,11 +38,11 @@
                         
                         <p class="movie__info-desc"><span class="subtitle">Malumot:</span> {{ details?.data?.description }}</p>
                         <div class="movie__btns">
-                            <button style="border: 1px solid transparent" @click="vidType = 'online'"
-                                :style="vidType == 'online' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">ONLAYN
+                            <button @click="vidType = 'online'"
+                                :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">ONLAYN
                                 KO'RISH</button>
-                            <button style="border: 1px solid transparent" @click="vidType = 'trailer'"
-                                :style="vidType == 'trailer' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">TREYLERINI
+                            <button @click="vidType = 'trailer'"
+                                :style="vidType == 'trailer' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">TREYLERINI
                                 KO'RISH</button>
                         </div>
                     </div>
