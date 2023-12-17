@@ -1,8 +1,6 @@
 <template>
-    <div>
-        <video ref="videoPlayer" playsinline crossorigin :autoplay="item?.autoplay" :loop="item?.loop" :muted="item?.muted"
-            class="video-js video-player vjs-default-skin"></video>
-    </div>
+    <video ref="videoPlayer" playsinline crossorigin :autoplay="item?.autoplay" :loop="item?.loop" :muted="item?.muted"
+        class="video-js video-player vjs-default-skin"></video>
 </template>
 
 <script setup>
@@ -19,7 +17,7 @@ onMounted(() => {
     var player = videojs(el, {
         fluid: true,
         controls: item?.controls,
-        aspectRatio: '16:8',
+        aspectRatio: '16:9',
         html5: {
             nativeAudioTracks: false,
             nativeVideoTracks: false,
@@ -72,10 +70,22 @@ onMounted(() => {
 
     video {
         border-radius: 16px;
-
     }
 
     border: 1px solid rgba($color: #fff, $alpha: 0.7);
+
+    .vjs-poster {
+        &::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 16px;
+        }
+    }
 }
 
 .movie-video {
@@ -103,12 +113,22 @@ onMounted(() => {
 .video-js .vjs-control-bar {
     width: 100%;
     padding: 0 2%;
-    bottom: 15px !important;
+    bottom: 0 !important;
+    padding-bottom: 15px;
+    border-radius: 16px;
+
     @media (max-width: 665px) {
         bottom: 0 !important;
     }
-    background: linear-gradient(180deg, rgba(6,6,6,0) 0%, rgba(6,6,6,0.1741071428571429) 35%, rgba(6,6,6,0.7539390756302521) 100%) !important;
+
+    background: linear-gradient(180deg, rgba(6, 6, 6, 0) 0%, rgba(6, 6, 6, 0.1741071428571429) 35%, rgba(6, 6, 6, 0.7539390756302521) 100%) !important;
 }
+
+// .video-js.vjs-fluid {
+//     height: 100% !important;
+//     padding-top: 0 !important;
+// }
+
 
 .vjs-has-started .vjs-control-bar,
 .vjs-audio-only-mode .vjs-control-bar {
@@ -135,6 +155,7 @@ onMounted(() => {
 
 .vjs-volume-panel {
     order: 7 !important;
+
     @media (max-width: 665px) {
         width: 20px !important;
     }
@@ -212,7 +233,7 @@ onMounted(() => {
         height: 20px !important;
         transform: translateY(4px);
         margin-right: -10px !important;
-        margin-left: 5px !important; 
+        margin-left: 5px !important;
     }
 
     transform: translateY(5px);

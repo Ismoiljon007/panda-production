@@ -2,39 +2,41 @@
     <main>
         <div class="movie">
             <div class="container">
-                <div class="movie-video" v-if="vidType == 'online'">
-                    <video-player-vue :item="{
-                        url: video_url,
-                        img: img_url,
-                        controls: true,
-                        autoplay: false,
-                        loop: false,
-                        muted: false,
-                    }" />
-                    <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
-                        <button>
-                            obuna sotib olish
-                        </button>
+                <div class="movie-top">
+                    <div class="movie-video" v-if="vidType == 'online'">
+                        <video-player-vue :item="{
+                            url: video_url,
+                            img: img_url,
+                            controls: true,
+                            autoplay: false,
+                            loop: false,
+                            muted: false,
+                        }" />
+                        <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
+                            <button>
+                                obuna sotib olish
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="movie-video" v-if="vidType == 'trailer'">
-                    <video-player-vue :item="{
-                        url: details?.data?.trailer_url,
-                        img: details?.data?.thumbnail_image,
-                        controls: true,
-                        autoplay: false,
-                        loop: false,
-                        muted: false,
-                    }" />
-                </div>
-                <h2 class="movie__title">{{ title }}</h2>
-                <div class="movie__info">
-                    <div class="movie__info-list">
-                        <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
-                        <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
-                        <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
+                    <div class="movie-video" v-if="vidType == 'trailer'">
+                        <video-player-vue :item="{
+                            url: details?.data?.trailer_url,
+                            img: details?.data?.thumbnail_image,
+                            controls: true,
+                            autoplay: false,
+                            loop: false,
+                            muted: false,
+                        }" />
                     </div>
-                    <p class="movie__info-desc">{{ details?.data?.description }}</p>
+                    <div class="movie__info">
+                        <h2 class="movie__title">{{ title }}</h2>
+                        <div class="movie__info-list">
+                            <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
+                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
+                            <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
+                        </div>
+                        <p class="movie__info-desc">{{ details?.data?.description }}</p>
+                    </div>
                 </div>
                 <div class="movie__btns">
                     <button style="border: 1px solid transparent" @click="vidType = 'online'"
@@ -147,6 +149,7 @@ import hlsQualitySelector from "videojs-hls-quality-selector";
 videojs.registerPlugin("hlsQualitySelector", hlsQualitySelector);
 const store = useStore();
 store.loader = true
+
 const { id } = useRoute().params;
 const player = ref()
 const comment = ref()

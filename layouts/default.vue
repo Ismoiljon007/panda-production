@@ -342,8 +342,8 @@ function check() {
 watch(() => route.path, (newPath, oldPath) => {
     store.getUserInfo()
 })
-onMounted(async (e) => {
-    await store.getUserInfo()
+onMounted((e) => {
+    store.getUserInfo()
     check()
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {
