@@ -3,6 +3,7 @@
   &__btns {
     display: flex;
     gap: 20px;
+    margin-top: auto;
     button {
       @extend %pr-btn;
       @include media(600px) {
@@ -11,7 +12,6 @@
         border-radius: 10px;
       }
     }
-    margin-bottom: 30px;
   }
   &-episods {
     &__seasons {
@@ -172,9 +172,15 @@
     width: 40%;
     display: flex;
     flex-direction: column;
+    .subtitle {
+      @include font(400, 20, 1.2);
+      letter-spacing: -0.2px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 5px;
+    }
     &-list {
       width: 100%;
-      margin-bottom: 30px;
+      margin-bottom: 15px;
       @include media(880px) {
         max-width: 100%;
       }
@@ -187,10 +193,8 @@
         @include font(400, 20, 1.2);
         letter-spacing: -0.2px;
         color: rgba(255, 255, 255, 0.6);
-        &:not(:last-child) {
-          padding-bottom: 15px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         span {
           font-weight: 600;
           color: #fff;
@@ -198,7 +202,7 @@
       }
     }
     &-desc {
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.8);
       width: 100%;
       max-width: 990px;
       @include font(500, 20, 1.5);

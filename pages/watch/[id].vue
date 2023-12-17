@@ -35,16 +35,17 @@
                             <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
                             <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
                         </div>
+                        <h4 class="subtitle">Malumot:</h4>
                         <p class="movie__info-desc">{{ details?.data?.description }}</p>
+                        <div class="movie__btns">
+                            <button style="border: 1px solid transparent" @click="vidType = 'online'"
+                                :style="vidType == 'online' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">ONLAYN
+                                KO'RISH</button>
+                            <button style="border: 1px solid transparent" @click="vidType = 'trailer'"
+                                :style="vidType == 'trailer' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">TREYLERINI
+                                KO'RISH</button>
+                        </div>
                     </div>
-                </div>
-                <div class="movie__btns">
-                    <button style="border: 1px solid transparent" @click="vidType = 'online'"
-                        :style="vidType == 'online' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">ONLAYN
-                        KO'RISH</button>
-                    <button style="border: 1px solid transparent" @click="vidType = 'trailer'"
-                        :style="vidType == 'trailer' ? 'background-color: rgba(28, 28, 28, 0.5); color: #fff; border-color: #fff' : ''">TREYLERINI
-                        KO'RISH</button>
                 </div>
 
                 <div class="movie__adds">
