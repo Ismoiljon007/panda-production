@@ -174,7 +174,7 @@
     flex-direction: column;
     &-list {
       width: 100%;
-
+      margin-bottom: 30px;
       @include media(880px) {
         max-width: 100%;
       }
