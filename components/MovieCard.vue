@@ -47,7 +47,7 @@ const { movie } = defineProps(['movie'])
 async function addFvrt() {
     if (store.token) {
         if (movie?.is_movie) {
-            if (movie?.is_favorited == true) {
+            if (movie?.is_favorited) {
                 const data = await $fetch(store.baseUrl + `/movies/${movie?.id}/remove-favorite/`, {
                     method: 'DELETE',
                     headers: {
