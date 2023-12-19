@@ -394,7 +394,8 @@
     .container {
       max-width: 100%;
       position: absolute;
-      bottom: 22px;
+      bottom: 50%;
+      transform: translateY(60%);
       left: 0;
       width: 100%;
       @include media(1890px) {
@@ -403,13 +404,13 @@
       @include media(920px) {
         padding: 0 20px;
       }
-      margin-bottom: 120px;
-      @include media(700px) {
-        bottom: 100px;
-      }
-      @include media(500px) {
-        bottom: 50px;
-      }
+      // margin-bottom: 120px;
+      // @include media(700px) {
+      //   bottom: 10px;
+      // }
+      // @include media(500px) {
+      //   bottom: 0;
+      // }
       .hero__slide-text-wrapper {
         width: 100%;
         max-width: 1760px;
@@ -419,18 +420,18 @@
           padding: 0;
         }
       }
-      @include media(1320px) {
-        margin-bottom: 80px;
-      }
-      @include media(1000px) {
-        margin-bottom: 45px;
-      }
-      @include media(650px) {
-        margin-bottom: 30px;
-      }
-      @include media(500px) {
-        margin-bottom: 20px;
-      }
+      // @include media(1320px) {
+      //   margin-bottom: 80px;
+      // }
+      // @include media(1000px) {
+      //   margin-bottom: 45px;
+      // }
+      // @include media(650px) {
+      //   margin-bottom: 30px;
+      // }
+      // @include media(500px) {
+      //   margin-bottom: 20px;
+      // }
     }
   }
   .swiper {
