@@ -343,6 +343,10 @@
       font-size: 25px;
       padding: 10px 55px 10px 55px;
       border-radius: 42.5px;
+      img {
+        width: 18px;
+        height: 20px;
+      }
       background: #fff;
       cursor: pointer;
       @include media(1320px) {
