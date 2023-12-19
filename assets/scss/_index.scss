@@ -405,10 +405,10 @@
       }
       margin-bottom: 120px;
       @include media(700px) {
-        bottom: 10px;
+        bottom: 100px;
       }
       @include media(500px) {
-        bottom: 0;
+        bottom: 50px;
       }
       .hero__slide-text-wrapper {
         width: 100%;

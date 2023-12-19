@@ -14,7 +14,7 @@ import { useStore } from '~/store/store';
 const store = useStore()
 const add = ref(false)
 const router = useRouter()
-
+store.loader = true
 onMounted(() => {
   setTimeout(() => {
     add.value = true

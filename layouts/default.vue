@@ -278,12 +278,12 @@ async function logout() {
             'Authorization': 'Bearer ' + store.token
         }
     })
-    if(data?.status == "success") {
+    if (data?.status == "success") {
         localStorage.clear()
         token.value = false
         store.token = typeof window !== "undefined"
-        ? localStorage.getItem("access__token")
-        : null;
+            ? localStorage.getItem("access__token")
+            : null;
         router.push('/')
     }
 }
@@ -322,9 +322,10 @@ const updateScroll = () => {
     }
     scrolledNav.value = false;
 };
-function check() {
-    watchEffect(() => {
-        if (store.loader) {
+
+watchEffect(() => {
+    if (typeof window == "object") {
+        if (store.loader == true) {
             document.querySelector('body').style.overflow = 'hidden'
         } else {
             document.querySelector('body').style.overflow = 'visible'
@@ -337,14 +338,30 @@ function check() {
         } else {
             document.querySelector('body').style.overflow = 'visible'
         }
-    })
-}
+    }
+})
+
 watch(() => route.path, (newPath, oldPath) => {
     store.getUserInfo()
+    if (typeof window == "object") {
+        if (store.loader == true) {
+            document.querySelector('body').style.overflow = 'hidden'
+        } else {
+            document.querySelector('body').style.overflow = 'visible'
+        }
+        if (store.search_open) {
+            setTimeout(() => {
+                document.getElementById('search-int')?.focus()
+            }, 1000)
+            document.querySelector('body').style.overflow = 'hidden'
+        } else {
+            document.querySelector('body').style.overflow = 'visible'
+        }
+    }
 })
 onMounted((e) => {
     store.getUserInfo()
-    check()
+
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {
             if (profile.value) {
