@@ -59,7 +59,7 @@
             </Swiper>
         </div>
 
-        <div class="movies" v-for="(elem, i) in store?.categories?.data?.categories" :key="elem.id">
+        <div class="movies" v-for="(elem, i) in store.categories.data.categories" :key="elem.id">
             <div class="container">
                 <div class="movies__header">
                     <h2 class="movies__title">{{ elem?.name }}</h2>
@@ -108,7 +108,7 @@ const movies = ref({})
 async function getCategoriesMovie() {
     try {
         store.loader = true
-        const fetchPromises = store.categories?.data?.categories?.map(async (el) => {
+        const fetchPromises = store.categories.data.categories.map(async (el) => {
             if (store.token) {
                 const data = await $fetch(store.baseUrl + `/category/${el.id}/content/`, {
                     method: 'GET',

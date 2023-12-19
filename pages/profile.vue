@@ -67,7 +67,6 @@
 import { useToast } from 'vue-toastification';
 import { useStore } from '~~/store/store';
 const store = useStore()
-const toast = useToast()
 const update = ref(true)
 const name = ref(store.userInfo?.name)
 const login = ref(store.userInfo?.username)
@@ -90,7 +89,7 @@ async function updateUserInfo() {
     })
     if (data.status == "success") {
         update.value = true
-        toast.success('profilingiz muvafaqiyatli tahrirlandi')
+        useToast().success('profilingiz muvafaqiyatli tahrirlandi')
     }
 }
 
