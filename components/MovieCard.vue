@@ -47,7 +47,7 @@ const { movie } = defineProps(['movie'])
 async function addFvrt() {
     if (store.token) {
         if (movie?.is_movie) {
-            if (movie?.is_favorited == true) {
+            if (activeSave.value) {
                 const data = await $fetch(store.baseUrl + `/movies/${movie?.id}/remove-favorite/`, {
                     method: 'DELETE',
                     headers: {
@@ -71,7 +71,7 @@ async function addFvrt() {
                 await store.getSavedMovies()
             }
         } else {
-            if (movie?.is_favorited) {
+            if (activeSave.value) {
                 const data = await $fetch(store.baseUrl + `/series/${movie?.id}/remove-favorite/`, {
                     method: 'DELETE',
                     headers: {
@@ -103,10 +103,8 @@ async function addFvrt() {
 function yearGet(y) {
     const dateString = y;
 
-    // Create a new Date object from the string
     const dateObject = new Date(dateString);
 
-    // Get the year
     const year = dateObject.getFullYear();
     return year
 }
