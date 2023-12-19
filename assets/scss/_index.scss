@@ -338,7 +338,7 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
       opacity: 0;
       font-size: 25px;
       padding: 10px 55px 10px 55px;
@@ -347,7 +347,7 @@
       cursor: pointer;
       @include media(1320px) {
         font-size: 18px;
-        padding: 14px 55px;
+        padding: 10px 55px;
         img {
           width: 18px;
           height: 20px;
@@ -355,7 +355,7 @@
       }
       @include media(1160px) {
         font-size: 16px;
-        padding: 12px 45px;
+        padding: 10px 45px;
         img {
           width: 16px;
           height: 18px;
