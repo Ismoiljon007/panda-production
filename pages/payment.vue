@@ -35,7 +35,7 @@ store.loader = false;
 
 async function payment() {
     if (store.planId !== null) {
-        const data = await $fetch(store.paymentUrl + '/payment-url/', {
+        const data = await $fetch(store.paymentUrl + '/billing/payment-url/', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${store.token}`

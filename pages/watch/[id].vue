@@ -14,7 +14,7 @@
                         }" />
                         <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
                             <button>
-                                obuna sotib olish
+                                Obuna bo'lish
                             </button>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                         <div class="movie__info-list">
                             <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
                             <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
-                            <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
+                            <li>Davomiyligi: <span>{{ sanlarniChiqarish(details?.data?.duration_minute) }}</span></li>
                         </div>
                         
                         <p class="movie__info-desc"><span class="subtitle">Malumot:</span> {{ details?.data?.description }}</p>
@@ -81,10 +81,10 @@
 
                         <ul class="movie__comments-item__inner">
                             <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
-                                <div class="movie__comments-item-img">{{ userInfo?.data?.username.charAt().toUpperCase() }}
+                                <div class="movie__comments-item-img">{{ store.userInfo?.data?.username.charAt().toUpperCase() }}
                                 </div>
                                 <div class="movie__comments-text-wrapper">
-                                    <h4 class="movie__comments-title">{{ userInfo?.data?.username }}</h4>
+                                    <h4 class="movie__comments-title">{{ store.userInfo?.data?.username }}</h4>
                                     <textarea v-model="repliesCom" class="movie__comments-write"></textarea>
                                     <button @click="replie(item?.id)"><img src="@/assets/images/svg/navigation.svg" alt="">
                                         Jo‘natish</button>
@@ -207,7 +207,7 @@ async function replie(parent) {
             'Authorization': 'Bearer ' + store.token
         },
         body: {
-            username: userInfo.value?.data?.username,
+            username: store.userInfo?.data?.username,
             content: repliesCom.value,
             object_id: id,
             content_type: 15,
@@ -221,29 +221,25 @@ async function replie(parent) {
 }
 const paymentTrue = ref(true)
 
+
+function sanlarniChiqarish(daqiqa) {
+    var soat = Math.floor(daqiqa / 3600); // Soatni hisoblash
+    var qoldiqDaqiqa = daqiqa % 3600;     // Qoldiq daqiqa
+    var minut = Math.floor(qoldiqDaqiqa / 60); // Daqiqalarni hisoblash
+    var soniya = qoldiqDaqiqa % 60;           // Qoldiq soniya
+
+    return `${soat}:${minut}`
+}
+
+
+
 const title = ref(null)
 const video_url = ref("")
 const img_url = ref("")
 
 const router = useRouter()
 
-const userInfo = ref()
-async function getUserInfo() {
-    store.loader = true;
-    try {
-        const data = await $fetch("https://userservice.inminternational.uz/users", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-        userInfo.value = data
-    } catch (error) {
-        console.error("Failed to fetch data", error);
-    } finally {
-        store.loader = false;
-    }
-}
+
 async function sendComment() {
     const res = await $fetch(`${store.baseUrl}/management/comments/`, {
         method: 'POST',
@@ -251,7 +247,7 @@ async function sendComment() {
             'Authorization': 'Bearer ' + store.token
         },
         body: {
-            username: userInfo.value?.data?.username,
+            username: store.userInfo?.data?.username,
             content: comment.value,
             object_id: id,
             parent: null,
@@ -265,7 +261,7 @@ async function sendComment() {
 }
 async function getCategoriesMovie() {
     const fetchPromises = store.categories.data.categories.map(el =>
-        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`, {
+        $fetch(`${store.baseUrl}/category/${el.id}/content/`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + store.token
@@ -342,7 +338,6 @@ watchEffect(() => {
     img_url.value
 })
 await fetchData();
-await getUserInfo()
 
 
 

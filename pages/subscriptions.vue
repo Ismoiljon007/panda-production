@@ -96,7 +96,7 @@ getPlans()
 
 const activePlan = ref([])
 async function activePlanGet() {
-    const data = await $fetch(`https://billingservice.inminternational.uz/billing/${store.userInfo?.id}/subscriptions/`, {
+    const data = await $fetch(`${store.paymentUrl}/billing/${store.userInfo?.id}/subscriptions/`, {
         method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + store.token,

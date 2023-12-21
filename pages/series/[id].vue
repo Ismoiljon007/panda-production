@@ -14,7 +14,7 @@
                         }" />
                         <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
                             <button>
-                                obuna sotib olish
+                                Obuna bo'lish
                             </button>
                         </div>
                     </div>
@@ -102,10 +102,10 @@
 
                         <ul class="movie__comments-item__inner">
                             <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
-                                <div class="movie__comments-item-img">{{ userInfo?.data?.username.charAt().toUpperCase() }}
+                                <div class="movie__comments-item-img">{{ store.userInfo?.data?.username.charAt().toUpperCase() }}
                                 </div>
                                 <div class="movie__comments-text-wrapper">
-                                    <h4 class="movie__comments-title">{{ userInfo?.data?.username }}</h4>
+                                    <h4 class="movie__comments-title">{{ store.userInfo?.data?.username }}</h4>
                                     <textarea v-model="repliesCom" class="movie__comments-write"></textarea>
                                     <button @click="replie(item?.id)"><img src="@/assets/images/svg/navigation.svg" alt="">
                                         Jo‘natish</button>
@@ -247,23 +247,7 @@ function checkSeries(e) {
         }
     })
 }
-const userInfo = ref()
-async function getUserInfo() {
-    store.loader = true;
-    try {
-        const data = await $fetch("https://userservice.inminternational.uz/users", {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-        userInfo.value = data
-    } catch (error) {
-        console.error("Failed to fetch data", error);
-    } finally {
-        store.loader = false;
-    }
-}
+
 
 function openReply(id) {
     if (document.querySelector(`.reply-${id}`).style.display == 'none') {
@@ -282,7 +266,7 @@ async function replie(parent) {
             'Authorization': 'Bearer ' + store.token
         },
         body: {
-            username: userInfo.value?.data?.username,
+            username: store.userInfo?.data?.username,
             content: repliesCom.value,
             object_id: id,
             content_type: 15,
@@ -303,7 +287,7 @@ async function sendComment() {
             'Authorization': 'Bearer ' + store.token
         },
         body: {
-            username: userInfo.value?.data?.username,
+            username: store.userInfo?.data?.username,
             content: comment.value,
             object_id: id,
             parent: null,
@@ -317,7 +301,7 @@ async function sendComment() {
 }
 async function getCategoriesMovie() {
     const fetchPromises = store.categories.data.categories.map(el =>
-        $fetch(`https://catalogservice.inminternational.uz/category/${el.id}/content/`, {
+        $fetch(`${store.baseUrl}/category/${el.id}/content/`, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + store.token
@@ -404,7 +388,6 @@ watchEffect(() => {
     img_url.value
 })
 
-await getUserInfo()
 await fetchData();
 
 

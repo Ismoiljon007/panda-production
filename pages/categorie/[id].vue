@@ -239,7 +239,7 @@ const g = ref()
 
 
 const onClickHandler = async (page) => {
-    const data = await $fetch(`https://catalogservice.inminternational.uz/category/${id}/content/?page=${page}&size=10`)
+    const data = await $fetch(`${store.baseUrl}/category/${id}/content/?page=${page}&size=10`)
     categorieMovies.value = data.data
 };
 

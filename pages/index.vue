@@ -15,7 +15,7 @@
                         <div class="hero__slide-text-wrapper">
                             <h4 class="hero__slide-subtitle">{{ item?.release_year }} / {{ item?.content_genre[0]?.name }}
                             </h4>
-                            <h2 class="hero__slide-title">{{ item?.content_title }}</h2>
+                            <h2 class="hero__slide-title">{{ item?.name }}</h2>
                             <p class="hero__slide-desc">Lorem Ipsum has been the industry's standard dummy text ever since
                                 the
                                 1500s, when an unknown printer took a galley of type and scrambled it to

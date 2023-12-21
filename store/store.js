@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 
 export const useStore = defineStore("store", () => {
-  const baseUrl = "https://catalogservice.inminternational.uz";
-  const userInfoBase = "https://userservice.inminternational.uz";
-  const authBase = "https://authservice.inminternational.uz";
-  const paymentUrl = "https://billingservice.inminternational.uz/billing";
-  const analiticsUrl = "https://analitics-service.inminternational.uz";
+  const baseUrl = "https://gateway.pandatv.uz/catalogservice";
+  const userInfoBase = "https://gateway.pandatv.uz/userservice";
+  const authBase = "https://gateway.pandatv.uz";
+  const paymentUrl = "https://gateway.pandatv.uz/billingservice";
+  const analiticsUrl = "https://gateway.pandatv.uz/analitics";
   const loader = ref(true);
   const overlay = ref(false);
   const search_open = ref(false);
@@ -38,7 +38,7 @@ export const useStore = defineStore("store", () => {
   const userInfo = ref(null);
   async function getUserInfo() {
     if (token) {
-      fetch("https://userservice.inminternational.uz/users", {
+      fetch(userInfoBase + "/users", {
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,
@@ -54,7 +54,7 @@ export const useStore = defineStore("store", () => {
           window.location = "/login";
         } else {
           res.json().then((data) => {
-            if(data?.data) {
+            if (data?.data) {
               userInfo.value = data?.data;
               localStorage.setItem("user_id", data?.data?.id);
             }
