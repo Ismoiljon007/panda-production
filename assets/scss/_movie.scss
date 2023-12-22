@@ -357,6 +357,9 @@
     flex-direction: column;
     gap: 40px;
     list-style: none;
+    @include media(600px) {
+      gap: 10px;
+    }
     &-item {
       &-wrapper {
         display: flex;
