@@ -17,7 +17,7 @@ const router = useRouter()
 store.loader = true
 onMounted(() => {
   setTimeout(() => {
-    add.value = true
+    // add.value = true
   }, 120000)
 })
 </script>

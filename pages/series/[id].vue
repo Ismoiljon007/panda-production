@@ -32,8 +32,10 @@
                         <h2 class="movie__title">{{ title }}</h2>
                         <div class="movie__info-list">
                             <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
-                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
-                            <li>Davomiyligi: <span>{{ details?.data?.duration_minute }}</span></li>
+                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }} / </span>
+                            </li>
+                            <li>Davomiyligi: <span>{{ sanlarniChiqarish(details?.data?.duration_minute) }}</span></li>
+                            <li>Bosh Rollarda: <br> <span>{{ details?.data?.cast_list }}</span></li>
                         </div>
 
                         <p class="movie__info-desc"><span class="subtitle">Malumot:</span> {{ details?.data?.description }}
@@ -102,7 +104,8 @@
 
                         <ul class="movie__comments-item__inner">
                             <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
-                                <div class="movie__comments-item-img">{{ store.userInfo?.data?.username.charAt().toUpperCase() }}
+                                <div class="movie__comments-item-img">{{
+                                    store.userInfo?.data?.username.charAt().toUpperCase() }}
                                 </div>
                                 <div class="movie__comments-text-wrapper">
                                     <h4 class="movie__comments-title">{{ store.userInfo?.data?.username }}</h4>
@@ -219,7 +222,11 @@ function commentDate(d) {
 
     }
 }
-
+function sanlarniChiqarish(daqiqa) {
+    const hours = Math.floor(daqiqa / 60);
+    const remainingMinutes = daqiqa % 60;
+    return `${hours}:${remainingMinutes}`
+}
 async function getMovie(series) {
     const res = await $fetch(store.baseUrl + '/series/' + series + '/', {
         method: 'GET',

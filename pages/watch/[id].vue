@@ -32,11 +32,14 @@
                         <h2 class="movie__title">{{ title }}</h2>
                         <div class="movie__info-list">
                             <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
-                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }}</span></li>
+                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }} / </span>
+                            </li>
                             <li>Davomiyligi: <span>{{ sanlarniChiqarish(details?.data?.duration_minute) }}</span></li>
+                            <li>Bosh Rollarda: <br> <span>{{ details?.data?.cast_list }}</span></li>
                         </div>
-                        
-                        <p class="movie__info-desc"><span class="subtitle">Malumot:</span> {{ details?.data?.description }}</p>
+
+                        <p class="movie__info-desc"><span class="subtitle">Malumot:</span> {{ details?.data?.description }}
+                        </p>
                         <div class="movie__btns">
                             <button @click="vidType = 'online'"
                                 :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">ONLAYN
@@ -48,9 +51,9 @@
                     </div>
                 </div>
 
-                <div class="movie__adds">
+                <!-- <div class="movie__adds">
                     <img src="@/assets/images/png/reklama.png" alt="">
-                </div>
+                </div> -->
                 <form class="movie__comment-write" action="#" @submit.prevent="sendComment()">
                     <textarea placeholder="Fikr bildirish..." v-model="comment"></textarea>
                     <button><img src="@/assets/images/svg/navigation.svg" alt=""> Jo‘natish</button>
@@ -81,7 +84,8 @@
 
                         <ul class="movie__comments-item__inner">
                             <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
-                                <div class="movie__comments-item-img">{{ store.userInfo?.data?.username.charAt().toUpperCase() }}
+                                <div class="movie__comments-item-img">{{
+                                    store.userInfo?.data?.username.charAt().toUpperCase() }}
                                 </div>
                                 <div class="movie__comments-text-wrapper">
                                     <h4 class="movie__comments-title">{{ store.userInfo?.data?.username }}</h4>
@@ -223,12 +227,9 @@ const paymentTrue = ref(true)
 
 
 function sanlarniChiqarish(daqiqa) {
-    var soat = Math.floor(daqiqa / 3600); // Soatni hisoblash
-    var qoldiqDaqiqa = daqiqa % 3600;     // Qoldiq daqiqa
-    var minut = Math.floor(qoldiqDaqiqa / 60); // Daqiqalarni hisoblash
-    var soniya = qoldiqDaqiqa % 60;           // Qoldiq soniya
-
-    return `${soat}:${minut}`
+    const hours = Math.floor(daqiqa / 60);
+    const remainingMinutes = daqiqa % 60;
+    return `${hours}:${remainingMinutes}`
 }
 
 
@@ -361,5 +362,4 @@ await fetchData();
 .for {
     position: absolute;
     top: 50%;
-}
-</style>
+}</style>
