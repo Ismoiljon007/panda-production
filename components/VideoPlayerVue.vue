@@ -4,6 +4,7 @@
 </template>
 
 <script setup>
+import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
 import 'videojs-contrib-quality-levels';
@@ -12,6 +13,25 @@ import 'videojs-seek-buttons';
 import videojsqualityselector from 'videojs-hls-quality-selector';
 const videoPlayer = ref()
 const { item } = defineProps(['item'])
+const store = useStore()
+function int(inter) {
+    clearInterval(inter)
+}
+const timeOut = ref(0)
+async function sendWatchTime() {
+    const data = await $fetch(`${store.analiticsUrl}/user-watch-data/`, {
+        method: 'POST',
+        headers: {
+            Authorization: "Bearer " + store.token,
+        },
+        body: {
+            user_id: store.userInfo?.id,
+            content_id: item?.id,
+            watch_duration: 10,
+            content_type: item?.content_type
+        }
+    })
+}
 onMounted(() => {
     const el = document.querySelector('.video-js');
     var player = videojs(el, {
@@ -56,6 +76,18 @@ onMounted(() => {
     player.on("pause", (e) => {
         player.bigPlayButton.show();
     });
+    if(item?.id != null) {
+        player.on('timeupdate', (e) => {
+            var currentTime = player.currentTime();
+            var truncatedTime = Math.trunc(currentTime);
+            if (truncatedTime % 10 === 0) {
+                if (timeOut.value != truncatedTime) {
+                    sendWatchTime()
+                }
+                timeOut.value = truncatedTime
+            }
+        })
+    }
 })
 </script>
   

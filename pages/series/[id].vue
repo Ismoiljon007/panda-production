@@ -11,6 +11,8 @@
                             autoplay: false,
                             loop: false,
                             muted: false,
+                            id: details?.data?.id,
+                            content_type: 'series'
                         }" />
                         <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
                             <button>
@@ -26,6 +28,8 @@
                             autoplay: false,
                             loop: false,
                             muted: false,
+                            id: null,
+                            content_type: null
                         }" />
                     </div>
                     <div class="movie__info">
