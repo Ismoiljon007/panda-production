@@ -88,10 +88,10 @@
                         <ul class="movie__comments-item__inner">
                             <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
                                 <div class="movie__comments-item-img">{{
-                                    store.userInfo?.data?.username.charAt().toUpperCase() }}
+                                    store.userInfo?.username.charAt().toUpperCase() }}
                                 </div>
                                 <div class="movie__comments-text-wrapper">
-                                    <h4 class="movie__comments-title">{{ store.userInfo?.data?.username }}</h4>
+                                    <h4 class="movie__comments-title">{{ store.userInfo?.username }}</h4>
                                     <textarea v-model="repliesCom" class="movie__comments-write"></textarea>
                                     <button @click="replie(item?.id)"><img src="@/assets/images/svg/navigation.svg" alt="">
                                         Jo‘natish</button>
@@ -214,7 +214,7 @@ async function replie(parent) {
             'Authorization': 'Bearer ' + store.token
         },
         body: {
-            username: store.userInfo?.data?.username,
+            username: store.userInfo?.username,
             content: repliesCom.value,
             object_id: id,
             content_type: 15,
