@@ -295,7 +295,7 @@ async function fetchData() {
         await getCategoriesMovie();
         details.value = detailData;
         title.value = detailData?.data?.title
-        img_url.value = detailData?.data?.thumbnail_image
+        img_url.value = detailData?.data?.widescreen_thumbnail_image
     } catch (error) {
         console.log(error);
     } finally {

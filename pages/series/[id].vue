@@ -244,7 +244,7 @@ async function getSeries(id, e) {
     const data = await $fetch(`${store.baseUrl}/management/episodes/${id}/`)
     title.value = data?.title
     video_url.value = data?.episode_content_url
-    img_url.value = data?.thumbnail_image_url
+    img_url.value = data?.widescreen_thumbnail_image
     var originalHTML = document.querySelector('.vd-serie').innerHTML;
     document.querySelector('.vd-serie').innerHTML = originalHTML;
 }
@@ -359,7 +359,7 @@ async function fetchData() {
             video_url.value = res?.data?.series_summary_url
         }
         title.value = res?.data?.title
-        img_url.value = res?.data?.thumbnail_image
+        img_url.value = res?.data?.widescreen_thumbnail_image
         details.value = res;
         getEpisods(res?.data?.seasons[0]?.id)
         await getCategoriesMovie()
