@@ -35,11 +35,10 @@
                     <div class="movie__info">
                         <h2 class="movie__title">{{ title }}</h2>
                         <div class="movie__info-list">
-                            <li>Sanasi: <span>{{ details?.data?.release_date }}</span></li>
-                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }} / </span>
+                            <li style="display: flex;">Sanasi: <span style="margin-right: auto;">{{ details?.data?.release_date }}</span> Davomiyligi: <span style="margin-right: auto;">{{ sanlarniChiqarish(details?.data?.duration_minute) }}</span></li>
+                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }} <span :style="details?.data?.genre[details?.data?.genre?.length - 1].name == genre.name ? 'display: none;' : ''">/ </span></span>
                             </li>
-                            <li>Davomiyligi: <span>{{ sanlarniChiqarish(details?.data?.duration_minute) }}</span></li>
-                            <li>Bosh Rollarda: <br> <span>{{ details?.data?.cast_list }}</span></li>
+                            <li>Bosh Rollarda: <span>{{ details?.data?.cast_list }}</span></li>
                         </div>
 
                         <p class="movie__info-desc"><span class="subtitle">Malumot:</span> {{ details?.data?.description }}
@@ -252,11 +251,11 @@ async function sendComment() {
             'Authorization': 'Bearer ' + store.token
         },
         body: {
-            username: store.userInfo?.data?.username,
+            username: store.userInfo?.username,
             content: comment.value,
             object_id: id,
             parent: null,
-            content_type: 15
+            content_type: 17
         }
     })
     if (res) {

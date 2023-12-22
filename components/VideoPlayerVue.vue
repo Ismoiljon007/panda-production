@@ -27,7 +27,7 @@ async function sendWatchTime() {
         body: {
             user_id: store.userInfo?.id,
             content_id: item?.id,
-            watch_duration: 10,
+            watch_duration: 60,
             content_type: item?.content_type
         }
     })
@@ -80,7 +80,7 @@ onMounted(() => {
         player.on('timeupdate', (e) => {
             var currentTime = player.currentTime();
             var truncatedTime = Math.trunc(currentTime);
-            if (truncatedTime % 10 === 0) {
+            if (truncatedTime % 60 === 0) {
                 if (timeOut.value != truncatedTime) {
                     sendWatchTime()
                 }
