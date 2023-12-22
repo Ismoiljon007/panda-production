@@ -297,11 +297,11 @@ async function sendComment() {
             'Authorization': 'Bearer ' + store.token
         },
         body: {
-            username: store.userInfo?.data?.username,
+            username: store.userInfo?.username,
             content: comment.value,
             object_id: id,
             parent: null,
-            content_type: 13
+            content_type: 15
         }
     })
     if (res) {
