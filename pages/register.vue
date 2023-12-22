@@ -31,6 +31,7 @@
 
 <script setup>
 import IMask from 'imask';
+import { useToast } from 'vue-toastification';
 // import { googleTokenLogin } from 'vue3-google-login'
 import { useStore } from '~~/store/store';
 definePageMeta({
@@ -74,6 +75,8 @@ const login = async () => {
         }
         if (data.status == "success") {
             router.push('/login')
+        } else {
+            useToast().warning("Bunday login oldin ishlatilgan!")
         }
     }).catch(error => {
         console.log(error.data);
