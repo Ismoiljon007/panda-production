@@ -42,9 +42,6 @@
                             <NuxtLink to="/saved" class="profile-modal__item"><img src="@/assets/images/svg/bookmark.svg"
                                     alt="">
                                 Tanlanganlar</NuxtLink>
-                            <NuxtLink to="/history" class="profile-modal__item"><img src="@/assets/images/svg/history.svg"
-                                    alt=""> Tarix
-                            </NuxtLink>
                             <NuxtLink to="/active-sessions" class="profile-modal__item"><img
                                     src="@/assets/images/svg/active-seans.svg" alt=""> Faol
                                 sessiyalar</NuxtLink>

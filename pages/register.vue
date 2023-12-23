@@ -11,7 +11,7 @@
                 <input v-model="username" placeholder="Login" type="text" class="login-input">
                 <input v-model="phonenum" placeholder="+998" id="phone" type="text" class="login-input-tel">
                 <div class="password-input">
-                    <input placeholder="Parol" v-model="pass" ref="password" type="password">
+                    <input placeholder="Parol" v-model="pass" type="password">
                     <button type="button" @click="view()" v-if="!password_view"><img src="@/assets/images/svg/eye.svg"
                             alt=""></button>
                     <button type="button" @click="view()" v-if="password_view"><img
@@ -42,7 +42,6 @@ const store = useStore()
 store.loader = true
 const password_view = ref(false)
 
-const password = ref()
 const phonenum = ref()
 const username = ref()
 const pass = ref()
