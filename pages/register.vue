@@ -9,9 +9,9 @@
             <h2 class="login-title">Ro‘yhatdan o‘tish</h2>
             <form action="#" @submit.prevent="login()" class="login-form">
                 <input v-model="username" placeholder="Login" type="text" class="login-input">
-                <input v-model="phonenum" placeholder="+998" id="phone" type="text" class="phone login-input-tel">
+                <input v-model="phoneNumber" placeholder="+998" @input="mask" @focus="mask" @blur="mask" @keydown="mask" class="phone login-input-tel">
                 <div class="password-input">
-                    <input placeholder="Parol" v-model="pass" type="password">
+                    <input placeholder="Parol" v-model="pass" ref="password" type="password">
                     <button type="button" @click="view()" v-if="!password_view"><img src="@/assets/images/svg/eye.svg"
                             alt=""></button>
                     <button type="button" @click="view()" v-if="password_view"><img
@@ -30,7 +30,6 @@
 </template>
 
 <script setup>
-import IMask from 'imask';
 import { useToast } from 'vue-toastification';
 // import { googleTokenLogin } from 'vue3-google-login'
 import { useStore } from '~~/store/store';
@@ -41,14 +40,13 @@ const router = useRouter()
 const store = useStore()
 store.loader = true
 const password_view = ref(false)
+const password = ref(false)
 
-const phonenum = ref()
 const username = ref()
 const pass = ref()
 
 const login = async () => {
-    const tel = document.getElementById('phone')
-    let phone = tel.value.split(" ").join("")
+    let phone = phoneNumber.value.split(" ").join("")
     let num = phone.split("-").join("")
     let pNum = num.split('(').join("")
     let p = pNum.split(')').join("")
@@ -81,40 +79,37 @@ function view() {
         password_view.value = false
     }
 }
-onMounted(() => {
-    [].forEach.call(document.querySelectorAll('.phone'), function (input) {
-        let keyCode;
-        function mask(event) {
-            event.keyCode && (keyCode = event.keyCode);
-            let pos = this.selectionStart;
-            if (pos < 3) event.preventDefault();
-            let matrix = "+998 (__) ___-__-__",
-                i = 0,
-                def = matrix.replace(/\D/g, ""),
-                val = this.value.replace(/\D/g, ""),
-                newValue = matrix.replace(/[_\d]/g, function (a) {
-                    return i < val.length ? val.charAt(i++) || def.charAt(i) : a;
-                });
-            i = newValue.indexOf("_");
-            if (i != -1) {
-                i < 5 && (i = 3);
-                newValue = newValue.slice(0, i);
-            }
-            let reg = matrix.substr(0, this.value.length).replace(/_+/g,
-                function (a) {
-                    return "\\d{1," + a.length + "}";
-                }).replace(/[+()]/g, "\\$&");
-            reg = new RegExp("^" + reg + "$");
-            if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) this.value = newValue;
-            if (event.type == "blur" && this.value.length < 5) this.value = "";
-        }
+const phoneNumber = ref('');
 
-        input.addEventListener("input", mask, false);
-        input.addEventListener("focus", mask, false);
-        input.addEventListener("blur", mask, false);
-        input.addEventListener("keydown", mask, false);
-    });
-})
+const mask = (event) => {
+    let keyCode;
+    event.keyCode && (keyCode = event.keyCode);
+    let pos = event.target.selectionStart;
+    if (pos < 3) event.preventDefault();
+    let matrix = "+998 (__) ___-__-__",
+        i = 0,
+        def = matrix.replace(/\D/g, ""),
+        val = phoneNumber.value.replace(/\D/g, ""),
+        newValue = matrix.replace(/[_\d]/g, function (a) {
+            return i < val.length ? val.charAt(i++) || def.charAt(i) : a;
+        });
+    i = newValue.indexOf("_");
+    if (i != -1) {
+        i < 5 && (i = 3);
+        newValue = newValue.slice(0, i);
+    }
+    let reg = matrix.substr(0, phoneNumber.value.length).replace(/_+/g,
+        function (a) {
+            return "\\d{1," + a.length + "}";
+        }).replace(/[+()]/g, "\\$&");
+    reg = new RegExp("^" + reg + "$");
+    if (!reg.test(phoneNumber.value) || phoneNumber.value.length < 5 || keyCode > 47 && keyCode < 58) {
+        phoneNumber.value = newValue;
+    }
+    if (event.type == "blur" && phoneNumber.value.length < 5) {
+        phoneNumber.value = "";
+    }
+};
 store.loader = false
 </script>
 
