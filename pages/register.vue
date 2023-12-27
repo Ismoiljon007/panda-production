@@ -8,10 +8,10 @@
             </NuxtLink>
             <h2 class="login-title">Ro‘yhatdan o‘tish</h2>
             <form action="#" @submit.prevent="login()" class="login-form">
-                <input v-model="username" placeholder="Login" type="text" class="login-input">
-                <input v-model="phoneNumber" placeholder="+998" @input="mask" @focus="mask" @blur="mask" @keydown="mask" class="phone login-input-tel">
+                <input autocomplete="true" v-model="username" placeholder="Login" type="text" class="login-input">
+                <input autocomplete="false" v-model="phoneNumber" placeholder="+998" @input="mask" @focus="mask" @blur="mask" @keydown="mask" class="phone login-input-tel">
                 <div class="password-input">
-                    <input placeholder="Parol" v-model="pass" ref="password" type="password">
+                    <input placeholder="Parol" autocomplete="true" v-model="pass" ref="password" type="password">
                     <button type="button" @click="view()" v-if="!password_view"><img src="@/assets/images/svg/eye.svg"
                             alt=""></button>
                     <button type="button" @click="view()" v-if="password_view"><img
