@@ -4,16 +4,18 @@
             <div class="container">
                 <div class="movie-top">
                     <div class="movie-video" v-if="vidType == 'online'">
-                        <video-player-vue :item="{
-                            url: video_url,
-                            img: img_url,
-                            controls: true,
-                            autoplay: false,
-                            loop: false,
-                            muted: false,
-                            id: details?.data?.id,
-                            content_type: 'series'
-                        }" />
+                        <ClientOnly>
+                            <video-player-vue :item="{
+                                url: video_url,
+                                img: img_url,
+                                controls: true,
+                                autoplay: false,
+                                loop: false,
+                                muted: false,
+                                id: details?.data?.id,
+                                content_type: 'series'
+                            }" />
+                        </ClientOnly>
                         <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
                             <button>
                                 Obuna bo'lish
@@ -21,22 +23,28 @@
                         </div>
                     </div>
                     <div class="movie-video" v-if="vidType == 'trailer'">
-                        <video-player-vue :item="{
-                            url: details?.data?.trailer_url,
-                            img: details?.data?.thumbnail_image,
-                            controls: true,
-                            autoplay: false,
-                            loop: false,
-                            muted: false,
-                            id: null,
-                            content_type: null
-                        }" />
+                        <ClientOnly>
+                            <video-player-vue :item="{
+                                url: details?.data?.trailer_url,
+                                img: details?.data?.widescreen_thumbnail_image,
+                                controls: true,
+                                autoplay: false,
+                                loop: false,
+                                muted: false,
+                                id: null,
+                                content_type: null
+                            }" />
+                        </ClientOnly>
                     </div>
                     <div class="movie__info">
                         <h2 class="movie__title">{{ title }}</h2>
                         <div class="movie__info-list">
-                            <li style="display: flex;">Sanasi: <span style="margin-right: auto;">{{ details?.data?.release_date }}</span> Davomiyligi: <span style="margin-right: auto;">{{ sanlarniChiqarish(details?.data?.duration_minute) }}</span></li>
-                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }} <span :style="details?.data?.genre[details?.data?.genre?.length - 1].name == genre.name ? 'display: none;' : ''">/ </span></span>
+                            <li style="display: flex;">Sanasi: <span style="margin-right: auto;">{{
+                                details?.data?.release_date }}</span> Davomiyligi: <span style="margin-right: auto;">{{
+        sanlarniChiqarish(details?.data?.duration_minute) }}</span></li>
+                            <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }} <span
+                                        :style="details?.data?.genre[details?.data?.genre?.length - 1].name == genre.name ? 'display: none;' : ''">/
+                                    </span></span>
                             </li>
                             <li>Bosh Rollarda: <span>{{ details?.data?.cast_list }}</span></li>
                         </div>
