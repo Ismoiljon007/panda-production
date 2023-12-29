@@ -13,6 +13,7 @@
                                     {{ genreName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="genre">
+                                        <li class="select__item" @click="selectGenre('Barchasi')">Barchasi</li>
                                         <li class="select__item" @click="selectGenre(item.name)"
                                             v-for="item in genreApi.data" :key="item">{{ item?.name }}</li>
                                     </ul>
@@ -28,6 +29,7 @@
                                     {{ countryName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="country">
+                                        <li class="select__item" @click="selectCountry($event)">Barchasi</li>
                                         <li class="select__item" @click="selectCountry($event)">Uzbekistan</li>
                                     </ul>
                                 </Transition>
@@ -42,6 +44,7 @@
                                     {{ yearFromName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="yearFrom">
+                                        <li class="select__item" @click="selectYearFrom('Barchasi')">Barchasi</li>
                                         <li class="select__item" @click="selectYearFrom(item)"
                                             v-for="item in apiYear?.data?.available_years" :key="item">{{ item }}</li>
                                     </ul>
@@ -57,6 +60,7 @@
                                     {{ yearToName }} <img src="@/assets/images/svg/select.svg" alt=""></div>
                                 <Transition name="select">
                                     <ul class="select__list" v-if="yearTo">
+                                        <li class="select__item" @click="selectYearTo('Barchasi')">Barchasi</li>
                                         <li class="select__item" @click="selectYearTo(item)"
                                             v-for="item in apiYear?.data?.available_years" :key="item">{{ item }}</li>
                                     </ul>
@@ -150,19 +154,33 @@ getCategorieMovie()
 
 const genreName = ref("Barchasi")
 async function selectGenre(n) {
-    genreName.value = n
-    genre.value = false
-    const data = await $fetch(`${store.baseUrl}/search/`, {
-        method: 'GET',
-        params: {
-            genre: genreName.value?.toLowerCase(),
-            start_year: yearFromName.value,
-            end_year: yearToName.value,
-            category: id
-
-        }
-    })
-    categorieMovies.value = data.data
+    if (n == 'Barchasi') {
+        genreName.value = n
+        genre.value = false
+        const data = await $fetch(`${store.baseUrl}/search/`, {
+            method: 'GET',
+            params: {
+                genre: "",
+                start_year: yearFromName.value,
+                end_year: yearToName.value,
+                category: id
+            }
+        })
+        categorieMovies.value = data.data
+    } else {
+        genreName.value = n
+        genre.value = false
+        const data = await $fetch(`${store.baseUrl}/search/`, {
+            method: 'GET',
+            params: {
+                genre: genreName.value?.toLowerCase(),
+                start_year: yearFromName.value,
+                end_year: yearToName.value,
+                category: id
+            }
+        })
+        categorieMovies.value = data.data
+    }
 }
 async function resetFilter() {
     genreName.value = "Barchasi"
@@ -176,22 +194,22 @@ async function resetFilter() {
     })
     categorieMovies.value = data.data
 }
-const countryName = ref("Uzbekistan")
+const countryName = ref("Barchasi")
 async function selectCountry(e) {
     countryName.value = e.target.textContent
     country.value = false
-    const data = await $fetch(`${store.baseUrl}/search/`, {
-        method: 'GET',
-        params: {
-            genre: genreName.value?.toLowerCase(),
-            start_year: yearFromName.value,
-            end_year: yearToName.value,
-            category: id
+    // const data = await $fetch(`${store.baseUrl}/search/`, {
+    //     method: 'GET',
+    //     params: {
+    //         genre: genreName.value?.toLowerCase(),
+    //         start_year: yearFromName.value,
+    //         end_year: yearToName.value,
+    //         category: id
 
 
-        }
-    })
-    categorieMovies.value = data.data
+    //     }
+    // })
+    // categorieMovies.value = data.data
 }
 
 const qualityName = ref("Full HD")
@@ -245,6 +263,17 @@ const onClickHandler = async (page) => {
 
 const currentPage = ref(1);
 store.loader = false
+onMounted(() => {
+    window.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('select__btn')) {
+            genre.value = false
+            country.value = false
+            quality.value = false
+            yearFrom.value = false
+            yearTo.value = false
+        }
+    })
+})
 </script>
 
 <style lang="scss">

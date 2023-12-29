@@ -307,6 +307,9 @@ main {
     color: rgba(223, 223, 223, 0.8);
     gap: 32px;
     transition: all 0.3s ease;
+    img {
+      pointer-events: none;
+    }
   }
 }
 
