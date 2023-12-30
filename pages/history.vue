@@ -31,11 +31,7 @@ import { useStore } from '~~/store/store'
 const store = useStore()
 store.loader = false
 
-watchEffect(() => {
-    setTimeout(() => {
-        store.getHistory()
-    }, 1000)
-})
+store.getHistory()
 </script>
 
 <style lang="scss" scoped></style>

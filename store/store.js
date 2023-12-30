@@ -65,8 +65,14 @@ export const useStore = defineStore("store", () => {
   }
   const history = ref([]);
   async function getHistory() {
+    const us = await $fetch(userInfoBase + "/users", {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
     const res = await $fetch(
-      analiticsUrl + "/user-watch-history/" + userInfo.value?.id + "/",
+      analiticsUrl + "/user-watch-history/" + us?.data?.id + "/",
       {
         headers: {
           Authorization: "Bearer " + token,
