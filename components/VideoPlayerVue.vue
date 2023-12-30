@@ -18,7 +18,7 @@ function int(inter) {
     clearInterval(inter)
 }
 const timeOut = ref(0)
-async function sendWatchTime() {
+async function sendWatchTime(pos) {
     const data = await $fetch(`${store.analiticsUrl}/user-watch-data/`, {
         method: 'POST',
         headers: {
@@ -31,7 +31,33 @@ async function sendWatchTime() {
             content_type: item?.content_type
         }
     })
+    const res = await $fetch(`${store.analiticsUrl}/user-activity/`, {
+        method: 'POST',
+        headers: {
+            Authorization: "Bearer " + store.token,
+        },
+        body: {
+            user_id: store.userInfo?.id,
+            content_id: item?.id,
+            timestamp: 60,
+            content_type: item?.content_type,
+            activity_type: 'watched',
+            playback_position: pos
+        }
+    })
 }
+const watcheTime = ref([])
+async function getWatchTime() {
+    const user = await $fetch(store.userInfoBase + "/users", {
+        method: "GET",
+        headers: {
+            Authorization: "Bearer " + store.token,
+        },
+    })
+    const res = await $fetch(store.analiticsUrl + '/last-watched-position/' + user?.data?.id + '/' + item?.id + '/')
+    watcheTime.value = res
+}
+await getWatchTime()
 onMounted(() => {
     const el = document.querySelector('.video-js');
     var player = videojs(el, {
@@ -67,22 +93,21 @@ onMounted(() => {
         }]
     });
     player.hlsQualitySelector = videojsqualityselector;
-    // console.log(player.qualityLevels());
     player.hlsQualitySelector();
     player.on("play", (e) => {
         player.bigPlayButton.hide();
     });
-
+    player.currentTime(watcheTime.value?.data?.playback_position)
     player.on("pause", (e) => {
         player.bigPlayButton.show();
     });
-    if(item?.id != null) {
+    if (item?.id != null) {
         player.on('timeupdate', (e) => {
             var currentTime = player.currentTime();
             var truncatedTime = Math.trunc(currentTime);
             if (truncatedTime % 60 === 0) {
                 if (timeOut.value != truncatedTime) {
-                    sendWatchTime()
+                    sendWatchTime(truncatedTime)
                 }
                 timeOut.value = truncatedTime
             }

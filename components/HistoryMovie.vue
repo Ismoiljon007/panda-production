@@ -10,10 +10,11 @@
                 </svg>
             </button>
             <NuxtLink
-                :to="store.token == null ? '/login' : movie?.is_movie == true ? `/watch/${movie?.id}` : `/series/${movie?.id}`">
+                :to="store.token == null ? '/login' : movie?.content_type == 'movie' ? `/watch/${movie?.content_id}` : `/series/${movie?.content_id}`">
                 <img class="img"
                     :src="movie?.thumbnail_image.includes(store.baseUrl) ? movie?.thumbnail_image : 'https://gateway.pandatv.uz' + movie?.thumbnail_image"
                     alt="">
+                    <div class="prograss" :style="`width: ${lastPosition}%;`"></div>
                 <button class="movie-card__play">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="19" viewBox="0 0 16 19" fill="none">
                         <path
@@ -48,9 +49,9 @@ const router = useRouter()
 const { movie } = defineProps(['movie'])
 async function addFvrt() {
     if (store.token) {
-        if (movie?.is_movie) {
+        if (movie?.content_type == 'movie') {
             if (activeSave.value) {
-                const data = await $fetch(store.baseUrl + `/movies/${movie?.id}/remove-favorite/`, {
+                const data = await $fetch(store.baseUrl + `/movies/${movie?.content_id}/remove-favorite/`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': 'Bearer ' + store.token
@@ -61,7 +62,7 @@ async function addFvrt() {
                 })
                 await store.getSavedMovies()
             } else {
-                const data = await $fetch(store.baseUrl + `/movies/${movie?.id}/add-favorite/`, {
+                const data = await $fetch(store.baseUrl + `/movies/${movie?.content_id}/add-favorite/`, {
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + store.token
@@ -74,7 +75,7 @@ async function addFvrt() {
             }
         } else {
             if (activeSave.value) {
-                const data = await $fetch(store.baseUrl + `/series/${movie?.id}/remove-favorite/`, {
+                const data = await $fetch(store.baseUrl + `/series/${movie?.content_id}/remove-favorite/`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': 'Bearer ' + store.token
@@ -85,7 +86,7 @@ async function addFvrt() {
                 })
                 await store.getSavedMovies()
             } else {
-                const data = await $fetch(store.baseUrl + `/series/${movie?.id}/add-favorite/`, {
+                const data = await $fetch(store.baseUrl + `/series/${movie?.content_id}/add-favorite/`, {
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + store.token
@@ -116,7 +117,7 @@ const activeSave = computed(() => {
         return false
     } else {
         if (store.savedMovies) {
-            const itemSave = toRaw(store.savedMovies?.data?.content)?.find(elem => elem.id === movie.id)
+            const itemSave = toRaw(store.savedMovies?.data?.content)?.find(elem => elem.id === movie.content_id)
             if (itemSave) {
                 return true
             }
@@ -124,8 +125,25 @@ const activeSave = computed(() => {
     }
 })
 
+const lastPosition = ref(0)
+async function getLastPosition() {
+    const sec = movie?.duration_minute * 60
+    const data = await $fetch(store.analiticsUrl + '/last-watched-position/' + store.userInfo?.id + '/' + movie?.content_id + '/')
+    lastPosition.value = (data?.data?.playback_position / sec) * 100
+}
+onMounted(() => {
+    getLastPosition()
+    // console.log(lastPosition.value);
 
-
+})
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.prograss {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: red;
+    height: 2px;
+}
+</style>

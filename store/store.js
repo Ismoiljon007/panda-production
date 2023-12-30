@@ -63,7 +63,21 @@ export const useStore = defineStore("store", () => {
       });
     }
   }
+  const history = ref([]);
+  async function getHistory() {
+    const res = await $fetch(
+      analiticsUrl + "/user-watch-history/" + userInfo.value?.id + "/",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    history.value = res;
+  }
   return {
+    history,
+    getHistory,
     userInfo,
     getUserInfo,
     getCategory,

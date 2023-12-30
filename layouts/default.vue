@@ -42,6 +42,9 @@
                             <NuxtLink to="/saved" class="profile-modal__item"><img src="@/assets/images/svg/bookmark.svg"
                                     alt="">
                                 Tanlanganlar</NuxtLink>
+                            <NuxtLink to="/history" class="profile-modal__item"><img src="@/assets/images/svg/history.svg"
+                                    alt="">
+                                    Tarix</NuxtLink>
                             <NuxtLink to="/active-sessions" class="profile-modal__item"><img
                                     src="@/assets/images/svg/active-seans.svg" alt=""> Faol
                                 sessiyalar</NuxtLink>
@@ -235,6 +238,8 @@
 <script setup>
 import { useStore } from '~~/store/store';
 const store = useStore()
+store.getUserInfo()
+
 const search_open = ref(false)
 const token = ref(false)
 const menu = ref(false)
@@ -357,7 +362,6 @@ watch(() => route.path, (newPath, oldPath) => {
     }
 })
 onMounted((e) => {
-    store.getUserInfo()
 
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {

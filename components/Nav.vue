@@ -25,6 +25,10 @@ const items = [
         url: '/saved',
     },
     {
+        label: 'Tarix',
+        url: '/history',
+    },
+    {
         label: 'Faol sessiyalar',
         url: '/active-sessions',
     },
