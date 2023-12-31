@@ -44,7 +44,7 @@
                                 Tanlanganlar</NuxtLink>
                             <NuxtLink to="/history" class="profile-modal__item"><img src="@/assets/images/svg/history.svg"
                                     alt="">
-                                    Tarix</NuxtLink>
+                                Tarix</NuxtLink>
                             <NuxtLink to="/active-sessions" class="profile-modal__item"><img
                                     src="@/assets/images/svg/active-seans.svg" alt=""> Faol
                                 sessiyalar</NuxtLink>
@@ -238,7 +238,7 @@
 <script setup>
 import { useStore } from '~~/store/store';
 const store = useStore()
-store.getUserInfo()
+
 
 const search_open = ref(false)
 const token = ref(false)
@@ -362,7 +362,22 @@ watch(() => route.path, (newPath, oldPath) => {
     }
 })
 onMounted((e) => {
-
+    if (typeof window != undefined) {
+        store.getUserInfo()
+        if (store.loader == true) {
+            document.querySelector('body').style.overflow = 'hidden'
+        } else {
+            document.querySelector('body').style.overflow = 'visible'
+        }
+        if (store.search_open) {
+            setTimeout(() => {
+                document.getElementById('search-int')?.focus()
+            }, 1000)
+            document.querySelector('body').style.overflow = 'hidden'
+        } else {
+            document.querySelector('body').style.overflow = 'visible'
+        }
+    }
     window.addEventListener('click', (e) => {
         if (!e.target.classList.contains('header__profile')) {
             if (profile.value) {

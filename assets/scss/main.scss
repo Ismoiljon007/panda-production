@@ -117,6 +117,21 @@ main {
       -moz-box-shadow: 0px 0px 0px 9px rgba(255, 255, 255, 0.75);
     }
   }
+  &__rating {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    @include font(400,18px,1.2);
+    letter-spacing: -0.24px;
+    color: #fff;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s ease;
+  }
   &__save {
     position: absolute;
     top: 16px;
@@ -168,16 +183,22 @@ main {
       width: 100%;
       height: 100%;
     }
-    &:hover {
-      &::after {
-        opacity: 1;
+    @media (min-width: 768px) {
+      &:hover {
+        &::after {
+          opacity: 1;
+        }
+        .movie-card__rating {
+          opacity: 1;
+        }
+        .movie-card__save {
+          opacity: 1;
+        }
+        .movie-card__play {
+          opacity: 1;
+        }
       }
-      .movie-card__save {
-        opacity: 1;
-      }
-      .movie-card__play {
-        opacity: 1;
-      }
+    
     }
     a {
       height: 100%;
