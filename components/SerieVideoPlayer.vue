@@ -1,6 +1,26 @@
 <template>
-    <video ref="videoPlayer" playsinline crossorigin 
-        class="video-js video-player vjs-default-skin"></video>
+    <video-player class="video-js video-player vjs-default-skin" controls playsinline crossorigin :sources="[{
+        src: item.url,
+        type: 'application/x-mpegURL',
+        withCredentials: false,
+    }]" :aspectRatio="'16:9'" :plugins="{
+    hotkeys: {
+        volumeStep: 0.1,
+        seekStep: 5,
+        enableModifiersForNumbers: true,
+        enableVolumeScroll: false,
+    },
+    seekButtons: {
+        forward: 30,
+        back: 10
+    },
+}" :fluid="true" :html5="{
+    nativeAudioTracks: false,
+    nativeVideoTracks: false,
+    hls: {
+        overrideNative: true,
+    },
+}" :playbackRates="[0.5, 1, 1.5, 2]" :poster="item.img" />
 </template>
 
 <script setup>
@@ -11,8 +31,10 @@ import 'videojs-contrib-quality-levels';
 import 'videojs-hotkeys';
 import 'videojs-seek-buttons';
 import videojsqualityselector from 'videojs-hls-quality-selector';
-const videoPlayer = ref()
 const { item } = defineProps(['item'])
+
+console.log(item?.id);
+
 const store = useStore()
 function int(inter) {
     clearInterval(inter)
@@ -57,59 +79,26 @@ async function getWatchTime() {
     const res = await $fetch(store.analiticsUrl + '/last-watched-position/' + user?.data?.id + '/' + item?.id + '/' + item?.content_type + '/')
     watcheTime.value = res
 }
-if(item?.id) {
-    await getWatchTime()
-}
+const emit = defineEmits(['nextepisode'])
+getWatchTime()
 onMounted(() => {
-    const el = document.querySelector('.video-js');
-    var player = videojs(el, {
-        fluid: true,
-        autoplay: item?.autoplay,
-        muted: item?.muted,
-        controls: item?.controls,
-        loop: item?.loop,
-        aspectRatio: '16:9',
-        html5: {
-            nativeAudioTracks: false,
-            nativeVideoTracks: false,
-            hls: {
-                overrideNative: true,
-            },
-        },
-        playbackRates: [0.5, 1, 1.5, 2],
-
-        poster: item.img,
-        plugins: {
-            hotkeys: {
-                volumeStep: 0.1,
-                seekStep: 5,
-                enableModifiersForNumbers: true,
-                enableVolumeScroll: false,
-            },
-            seekButtons: {
-                forward: 30,
-                back: 10
-            },
-        },
-        sources: [{
-            src: item.url,
-            type: 'application/x-mpegURL',
-            withCredentials: false,
-        }]
-    });
+    const player = videojs(document.querySelector('.video-js'))
     player.hlsQualitySelector = videojsqualityselector;
     player.hlsQualitySelector();
     player.on("play", (e) => {
         player.bigPlayButton.hide();
     });
     var currentTimeEnd = player.currentTime();
-
-    if(watcheTime.value?.data?.playback_position < currentTimeEnd) {
+// console.log(watcheTime.value);
+    if (watcheTime.value?.data?.playback_position < currentTimeEnd) {
         player.currentTime(watcheTime.value?.data?.playback_position)
     }
     player.on("pause", (e) => {
         player.bigPlayButton.show();
     });
+    player.on("ended", ()=> {
+        // emit('nextepisode', 10)
+    })
     if (item?.id != null) {
         player.on('timeupdate', (e) => {
             var currentTime = player.currentTime();
@@ -124,7 +113,6 @@ onMounted(() => {
     }
 })
 </script>
-  
 <style lang="scss">
 .video-js .vjs-big-play-button {
     background: none !important;

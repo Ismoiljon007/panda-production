@@ -16,6 +16,7 @@
                         <img v-if="!passwordViewIcon" src="@/assets/images/svg/eye.svg" alt="Toggle password view">
                     </button>
                 </div>
+                <!-- <button class="forgot-password" type="button">Parolingizni unutdingizmi?</button> -->
                 <div class="login-btns">
                     <button class="login-btn" type="submit">Kirish</button>
                     <NuxtLink style="text-decoration: none;" class="register-btn" to="/register">Ro’yhatdan o’tish

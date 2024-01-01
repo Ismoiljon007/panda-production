@@ -4,18 +4,17 @@
             <div class="container">
                 <div class="movie-top">
                     <div class="movie-video" v-if="vidType == 'online'">
-                        <ClientOnly>
-                            <video-player-vue :item="{
-                                url: video_url,
-                                img: img_url,
-                                controls: true,
-                                autoplay: false,
-                                loop: false,
-                                muted: false,
-                                id: details?.data?.id,
-                                content_type: 'series'
-                            }" />
-                        </ClientOnly>
+                        <serie-video-player :item="{
+                            url: video_url,
+                            img: img_url,
+                            controls: true,
+                            autoplay: false,
+                            loop: false,
+                            muted: false,
+                            id: episodeId,
+                            content_type: 'episode',
+                            allEpisodes: episods?.data?.episodes
+                        }" @nextepisode="nextEpisode"/>
                         <div class="movie-payment" v-if="paymentTrue" @click="router.push('/subscriptions')">
                             <button>
                                 Obuna bo'lish
@@ -53,10 +52,10 @@
                         </p>
                         <div class="movie__btns">
                             <button @click="vidType = 'online'"
-                                :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">ONLAYN
+                                :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">SERIALNI
                                 KO'RISH</button>
                             <button @click="vidType = 'trailer'"
-                                :style="vidType == 'trailer' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">TREYLERINI
+                                :style="vidType == 'trailer' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">TREYLERNI
                                 KO'RISH</button>
                         </div>
                     </div>
@@ -71,7 +70,7 @@
                     </div>
                     <div class="movie-episods__wrapper">
                         <div class="movie-episods__item"
-                            :class="item?.id == episods?.data?.episodes[0]?.id ? 'active-item' : ''"
+                            
                             @click="getSeries(item?.id), checkSeries($event)" v-for="item in  episods?.data?.episodes"
                             :key="item">
                             <div class="movie-episods__item-img" style="pointer-events: none;">
@@ -180,11 +179,11 @@
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'videojs-hotkeys';
-
 const store = useStore();
 store.loader = true
 const { id } = useRoute().params;
 const player = ref()
+const videoPlayerCustom = ref()
 const comment = ref()
 const details = ref(null);
 const movies = ref([]);
@@ -197,6 +196,12 @@ const video_url = ref("")
 const img_url = ref("")
 
 const router = useRouter()
+
+function nextEpisode(i) {
+    console.log(i);
+    // getSeries(id)
+}
+
 
 
 function commentDate(d) {
@@ -248,13 +253,17 @@ async function getMovie(series) {
     details.value = res
     window.scrollTo(0, 0);
 }
-async function getSeries(id, e) {
-    const data = await $fetch(`${store.baseUrl}/management/episodes/${id}/`)
-    title.value = data?.title
-    video_url.value = data?.episode_content_url
-    img_url.value = data?.widescreen_thumbnail_image
-    var originalHTML = document.querySelector('.vd-serie').innerHTML;
-    document.querySelector('.vd-serie').innerHTML = originalHTML;
+const episodeId = ref(null)
+async function getSeries(episode, e) {
+    const data = await $fetch(`${store.baseUrl}/series/${id}/seasons/${episodeNumber.value}/episodes/${episode}/`, {
+        headers: {
+            Authorization: 'Bearer ' + store.token
+        }
+    })
+    episodeId.value = data?.data?.id
+
+    video_url.value = data?.data?.episode_content_url
+    img_url.value = data?.data?.thumbnail_image_url
 }
 function checkSeries(e) {
     document.querySelectorAll('.movie-episods__item').forEach(el => {
@@ -278,7 +287,7 @@ function openReply(id) {
 const repliesCom = ref(null)
 async function replie(parent) {
     console.log(parent);
-    const res = await $fetch(`${store.baseUrl}/management/comments/`, {
+    const res = await $fetch(`${store.baseUrl}/comments/`, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + store.token
@@ -287,7 +296,7 @@ async function replie(parent) {
             username: store.userInfo?.username,
             content: repliesCom.value,
             object_id: id,
-            content_type: 15,
+            content_type: 'SERIES',
             parent: parent
         }
     })
@@ -299,7 +308,7 @@ async function replie(parent) {
 
 
 async function sendComment() {
-    const res = await $fetch(`${store.baseUrl}/management/comments/`, {
+    const res = await $fetch(`${store.baseUrl}/comments/`, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + store.token
@@ -309,7 +318,7 @@ async function sendComment() {
             content: comment.value,
             object_id: id,
             parent: null,
-            content_type: 15
+            content_type: 'SERIES'
         }
     })
     if (res) {
@@ -332,6 +341,7 @@ async function getCategoriesMovie() {
     });
 }
 const episods = ref(null)
+const episodeNumber = ref(0)
 async function getEpisods(ep) {
     const data = await $fetch(store.baseUrl + '/series/' + id + `/seasons/${ep}/episodes/`, {
         method: 'GET',
@@ -339,6 +349,7 @@ async function getEpisods(ep) {
             'Authorization': 'Bearer ' + store.token
         }
     });
+    episodeNumber.value = ep
     episods.value = data
     getSeries(data?.data?.episodes[0]?.id)
 }
@@ -364,10 +375,10 @@ async function fetchData() {
             paymentTrue.value = true
         } else {
             paymentTrue.value = false
-            video_url.value = res?.data?.series_summary_url
+            // video_url.value = res?.data?.series_summary_url
         }
         title.value = res?.data?.title
-        img_url.value = res?.data?.widescreen_thumbnail_image
+        // img_url.value = res?.data?.widescreen_thumbnail_image
         details.value = res;
         getEpisods(res?.data?.seasons[0]?.id)
         await getCategoriesMovie()
@@ -377,6 +388,7 @@ async function fetchData() {
         store.loader = false;
     }
 }
+
 async function getDetilsComment() {
     const res = await $fetch(store.baseUrl + '/series/' + id + '/', {
         method: 'GET',
@@ -391,6 +403,7 @@ const movieOverlay = ref(true)
 
 const com = ref(false)
 onMounted(() => {
+    document.querySelectorAll('.movie-episods__seasons-item')[0].classList.add('active-btn')
     document.getElementById('video')?.childNodes[0]?.addEventListener('click', (e) => {
         if (e.target.paused == true) {
             movieOverlay.value = true
@@ -414,8 +427,10 @@ await fetchData();
 
 <style lang="scss">
 .active-btn {
-    background: rgba(28, 28, 28, 0.5);
-    color: #fff;
+    background: rgba($color: #fff, $alpha: 1) !important;
+    color: #000 !important;
+    border-color: transparent !important;
+
 }
 
 .active-item {

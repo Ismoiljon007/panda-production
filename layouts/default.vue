@@ -108,7 +108,7 @@
             </form>
             <ul class="search-list" v-if="searchData?.length">
                 <li v-for="item in searchData" :key="item">
-                    <NuxtLink @click="store.search_open = false, searchData = []" :to="`/watch/${item?.id}`">
+                    <NuxtLink @click="store.search_open = false,store.overlay = false, searchData = []" :to="`/watch/${item?.id}`">
                         <img :src="item?.thumbnail_image" alt="">
                         <div class="wrapper">
                             {{ item?.title }}

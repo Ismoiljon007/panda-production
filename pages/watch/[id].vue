@@ -41,7 +41,7 @@
                         <div class="movie__info-list">
                             <li style="display: flex;">Sanasi: <span style="margin-right: auto;">{{
                                 details?.data?.release_date }}</span> Davomiyligi: <span style="margin-right: auto;">{{
-        sanlarniChiqarish(details?.data?.duration_minute) }}</span></li>
+        convertMinutesToHHMM(details?.data?.duration_minute) }}</span></li>
                             <li>Janr: <span v-for="genre in details?.data?.genre" :key="genre">{{ genre.name }} <span
                                         :style="details?.data?.genre[details?.data?.genre?.length - 1].name == genre.name ? 'display: none;' : ''">/
                                     </span></span>
@@ -53,10 +53,10 @@
                         </p>
                         <div class="movie__btns">
                             <button @click="vidType = 'online'"
-                                :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">ONLAYN
+                                :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">KINONI
                                 KO'RISH</button>
                             <button @click="vidType = 'trailer'"
-                                :style="vidType == 'trailer' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">TREYLERINI
+                                :style="vidType == 'trailer' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">TREYLERNI
                                 KO'RISH</button>
                         </div>
                     </div>
@@ -216,7 +216,7 @@ function commentDate(d) {
 const repliesCom = ref(null)
 async function replie(parent) {
     console.log(parent);
-    const res = await $fetch(`${store.baseUrl}/management/comments/`, {
+    const res = await $fetch(`${store.baseUrl}/comments/`, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + store.token
@@ -225,7 +225,7 @@ async function replie(parent) {
             username: store.userInfo?.username,
             content: repliesCom.value,
             object_id: id,
-            content_type: 15,
+            content_type: 'MOVIE',
             parent: parent
         }
     })
@@ -237,10 +237,15 @@ async function replie(parent) {
 const paymentTrue = ref(true)
 
 
-function sanlarniChiqarish(daqiqa) {
-    const hours = Math.floor(daqiqa / 60);
-    const remainingMinutes = daqiqa % 60;
-    return `${hours}:${remainingMinutes}`
+function convertMinutesToHHMM(minutes) {
+    var hours = Math.floor(minutes / 60);
+    var remainingMinutes = minutes % 60;
+
+    // Ensure that the hours and minutes are formatted with leading zeros if needed
+    var formattedHours = hours < 10 ? '0' + hours : hours;
+    var formattedMinutes = remainingMinutes < 10 ? '0' + remainingMinutes : remainingMinutes;
+
+    return formattedHours + ':' + formattedMinutes;
 }
 
 
@@ -253,7 +258,7 @@ const router = useRouter()
 
 
 async function sendComment() {
-    const res = await $fetch(`${store.baseUrl}/management/comments/`, {
+    const res = await $fetch(`${store.baseUrl}/comments/`, {
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + store.token
@@ -263,7 +268,7 @@ async function sendComment() {
             content: comment.value,
             object_id: id,
             parent: null,
-            content_type: 17
+            content_type: 'MOVIE'
         }
     })
     if (res) {
@@ -373,4 +378,5 @@ await fetchData();
 .for {
     position: absolute;
     top: 50%;
-}</style>
+}
+</style>

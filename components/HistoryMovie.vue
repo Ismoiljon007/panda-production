@@ -10,11 +10,11 @@
                 </svg>
             </button>
             <NuxtLink
-                :to="store.token == null ? '/login' : movie?.content_type == 'movie' ? `/watch/${movie?.content_id}` : `/series/${movie?.content_id}`">
+                :to="store.token == null ? '/login' : movie?.content_type == 'movie' ? `/watch/${movie?.content_id}` : `/series/${movie?.series_id}`">
                 <img class="img"
-                    :src="movie?.thumbnail_image.includes(store.baseUrl) ? movie?.thumbnail_image : 'https://gateway.pandatv.uz' + movie?.thumbnail_image"
+                    :src="movie?.thumbnail_image?.includes(store.baseUrl) ? movie?.thumbnail_image : 'https://gateway.pandatv.uz' + movie?.thumbnail_image"
                     alt="">
-                    <div class="prograss" :style="`width: ${lastPosition}%;`"></div>
+                <div class="prograss" :style="`width: ${lastPosition}%;`"></div>
                 <button class="movie-card__play">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="19" viewBox="0 0 16 19" fill="none">
                         <path
@@ -128,22 +128,26 @@ const activeSave = computed(() => {
 const lastPosition = ref(0)
 async function getLastPosition() {
     const sec = movie?.duration_minute * 60
-    const data = await $fetch(store.analiticsUrl + '/last-watched-position/' + store.userInfo?.id + '/' + movie?.content_id + '/')
-    lastPosition.value = (data?.data?.playback_position / sec) * 100
+    if (movie?.content_id) {
+        const data = await $fetch(store.analiticsUrl + '/last-watched-position/' + store.userInfo?.id + '/' + movie?.content_id + '/' + movie?.content_type + '/')
+        lastPosition.value = (data?.data?.playback_position / sec) * 100
+    }
 }
 onMounted(() => {
-    getLastPosition()
-    // console.log(lastPosition.value);
-
+    setTimeout(() => {
+        getLastPosition()
+    }, 1000)
 })
 </script>
 
 <style lang="scss">
 .prograss {
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     left: 0;
     background: red;
     height: 2px;
+    z-index: 2;
+    margin: 0 5px;
 }
 </style>
