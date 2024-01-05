@@ -160,9 +160,7 @@
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'videojs-hotkeys';
-import hlsQualitySelector from "videojs-hls-quality-selector";
 
-videojs.registerPlugin("hlsQualitySelector", hlsQualitySelector);
 const store = useStore();
 store.loader = true
 
