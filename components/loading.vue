@@ -7,8 +7,6 @@
 <script setup>
 import { useStore } from '~/store/store';
 const store = useStore()
-store.loader = true
-
 </script>
 
 <style lang="scss" scoped>
