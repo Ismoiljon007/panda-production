@@ -4,7 +4,16 @@
         type: 'application/x-mpegURL',
         withCredentials: false,
     }]" :aspectRatio="'16:9'" :plugins="{
-
+    hotkeys: {
+        volumeStep: 0.1,
+        seekStep: 5,
+        enableModifiersForNumbers: true,
+        enableVolumeScroll: false,
+    },
+    seekButtons: {
+        forward: 30,
+        back: 10
+    },
 }" :fluid="true" :html5="{
     nativeAudioTracks: false,
     nativeVideoTracks: false,
@@ -18,9 +27,10 @@
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
-
-// import 'videojs-hotkeys';
-
+import 'videojs-contrib-quality-levels';
+import 'videojs-hotkeys';
+import 'videojs-seek-buttons';
+import videojsqualityselector from 'videojs-hls-quality-selector';
 const { item } = defineProps(['item'])
 
 console.log(item?.id);
@@ -73,8 +83,8 @@ const emit = defineEmits(['nextepisode'])
 getWatchTime()
 onMounted(() => {
     const player = videojs(document.querySelector('.video-js'))
-    // player.hlsQualitySelector = videojsqualityselector;
-    // player.hlsQualitySelector();
+    player.hlsQualitySelector = videojsqualityselector;
+    player.hlsQualitySelector();
     player.on("play", (e) => {
         player.bigPlayButton.hide();
     });

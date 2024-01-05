@@ -7,9 +7,10 @@
 import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
-
-// import 'videojs-hotkeys';
-
+import 'videojs-contrib-quality-levels';
+import 'videojs-hotkeys';
+import 'videojs-seek-buttons';
+import videojsqualityselector from 'videojs-hls-quality-selector';
 const videoPlayer = ref()
 const { item } = defineProps(['item'])
 const store = useStore()
@@ -79,13 +80,16 @@ onMounted(() => {
 
         poster: item.img,
         plugins: {
-            // hotkeys: {
-            //     volumeStep: 0.1,
-            //     seekStep: 5,
-            //     enableModifiersForNumbers: true,
-            //     enableVolumeScroll: false,
-            // },
-
+            hotkeys: {
+                volumeStep: 0.1,
+                seekStep: 5,
+                enableModifiersForNumbers: true,
+                enableVolumeScroll: false,
+            },
+            seekButtons: {
+                forward: 30,
+                back: 10
+            },
         },
         sources: [{
             src: item.url,
@@ -93,8 +97,8 @@ onMounted(() => {
             withCredentials: false,
         }]
     });
-    // player.hlsQualitySelector = videojsqualityselector;
-    // player.hlsQualitySelector();
+    player.hlsQualitySelector = videojsqualityselector;
+    player.hlsQualitySelector();
     player.on("play", (e) => {
         player.bigPlayButton.hide();
     });
