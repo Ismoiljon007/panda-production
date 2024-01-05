@@ -16,7 +16,6 @@
     "sass-loader": "^13.3.2"
   },
   "dependencies": {
-    "@nuxt/ui": "^2.11.1",
     "@pinia/nuxt": "^0.4.11",
     "@videojs-player/vue": "^1.0.0",
     "imask": "^7.1.3",
