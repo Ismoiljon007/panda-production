@@ -8,7 +8,7 @@ import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
 
-import 'videojs-hotkeys';
+// import 'videojs-hotkeys';
 
 const videoPlayer = ref()
 const { item } = defineProps(['item'])
@@ -79,12 +79,12 @@ onMounted(() => {
 
         poster: item.img,
         plugins: {
-            hotkeys: {
-                volumeStep: 0.1,
-                seekStep: 5,
-                enableModifiersForNumbers: true,
-                enableVolumeScroll: false,
-            },
+            // hotkeys: {
+            //     volumeStep: 0.1,
+            //     seekStep: 5,
+            //     enableModifiersForNumbers: true,
+            //     enableVolumeScroll: false,
+            // },
 
         },
         sources: [{

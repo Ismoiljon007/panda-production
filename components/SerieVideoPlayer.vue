@@ -4,12 +4,6 @@
         type: 'application/x-mpegURL',
         withCredentials: false,
     }]" :aspectRatio="'16:9'" :plugins="{
-    hotkeys: {
-        volumeStep: 0.1,
-        seekStep: 5,
-        enableModifiersForNumbers: true,
-        enableVolumeScroll: false,
-    },
 
 }" :fluid="true" :html5="{
     nativeAudioTracks: false,
@@ -25,7 +19,7 @@ import { useStore } from '~/store/store';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'
 
-import 'videojs-hotkeys';
+// import 'videojs-hotkeys';
 
 const { item } = defineProps(['item'])
 
