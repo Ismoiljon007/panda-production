@@ -1,6 +1,6 @@
 <template>
   <div class="overlay" v-if="store.overlay" @click="store.overlay = false, store.search_open = false"></div>
-  <NuxtLayout />
+  <!-- <NuxtLayout /> -->
   <loading />
   <div class="add" v-if="add">
     <img src="@/assets/images/png/reklama.png" alt="">
