@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@nuxt/ui": "^2.11.1",
-    "@pinia/nuxt": "^0.4.11",
+    "@pinia/nuxt": "0.4.7",
     "nuxt-swiper": "^1.2.0",
     "vue-awesome-paginate": "^1.1.46",
     "vue-gtag-next": "^1.14.0",

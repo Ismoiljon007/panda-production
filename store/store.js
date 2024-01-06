@@ -18,7 +18,6 @@ export const useStore = defineStore("store", () => {
     typeof window !== "undefined"
       ? localStorage.getItem("access__token")
       : null;
-  const runtimeConfig = useRuntimeConfig();
   const categories = ref(null);
   async function getCategory() {
     const data = await $fetch(baseUrl + `/category/`);
