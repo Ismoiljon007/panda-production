@@ -1,13 +1,9 @@
 <template>
-  <div>
-
-  </div>
+  <div class="overlay" v-if="store.overlay" @click="store.overlay = false, store.search_open = false"></div>
+  <h2>hello</h2>
 </template>
-
 <script setup>
-
+import { useStore } from '~/store/store';
+const store = useStore()
+const add = ref(false)
 </script>
-
-<style lang="scss" scoped>
-
-</style>
