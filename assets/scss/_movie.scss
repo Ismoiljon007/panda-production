@@ -240,7 +240,10 @@
     }
   }
   &__comment-write {
-    margin-bottom: 80px;
+    margin-bottom: 70px;
+    @include media(768px) {
+      margin-bottom: 55px;
+    }
     textarea {
       width: 100%;
       resize: none;
@@ -280,6 +283,12 @@
     overflow: hidden;
     position: relative;
     margin-bottom: 20px;
+    .mt-com {
+      margin-top: 30px;
+      @include media(810px) {
+        margin-top: 35px;
+      }
+    }
     // &::after {
     //   content: "";
     //   position: absolute;
@@ -313,9 +322,7 @@
       width: 100%;
       max-width: 859px;
       gap: 30px;
-      @include media(600px) {
-        gap: 10px;
-      }
+      
       textarea {
         width: 100%;
         height: 140px;
@@ -356,11 +363,12 @@
     }
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    list-style: none;
-    @include media(600px) {
-      gap: 10px;
+    gap: 30px;
+    @include media(810px) {
+      gap: 35px;
     }
+
+    list-style: none;
     &-item {
       &-wrapper {
         display: flex;
@@ -372,7 +380,6 @@
       ul {
         margin-left: 125px;
         list-style: none;
-        margin-top: 40px;
         display: flex;
         flex-direction: column;
         gap: 30px;

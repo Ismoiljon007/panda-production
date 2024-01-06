@@ -53,7 +53,7 @@
                         </p>
                         <div class="movie__btns">
                             <button @click="vidType = 'online'"
-                                :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">KINONI
+                                :style="vidType == 'online' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">
                                 KO'RISH</button>
                             <button @click="vidType = 'trailer'"
                                 :style="vidType == 'trailer' ? 'background-color: #fff; color: rgba(28, 28, 28, 1)' : ''">TREYLERNI
@@ -93,8 +93,9 @@
                         </div>
 
 
-                        <ul class="movie__comments-item__inner">
-                            <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
+                        <ul class="movie__comments-item__inner" :class="item?.replies.length ? 'mt-com' : ''">
+                            <div class="movie__comments-reply" style="display: none;"
+                                :class="`reply-${item.id} ${item?.replies.length == 0 ? 'mt-com' : ''}`">
                                 <div class="movie__comments-item-img">{{
                                     store.userInfo?.username.charAt().toUpperCase() }}
                                 </div>
@@ -114,7 +115,8 @@
                                         <div class="movie__comments-item-text-wr">
                                             <h4 class="movie__comments-item-name">{{ el?.username }} <span>{{
                                                 commentDate(el?.created_at) }} oldin</span></h4>
-                                            <p class="movie__comments-item-desc">{{ el?.content }}</p>
+                                            <p class="movie__comments-item-desc" style="margin-bottom: 0px;">{{ el?.content
+                                            }}</p>
                                             <div class="movie__comments-item-btns">
                                                 <!-- <button>
                                                     <img src="@/assets/images/svg/heart.svg" alt="">
