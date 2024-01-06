@@ -6,4 +6,5 @@ export default defineNuxtConfig({
   routeRules: {
     "/categorie/**": { ssr: false },
   },
+  ssr: false,
 });
