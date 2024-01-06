@@ -263,7 +263,7 @@ function yearGet(y) {
     const year = dateObject.getFullYear();
     return year
 }
-store.getCategory()
+store.getCategories()
 const searchEvent = ref("")
 const router = useRouter()
 if (typeof window !== 'undefined') {
