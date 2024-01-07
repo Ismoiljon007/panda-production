@@ -50,7 +50,7 @@
         </div>
 
         <div class="movie-card__badge-wrapper">
-            <span class="movie-card__badge-quality">Full HD</span>
+            <span class="movie-card__badge-quality">{{ movie?.is_free ? 'BEPUL' : 'OBUNA'  }}</span>
             <span class="movie-card__badge-new" v-if="movie?.is_premiere">NEW</span>
         </div>
 

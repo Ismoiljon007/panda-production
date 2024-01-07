@@ -73,7 +73,7 @@
                     <li class="movie__comments-item comment-item"
                         v-for="(item) in details?.data?.comments.slice(...countComment)" :key="item">
                         <div class="movie__comments-item-wrapper">
-                            <div class="movie__comments-item-img">
+                            <div class="movie__comments-item-img" :style="`background: ${randomColor()}`">
                                 {{ item.username.charAt().toUpperCase() }}
                             </div>
                             <div class="movie__comments-item-text-wr">
@@ -81,10 +81,10 @@
                                     commentDate(item?.created_at) }} oldin</span></h4>
                                 <p class="movie__comments-item-desc">{{ item?.content }}</p>
                                 <div class="movie__comments-item-btns">
-                                    <!-- <button>
+                                    <button>
                                         <img src="@/assets/images/svg/heart.svg" alt="">
-                                        <span>Yoqdi(30)</span>
-                                    </button> -->
+                                        <span>(30)</span>
+                                    </button>
                                     <button @click="openReply(item?.id, item?.replies.length)">
                                         <img src="@/assets/images/svg/send.svg" alt="">
                                         <span>Javob qaytarish</span>
@@ -114,7 +114,7 @@
                                 :class="`cms-${item?.id}`" class="wr-comments">
                                 <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
                                     <div class="movie__comments-item-wrapper">
-                                        <div class="movie__comments-item-img">
+                                        <div class="movie__comments-item-img" :style="`background: ${randomColor()}`">
                                             {{ el?.username.charAt().toUpperCase() }}
                                         </div>
                                         <div class="movie__comments-item-text-wr">
@@ -142,7 +142,7 @@
                     </li>
                     <div class="comment-overlay" v-if="countComment.length != 1"
                         :style="`display: ${details?.data?.comments.length > 5 ? 'flex' : 'none'}`">
-                        <span @click="viewAllComments()">Barcha sharhlarni ko'rish</span>
+                        <span @click="viewAllComments()">Barcha sharhlar...</span>
                     </div>
                 </ul>
                 <div class="movie__navigations">
@@ -176,7 +176,12 @@ import 'videojs-hotkeys';
 const store = useStore();
 store.loader = true
 
+function randomColor() {
+    const colors = ['#814814', '#143F81', '#811462', '#148139', '#811414', '#817C14']
+    let index = Math.floor(Math.random() * colors.length)
 
+    return colors[index]
+}
 
 
 const { id } = useRoute().params;

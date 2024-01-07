@@ -65,7 +65,7 @@ main {
     z-index: 1;
     gap: 5px;
     span {
-      @include font(900, 16px, 1.2);
+      @include font(700, 16px, 1.2);
       letter-spacing: -0.16px;
       width: 76px;
       border-radius: 0px 15px 15px 0px;
