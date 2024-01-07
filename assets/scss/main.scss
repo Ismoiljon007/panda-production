@@ -74,9 +74,9 @@ main {
       justify-content: center;
       padding: 3px 8px;
       @include media(850px) {
-        width: 66px;
+        font-size: 10px;
         font-weight: 600;
-        font-size: 14px;
+        width: 58px;
       }
     }
   }
@@ -124,13 +124,13 @@ main {
     display: flex;
     align-items: flex-end;
     gap: 5px;
-    @include font(400,18px,1.2);
+    @include font(400, 18px, 1.2);
     letter-spacing: -0.24px;
     color: #fff;
     z-index: 2;
     opacity: 0;
     pointer-events: none;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
   }
   &__save {
     position: absolute;
@@ -198,7 +198,6 @@ main {
           opacity: 1;
         }
       }
-    
     }
     a {
       height: 100%;
