@@ -99,12 +99,12 @@ store.loader = true
 useHead({
     title: "PandaTV.uz - kino va seriallar eng yaxshi sifatda.",
     meta: [
-        { hid: 'description', name: 'description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
-        { hid: 'og:title', property: 'og:title', content: "PandaTV.uz - kino va seriallar eng yaxshi sifatda." },
-        { hid: 'og:description', property: 'og:description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
-        { hid: 'og:image', property: 'og:image', content: '/panda-icon-2.png' },
-        { hid: 'og:url', property: 'og:url', content: 'https://pandaatv.netlify.app' },
-        { hid: 'telegram:channel', property: 'telegram:channel', content: 'https://t.me/azamataxrorov1' },
+        { name: 'description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
+        { property: 'og:title', content: "PandaTV.uz - kino va seriallar eng yaxshi sifatda." },
+        { property: 'og:description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
+        { property: 'og:image', content: '/panda-icon-2.png' },
+        { property: 'og:url', content: 'https://pandatv.uz/' },
+        { property: 'telegram:channel', content: 'https://t.me/azamataxrorov1' },
     ],
 })
 const banners = ref(null)
