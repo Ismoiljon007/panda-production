@@ -407,6 +407,10 @@
       @include media(770px) {
         font-size: 16px;
       }
+      transition: all .3s ease;
+      &:hover {
+        color: #fff;
+      }
       &-img {
         width: 39px;
         height: 39px;
@@ -444,6 +448,20 @@
       border-radius: 50%;
       background: #242424;
       border: 1px solid transparent;
+      transition: all 0.3s ease;
+      svg {
+        path {
+          transition: all 0.3s ease;
+        }
+      }
+      &:hover {
+        svg {
+          path {
+            fill: #fff;
+          }
+        }
+        border-color: #fff;
+      }
       &:first-child {
         svg {
           transform: translateX(-1px);

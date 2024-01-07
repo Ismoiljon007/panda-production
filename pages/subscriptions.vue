@@ -88,7 +88,7 @@ async function getPlans() {
 }
 function pay(id, name, price) {
     store.planId = id
-    store.plan_name = name + ', ' + 'price: ' + price
+    store.plan_name = name + ', ' + 'narxi: ' + price
     router.push('/payment')
 }
 getPlans()

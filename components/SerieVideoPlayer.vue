@@ -84,15 +84,19 @@ getWatchTime()
 onMounted(() => {
     const player = videojs(document.querySelector('.video-js'))
     player.hlsQualitySelector = videojsqualityselector;
-    player.hlsQualitySelector();
+    player.hlsQualitySelector({
+        displayCurrentQuality: true
+    });
     player.on("play", (e) => {
         player.bigPlayButton.hide();
     });
     var currentTimeEnd = player.currentTime();
-// console.log(watcheTime.value);
-    if (watcheTime.value?.data?.playback_position < currentTimeEnd) {
-        player.currentTime(watcheTime.value?.data?.playback_position)
-    }
+    player.on('loadedmetadata', function () {
+        var durationInSeconds = player.duration();
+        if (watcheTime.value?.data?.playback_position < durationInSeconds) {
+            player.currentTime(watcheTime.value?.data?.playback_position)
+        }
+    });
     player.on("pause", (e) => {
         player.bigPlayButton.show();
     });
@@ -376,6 +380,7 @@ onMounted(() => {
 
 .vjs-quality-selector {
     order: 9 !important;
+    margin-top: 10px !important;
 }
 </style>
   

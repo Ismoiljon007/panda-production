@@ -136,22 +136,16 @@
                     </a>
                 </div>
                 <div class="footer-connection">
-                    <a href="#" class="footer-connection__item">
+                    <a href="tel:+998958000557" class="footer-connection__item">
                         <div class="footer-connection__item-img">
                             <img src="@/assets/images/svg/phone-call.svg" alt="">
                         </div>
-                        <span>+998 97 666 25 84</span>
-                    </a>
-                    <a href="#" class="footer-connection__item">
-                        <div class="footer-connection__item-img">
-                            <img src="@/assets/images/svg/envelope.svg" alt="">
-                        </div>
-                        <span>pandafilms@gmail.com</span>
+                        <span>+998 95 800 05 57</span>
                     </a>
                 </div>
                 <ul class="footer-social">
                     <li>
-                        <a href="#">
+                        <a href="https://t.me/azamataxrorov1" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                                 <g clip-path="url(#clip0_921_748)">
                                     <path
@@ -168,7 +162,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="https://www.instagram.com/pandaproductionfilms?igsh=aWVwanI1dDZ0czU=" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
                                 <g clip-path="url(#clip0_921_752)">
                                     <path
@@ -191,24 +185,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                <g clip-path="url(#clip0_921_767)">
-                                    <path
-                                        d="M13.6887 0.155166L11.4915 0.151611C9.02299 0.151611 7.42774 1.80195 7.42774 4.35629V6.29493H5.21854C5.02764 6.29493 4.87305 6.45099 4.87305 6.64349V9.45235C4.87305 9.64485 5.02781 9.80073 5.21854 9.80073H7.42774V16.8884C7.42774 17.0809 7.58233 17.2368 7.77323 17.2368H10.6556C10.8465 17.2368 11.0011 17.0807 11.0011 16.8884V9.80073H13.5842C13.7751 9.80073 13.9297 9.64485 13.9297 9.45235L13.9307 6.64349C13.9307 6.55106 13.8942 6.46254 13.8295 6.39714C13.7648 6.33173 13.6767 6.29493 13.585 6.29493H11.0011V4.65152C11.0011 3.86163 11.1878 3.46065 12.2082 3.46065L13.6883 3.46011C13.8791 3.46011 14.0337 3.30406 14.0337 3.11174V0.503542C14.0337 0.311402 13.8792 0.155522 13.6887 0.155166Z"
-                                        fill="#8F8E94" />
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_921_767">
-                                        <rect width="16.9438" height="17.0852" fill="white"
-                                            transform="translate(0.981445 0.151611)" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
+                        <a href="https://youtube.com/@azamataxrorov5524?si=oa7CeWd2PJu_R7Qm" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="17" viewBox="0 0 18 17" fill="none">
                                 <g clip-path="url(#clip0_921_763)">
                                     <path
@@ -229,7 +206,7 @@
         </div>
         <div class="footer__bottom">
             <div class="container">
-                <div class="footer__desc">© 2023 barcha huquqlar himoyalangan <a href="#">www.Pandafilms.com</a></div>
+                <div class="footer__desc">© {{ new Date().getFullYear() }} barcha huquqlar himoyalangan <a href="https://pandatv.uz/">www.pandatv.uz</a></div>
             </div>
         </div>
     </footer>
@@ -328,9 +305,9 @@ const updateScroll = () => {
 watchEffect(() => {
     if (typeof window == "object") {
         if (store.loader == true) {
-            document.querySelector('body').style.overflow = 'hidden'
+            document.querySelector('html').style.overflow = 'hidden'
         } else {
-            document.querySelector('body').style.overflow = 'visible'
+            document.querySelector('html').style.overflow = 'visible'
         }
         if (store.search_open) {
             setTimeout(() => {

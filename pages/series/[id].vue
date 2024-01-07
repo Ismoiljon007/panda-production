@@ -81,15 +81,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="movie__adds">
+                <!-- <div class="movie__adds">
                     <img src="@/assets/images/png/reklama.png" alt="">
-                </div>
+                </div> -->
                 <form class="movie__comment-write" action="#" @submit.prevent="sendComment()">
                     <textarea placeholder="Fikr bildirish..." v-model="comment"></textarea>
                     <button><img src="@/assets/images/svg/navigation.svg" alt=""> Jo‘natish</button>
                 </form>
                 <ul class="movie__comments">
-                    <li class="movie__comments-item comment-item" v-for="(item) in details?.data?.comments" :key="item">
+                    <li class="movie__comments-item comment-item"
+                        v-for="(item) in details?.data?.comments.slice(...countComment)" :key="item">
                         <div class="movie__comments-item-wrapper">
                             <div class="movie__comments-item-img">
                                 {{ item.username.charAt().toUpperCase() }}
@@ -103,17 +104,21 @@
                                         <img src="@/assets/images/svg/heart.svg" alt="">
                                         <span>Yoqdi(30)</span>
                                     </button> -->
-                                    <button @click="openReply(item?.id)">
+                                    <button @click="openReply(item?.id, item?.replies.length)">
                                         <img src="@/assets/images/svg/send.svg" alt="">
                                         <span>Javob qaytarish</span>
                                     </button>
                                 </div>
+                                <button v-if="item?.replies.length" class="all-comments"
+                                    @click="openAllCommnets(item?.id, item?.replies.length, $event)">
+                                    <img width="20" height="20" src="@/assets/images/svg/comment-arr.svg" alt="">
+                                    <span>({{ item?.replies.length }}) Barcha javoblar</span>
+                                </button>
                             </div>
                         </div>
-
-
                         <ul class="movie__comments-item__inner">
-                            <div class="movie__comments-reply" style="display: none;" :class="`reply-${item.id}`">
+                            <div class="movie__comments-reply" style="display: none;"
+                                :class="`reply-${item.id} ${item?.replies.length == 0 ? 'mt-com' : ''}`">
                                 <div class="movie__comments-item-img">{{
                                     store.userInfo?.username.charAt().toUpperCase() }}
                                 </div>
@@ -124,7 +129,8 @@
                                         Jo‘natish</button>
                                 </div>
                             </div>
-                            <div v-if="item?.replies.length" class="wr-comments">
+                            <div v-if="item?.replies.length" :data-comments="item?.id" style="display: none"
+                                :class="`cms-${item?.id}`" class="wr-comments">
                                 <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
                                     <div class="movie__comments-item-wrapper">
                                         <div class="movie__comments-item-img">
@@ -133,7 +139,8 @@
                                         <div class="movie__comments-item-text-wr">
                                             <h4 class="movie__comments-item-name">{{ el?.username }} <span>{{
                                                 commentDate(el?.created_at) }} oldin</span></h4>
-                                            <p class="movie__comments-item-desc">{{ el?.content }}</p>
+                                            <p class="movie__comments-item-desc" style="margin-bottom: 0px;">{{ el?.content
+                                            }}</p>
                                             <div class="movie__comments-item-btns">
                                                 <!-- <button>
                                                     <img src="@/assets/images/svg/heart.svg" alt="">
@@ -152,6 +159,10 @@
                             </div>
                         </ul>
                     </li>
+                    <div class="comment-overlay" v-if="countComment.length != 1"
+                        :style="`display: ${details?.data?.comments.length > 5 ? 'flex' : 'none'}`">
+                        <span @click="viewAllComments()">Barcha sharhlarni ko'rish</span>
+                    </div>
                 </ul>
                 <div class="movie__navigations">
                     <button class="movie__left"><img src="@/assets/images/svg/left.svg" alt=""></button>
@@ -275,14 +286,44 @@ function checkSeries(e) {
     })
 }
 
-
-function openReply(id) {
+function openReply(id, rep) {
     if (document.querySelector(`.reply-${id}`).style.display == 'none') {
         document.querySelector(`.reply-${id}`).style.display = 'flex'
     } else {
         document.querySelector(`.reply-${id}`).style.display = 'none'
     }
-    // document.querySelector(`reply-${id}`).style.display == 'none' ? 'flex' : 'none'
+    document.querySelectorAll('.wr-comments').forEach(el => {
+        if (el.getAttribute('data-comments') == id) {
+            if (el.style.display == 'none') {
+                document.querySelector(`.reply-${id}`).classList.add('mt-com')
+            } else {
+                document.querySelector(`.reply-${id}`).classList.remove('mt-com')
+            }
+        }
+    })
+}
+
+
+function openAllCommnets(id, rep, e) {
+    document.querySelectorAll('.wr-comments').forEach(el => {
+        if (el.getAttribute('data-comments') == id) {
+            if (el.style.display == 'none') {
+                el.style.display = 'flex'
+                el.parentElement.classList.add('mt-com')
+                document.querySelector(`.reply-${id}`).classList.remove('mt-com')
+                e.target.childNodes[0].style.rotate = '180deg'
+            } else {
+                el.style.display = 'none'
+                el.parentElement.classList.remove('mt-com')
+                e.target.childNodes[0].style.rotate = '0deg'
+                document.querySelector(`.reply-${id}`).classList.add('mt-com')
+            }
+        }
+    })
+}
+const countComment = ref([0, 5])
+function viewAllComments() {
+    countComment.value = [0]
 }
 const repliesCom = ref(null)
 async function replie(parent) {

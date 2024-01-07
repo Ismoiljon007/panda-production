@@ -70,7 +70,8 @@
                     <button><img src="@/assets/images/svg/navigation.svg" alt=""> Jo‘natish</button>
                 </form>
                 <ul class="movie__comments">
-                    <li class="movie__comments-item comment-item" v-for="(item) in details?.data?.comments" :key="item">
+                    <li class="movie__comments-item comment-item"
+                        v-for="(item) in details?.data?.comments.slice(...countComment)" :key="item">
                         <div class="movie__comments-item-wrapper">
                             <div class="movie__comments-item-img">
                                 {{ item.username.charAt().toUpperCase() }}
@@ -84,16 +85,19 @@
                                         <img src="@/assets/images/svg/heart.svg" alt="">
                                         <span>Yoqdi(30)</span>
                                     </button> -->
-                                    <button @click="openReply(item?.id)">
+                                    <button @click="openReply(item?.id, item?.replies.length)">
                                         <img src="@/assets/images/svg/send.svg" alt="">
                                         <span>Javob qaytarish</span>
                                     </button>
                                 </div>
+                                <button v-if="item?.replies.length" class="all-comments"
+                                    @click="openAllCommnets(item?.id, item?.replies.length, $event)">
+                                    <img width="20" height="20" src="@/assets/images/svg/comment-arr.svg" alt="">
+                                    <span>({{ item?.replies.length }}) Barcha javoblar</span>
+                                </button>
                             </div>
                         </div>
-
-
-                        <ul class="movie__comments-item__inner" :class="item?.replies.length ? 'mt-com' : ''">
+                        <ul class="movie__comments-item__inner">
                             <div class="movie__comments-reply" style="display: none;"
                                 :class="`reply-${item.id} ${item?.replies.length == 0 ? 'mt-com' : ''}`">
                                 <div class="movie__comments-item-img">{{
@@ -106,7 +110,8 @@
                                         Jo‘natish</button>
                                 </div>
                             </div>
-                            <div v-if="item?.replies.length" class="wr-comments">
+                            <div v-if="item?.replies.length" :data-comments="item?.id" style="display: none"
+                                :class="`cms-${item?.id}`" class="wr-comments">
                                 <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
                                     <div class="movie__comments-item-wrapper">
                                         <div class="movie__comments-item-img">
@@ -135,6 +140,10 @@
                             </div>
                         </ul>
                     </li>
+                    <div class="comment-overlay" v-if="countComment.length != 1"
+                        :style="`display: ${details?.data?.comments.length > 5 ? 'flex' : 'none'}`">
+                        <span @click="viewAllComments()">Barcha sharhlarni ko'rish</span>
+                    </div>
                 </ul>
                 <div class="movie__navigations">
                     <button class="movie__left"><img src="@/assets/images/svg/left.svg" alt=""></button>
@@ -149,7 +158,8 @@
                             spaceBetween: 10
                         },
                     }">
-                    <SwiperSlide v-for="item in movies[0]" :key="item" class="movie__slide">
+                    <SwiperSlide v-for="item in movies" :key="item" :style="item?.id == id ? 'display: none;' : ''"
+                        class="movie__slide">
                         <movie-card :movie="item" />
                     </SwiperSlide>
                 </Swiper>
@@ -166,19 +176,55 @@ import 'videojs-hotkeys';
 const store = useStore();
 store.loader = true
 
+
+
+
 const { id } = useRoute().params;
 const player = ref()
 const comment = ref()
 const details = ref(null);
 const movies = ref([]);
 const vidType = ref('online')
-function openReply(id) {
+function openReply(id, rep) {
     if (document.querySelector(`.reply-${id}`).style.display == 'none') {
         document.querySelector(`.reply-${id}`).style.display = 'flex'
     } else {
         document.querySelector(`.reply-${id}`).style.display = 'none'
     }
+    document.querySelectorAll('.wr-comments').forEach(el => {
+        if (el.getAttribute('data-comments') == id) {
+            if (el.style.display == 'none') {
+                document.querySelector(`.reply-${id}`).classList.add('mt-com')
+            } else {
+                document.querySelector(`.reply-${id}`).classList.remove('mt-com')
+            }
+        }
+    })
 }
+
+
+function openAllCommnets(id, rep, e) {
+    document.querySelectorAll('.wr-comments').forEach(el => {
+        if (el.getAttribute('data-comments') == id) {
+            if (el.style.display == 'none') {
+                el.style.display = 'flex'
+                el.parentElement.classList.add('mt-com')
+                document.querySelector(`.reply-${id}`).classList.remove('mt-com')
+                e.target.childNodes[0].style.rotate = '180deg'
+            } else {
+                el.style.display = 'none'
+                el.parentElement.classList.remove('mt-com')
+                e.target.childNodes[0].style.rotate = '0deg'
+                document.querySelector(`.reply-${id}`).classList.add('mt-com')
+            }
+        }
+    })
+}
+const countComment = ref([0, 5])
+function viewAllComments() {
+    countComment.value = [0]
+}
+
 function commentDate(d) {
 
     const inputDate = new Date(d);
@@ -215,7 +261,6 @@ function commentDate(d) {
 }
 const repliesCom = ref(null)
 async function replie(parent) {
-    console.log(parent);
     const res = await $fetch(`${store.baseUrl}/comments/`, {
         method: 'POST',
         headers: {
@@ -276,19 +321,14 @@ async function sendComment() {
         comment.value = ""
     }
 }
-async function getCategoriesMovie() {
-    const fetchPromises = store.categories.data.categories.map(el =>
-        $fetch(`${store.baseUrl}/category/${el.id}/content/`, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + store.token
-            }
-        })
-    );
-    const results = await Promise.all(fetchPromises);
-    results.forEach((data, index) => {
-        movies.value[index] = data.data.content;
-    });
+async function getCategoriesMovie(category) {
+    const data = await $fetch(`${store.baseUrl}/category/${category}/content/`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + store.token
+        }
+    })
+    movies.value = data?.data?.content
 }
 async function fetchData() {
     store.loader = true;
@@ -305,10 +345,10 @@ async function fetchData() {
             paymentTrue.value = false
             video_url.value = detailData?.data?.main_content_url
         }
-        await getCategoriesMovie();
         details.value = detailData;
         title.value = detailData?.data?.title
         img_url.value = detailData?.data?.widescreen_thumbnail_image
+        await getCategoriesMovie(detailData?.data?.category);
     } catch (error) {
         console.log(error);
     } finally {

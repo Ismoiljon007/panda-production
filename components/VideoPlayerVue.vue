@@ -1,6 +1,5 @@
 <template>
-    <video ref="videoPlayer" playsinline crossorigin 
-        class="video-js video-player vjs-default-skin"></video>
+    <video ref="videoPlayer" playsinline crossorigin class="video-js video-player vjs-default-skin"></video>
 </template>
 
 <script setup>
@@ -57,7 +56,7 @@ async function getWatchTime() {
     const res = await $fetch(store.analiticsUrl + '/last-watched-position/' + user?.data?.id + '/' + item?.id + '/' + item?.content_type + '/')
     watcheTime.value = res
 }
-if(item?.id) {
+if (item?.id) {
     await getWatchTime()
 }
 onMounted(() => {
@@ -98,15 +97,19 @@ onMounted(() => {
         }]
     });
     player.hlsQualitySelector = videojsqualityselector;
-    player.hlsQualitySelector();
+    player.hlsQualitySelector({
+        displayCurrentQuality: true
+    });
     player.on("play", (e) => {
         player.bigPlayButton.hide();
     });
     var currentTimeEnd = player.currentTime();
-
-    if(watcheTime.value?.data?.playback_position < currentTimeEnd) {
-        player.currentTime(watcheTime.value?.data?.playback_position)
-    }
+    player.on('loadedmetadata', function () {
+        var durationInSeconds = player.duration();
+        if (watcheTime.value?.data?.playback_position < durationInSeconds) {
+            player.currentTime(watcheTime.value?.data?.playback_position)
+        }
+    });
     player.on("pause", (e) => {
         player.bigPlayButton.show();
     });
@@ -388,6 +391,10 @@ onMounted(() => {
 
 .vjs-quality-selector {
     order: 9 !important;
+    margin-top: 15px !important;
+    @media (max-width: 665px) {
+        margin-top: 10px !important;
+    }
 }
 </style>
   

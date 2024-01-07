@@ -1,5 +1,9 @@
 <template>
-  <div class="overlay" v-if="store.overlay" @click="store.overlay = false, store.searchOpen = false"></div>
+  <Head>
+        <Title>Panda Production</Title>
+        <Link rel="icon" href="/panda-icon-2.png" type="image/x-icon" sizes="16x16" />
+    </Head>
+  <div class="overlay" v-if="store.overlay" @click="store.overlay = false, store.search_open = false"></div>
   <NuxtLayout />
   <loading />
   <div class="add" v-if="add">
@@ -17,7 +21,7 @@ const router = useRouter()
 store.loader = true
 onMounted(() => {
   setTimeout(() => {
-    // add.value = true
+
   }, 120000)
 })
 </script>

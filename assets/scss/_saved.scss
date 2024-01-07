@@ -16,6 +16,7 @@
     margin-bottom: 70px;
     .movie-card {
       &__img {
+        height: 365px;
         @include media(1760px) {
           height: 380px;
         }
