@@ -103,7 +103,7 @@ useHead({
         { hid: 'og:title', property: 'og:title', content: "PandaTV.uz - kino va seriallar eng yaxshi sifatda." },
         { hid: 'og:description', property: 'og:description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
         { hid: 'og:image', property: 'og:image', content: '/panda-icon-2.png' },
-        { hid: 'og:url', property: 'og:url', content: 'https://pandatv.uz' },
+        { hid: 'og:url', property: 'og:url', content: 'https://pandaatv.netlify.app' },
         { hid: 'telegram:channel', property: 'telegram:channel', content: 'https://t.me/azamataxrorov1' },
     ],
 })
