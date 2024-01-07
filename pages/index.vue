@@ -98,11 +98,11 @@ useHead({
   title: 'PandaTV.uz - kino va seriallar eng yaxshi sifatda.',
   meta: [
     { hid: 'description', name: 'description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
-    { hid: 'og:title', property: 'og:title', content: 'PandaTV.uz - kino va seriallar eng yaxshi sifatda.' },
-    { hid: 'og:description', property: 'og:description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
-    { hid: 'og:image', property: 'og:image', content:  '/panda-icon-2.png'},
-    { hid: 'og:url', property: 'og:url', content: 'pandatv.uz' },
-    { hid: 'telegram:channel', property: 'telegram:channel', content: 'https://t.me/azamataxrorov1' },
+    { hid: 'og:title', 'PandaTV.uz - kino va seriallar eng yaxshi sifatda.': 'og:title', content: 'PandaTV.uz - kino va seriallar eng yaxshi sifatda.' },
+    { hid: 'og:description', "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma.": 'og:description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
+    { hid: 'og:image', '/panda-icon-2.png': 'og:image', content:  '/panda-icon-2.png'},
+    { hid: 'og:url', 'https://pandatv.uz': 'og:url', content: 'https://pandatv.uz' },
+    { hid: 'telegram:channel', 'https://t.me/azamataxrorov1': 'telegram:channel', content: 'https://t.me/azamataxrorov1' },
     // Add other meta tags as needed
   ],
 })
