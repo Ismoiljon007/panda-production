@@ -73,7 +73,7 @@
                     <li class="movie__comments-item comment-item"
                         v-for="(item) in details?.data?.comments.slice(...countComment)" :key="item">
                         <div class="movie__comments-item-wrapper">
-                            <div class="movie__comments-item-img" :style="`background: ${randomColor()}`">
+                            <div class="movie__comments-item-img">
                                 {{ item.username.charAt().toUpperCase() }}
                             </div>
                             <div class="movie__comments-item-text-wr">
@@ -176,11 +176,10 @@ import 'videojs-hotkeys';
 const store = useStore();
 store.loader = true
 
+const userColors = ['#814814', '#143F81', '#811462', '#148139', '#811414', '#817C14']
 function randomColor() {
-    const colors = ['#814814', '#143F81', '#811462', '#148139', '#811414', '#817C14']
-    let index = Math.floor(Math.random() * colors.length)
-
-    return colors[index]
+    let indexColor = Math.floor(Math.random() * userColors.length)
+    return userColors[indexColor]
 }
 
 
