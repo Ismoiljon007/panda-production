@@ -1,7 +1,8 @@
 <template>
   <Head>
-        <Link rel="icon" href="/panda-icon-2.png" type="image/x-icon" sizes="16x16" />
-    </Head>
+    <Title>Panda Production - kino va seriallar eng yaxshi sifatda.</Title>
+    <Link rel="icon" href="/panda-icon-2.png" type="image/x-icon" sizes="16x16" />
+  </Head>
   <div class="overlay" v-if="store.overlay" @click="store.overlay = false, store.search_open = false"></div>
   <NuxtLayout />
   <loading />

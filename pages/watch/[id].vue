@@ -114,7 +114,7 @@
                                 :class="`cms-${item?.id}`" class="wr-comments">
                                 <li class="movie__comments-item" v-for="el in item?.replies" :key="el">
                                     <div class="movie__comments-item-wrapper">
-                                        <div class="movie__comments-item-img" :style="`background: ${randomColor()}`">
+                                        <div class="movie__comments-item-img">
                                             {{ el?.username.charAt().toUpperCase() }}
                                         </div>
                                         <div class="movie__comments-item-text-wr">
@@ -176,11 +176,7 @@ import 'videojs-hotkeys';
 const store = useStore();
 store.loader = true
 
-const userColors = ['#814814', '#143F81', '#811462', '#148139', '#811414', '#817C14']
-function randomColor() {
-    let indexColor = Math.floor(Math.random() * userColors.length)
-    return userColors[indexColor]
-}
+
 
 
 const { id } = useRoute().params;
@@ -384,6 +380,9 @@ const movieOverlay = ref(true)
 
 
 const com = ref(false)
+
+const userColors = ['#814814', '#143F81', '#811462', '#148139', '#811414', '#817C14']
+
 onMounted(() => {
     document.getElementById('video')?.childNodes[0]?.addEventListener('click', (e) => {
         if (e.target.paused == true) {
@@ -392,17 +391,13 @@ onMounted(() => {
             movieOverlay.value = false
         }
     })
+    
 });
-watchEffect(() => {
-    title.value
-    video_url.value
-    img_url.value
-})
 await fetchData();
 
+watchEffect(() => {
 
-
-
+})
 </script>
 
 <style lang="scss">

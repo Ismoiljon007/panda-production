@@ -97,7 +97,6 @@ import { useStore } from '~~/store/store';
 const store = useStore()
 store.loader = true
 useHead({
-    title: "PandaTV.uz - kino va seriallar eng yaxshi sifatda.",
     meta: [
         { name: 'description', content: "PandaTV.uz - har qanday didga mos keluvchi keng kontent tanloviga ega bo'lgan ko'ngilochar platforma." },
         { property: 'og:title', content: "PandaTV.uz - kino va seriallar eng yaxshi sifatda." },
